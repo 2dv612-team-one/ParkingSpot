@@ -1,0 +1,33 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "se.lnu.parkingzpots"
+    },
+    "jhipsterVersion": "5.7.0",
+    "applicationType": "monolith",
+    "baseName": "ParkingZpots",
+    "packageName": "se.lnu.parkingzpots",
+    "packageFolder": "se/lnu/parkingzpots",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "ehcache",
+    "enableHibernateCache": true,
+    "websocket": "spring-websocket",
+    "databaseType": "sql",
+    "devDatabaseType": "mysql",
+    "prodDatabaseType": "mysql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "M2FlYWFmNjFlZGI2OGYxNzlkMTkxZDY4NTdhMGUxYjE1OGQ4NmI1N2VjNzJiZTRjMWJkOTNhMjFlMGIwYTdhMzIyOTg3M2I2MWJjYTUxY2UxMzdlZDkzNmI4MzQ3ZDMwNzJiZTBlNTQ1OWQzNGMyMWE5MDdjN2ZlMWRkNzI5ZWQ=",
+    "clientFramework": "react",
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "otherModules": [],
+    "enableTranslation": false
+  }
+}

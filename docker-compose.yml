@@ -1,0 +1,34 @@
+version: '3'
+services:
+
+    # Reverse proxy (Nginx)
+    #reverse-proxy:
+     #   build:
+      #      context: ./p-zpots/reverse-proxy/
+       #     args:
+        #        CONFIG_FILE: 'nginx.conf'
+       # restart: on-failure:10
+        #depends_on:
+         #   - p-zpots
+        #networks:
+         #   - zpots-network
+        #ports:
+         #   - '8080:80'
+
+    # P-zpots (Spring Boot/React)
+    p-zpots:
+        build: ./services/p-zpots/
+        restart: on-failure:10
+        networks:
+            - zpots-network
+        volumes:
+            - ./services/p-zpots/app/:/home/jhipster/app/
+            - /home/jhipster/app/node_modules/
+        ports:
+             - '8080:8080'
+             - '9000:9000'
+             - '3001:3001'
+
+networks:
+  zpots-network:
+    driver: bridge
