@@ -2,37 +2,38 @@ version: "3"
 
 services:
   nginx:
+    image: parkingzpot_nginx
     build:
         context: ./nginx/
         args:
             CONFIG_FILE: 'nginx.conf'
-    restart: on-failure:10
+    restart: unless-stopped
     depends_on:
         - api
         - frontend
     networks:
-        - dsr
+        - parkingzpot
     ports:
         - '8080:80'
 
   db:
-    image: dsr_db
+    image: parkingzpot_db
     restart: unless-stopped
     build:
       context: ./postgres/
     ports:
       - "5432:5432"
     networks:
-      - dsr
+      - parkingzpot
 
   api:
-    image: dsr_api
+    image: parkingzpot_api
     build:
       context: ./app/
     ports:
       - "3001:8080"
     networks:
-      - dsr
+      - parkingzpot
     working_dir: /app
     volumes:
       - ./app:/app
@@ -42,13 +43,13 @@ services:
         - db
 
   frontend:
-    image: dsr_frontend
+    image: parkingzpot_frontend
     build:
       context: ./frontend/
     ports:
       - "3000:3000"
     networks:
-      - dsr
+      - parkingzpot
     depends_on:
       - api
     volumes:
@@ -59,5 +60,5 @@ volumes:
   node_modules:
 
 networks:
-  dsr:
+  parkingzpot:
     driver: bridge
