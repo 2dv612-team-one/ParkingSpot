@@ -6,11 +6,23 @@ import promise from 'redux-promise-middleware';
 
 import reducer from './reducer';
 
-const store = createStore(
-  reducer,
-  composeWithDevTools(
-    applyMiddleware(promise(), thunk, createLogger()),
-  )
-);
+const configureStore = () => {
+  const store = createStore(
+    reducer,
+    composeWithDevTools(
+      applyMiddleware(promise(), thunk, createLogger()),
+    )
+  );
 
-export default store;
+  if (process.env.NODE_ENV !== 'production') {
+    if (module.hot) {
+      module.hot.accept('./reducer', () => {
+        store.replaceReducer(reducer);
+      });
+    }
+  }
+
+  return store;
+};
+
+export default configureStore;

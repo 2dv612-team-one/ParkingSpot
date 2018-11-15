@@ -2,16 +2,28 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-import store from './store'
-import App from './components/App/App.js';
+import configureStore from './store'
+import App from './App.js';
 import './index.css';
 
-// import { createStore } from 'redux';
-// import reducer from './reducer';
-// const store = createStore(reducer);
+const rootEl = document.getElementById('root')
+const store = configureStore();
 
-ReactDOM.render((
+ReactDOM.render(
   <Provider store={store}>
     <App />
-  </Provider>
-),document.getElementById('root'));
+  </Provider>,
+  rootEl
+)
+
+if (module.hot) {
+  module.hot.accept('./App', () => {
+    const NextApp = require('./App').default
+    ReactDOM.render(
+      <Provider store={store}>
+        <NextApp />
+      </Provider>,
+      rootEl
+    )
+  })
+}
