@@ -1,0 +1,63 @@
+version: "3"
+
+services:
+  nginx:
+    build:
+        context: ./nginx/
+        args:
+            CONFIG_FILE: 'nginx.conf'
+    restart: on-failure:10
+    # depends_on:
+    #     - api
+    #     - frontend
+    networks:
+        - dsr
+    ports:
+        - '8080:80'
+
+  db:
+    image: dsr_db
+    restart: unless-stopped
+    build:
+      context: ./postgres/
+    ports:
+      - "5432:5432"
+    networks:
+      - dsr
+
+  api:
+    image: dsr_api
+    build:
+      context: ./app/
+    ports:
+      - "3001:8080"
+    networks:
+      - dsr
+    working_dir: /app
+    volumes:
+      - ./app:/app
+      - ~/.m2:/root/.m2
+    command: mvn clean spring-boot:run
+    depends_on:
+      - db
+
+  frontend:
+    image: dsr_frontend
+    build:
+      context: ./frontend/
+    ports:
+      - "3000:3000"
+    networks:
+      - dsr
+    depends_on:
+      - api
+    volumes:
+      - ./frontend/:/app/
+      - node_modules:/app/node_modules
+
+volumes:
+  node_modules:
+
+networks:
+  dsr:
+    driver: bridge
