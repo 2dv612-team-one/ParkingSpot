@@ -3,14 +3,14 @@ version: "3"
 services:
   nginx:
     image: parkingzpot_nginx
+    restart: unless-stopped
     build:
         context: ./nginx/
         args:
             CONFIG_FILE: 'nginx.conf'
-    restart: unless-stopped
     depends_on:
-        - api
-        - frontend
+        - server
+        - client
     networks:
         - parkingzpot
     ports:
@@ -21,13 +21,12 @@ services:
     restart: unless-stopped
     build:
       context: ./postgres/
-    ports:
-      - "5432:5432"
     networks:
       - parkingzpot
 
-  api:
-    image: parkingzpot_api
+  server:
+    image: parkingzpot_server
+    restart: unless-stopped
     build:
       context: ./server/
     networks:
@@ -40,14 +39,15 @@ services:
     depends_on:
         - db
 
-  frontend:
-    image: parkingzpot_frontend
+  client:
+    image: parkingzpot_client
+    restart: unless-stopped
     build:
       context: ./client/
     networks:
       - parkingzpot
     depends_on:
-      - api
+      - server
     volumes:
       - ./client/:/app/
       - node_modules:/app/node_modules

@@ -1,4 +1,4 @@
-GRANT ALL PRIVILEGES ON DATABASE docker TO docker;
+GRANT ALL PRIVILEGES ON DATABASE pzpot_db TO pzpot;
 
 CREATE TABLE employees (
   id          serial PRIMARY KEY,
