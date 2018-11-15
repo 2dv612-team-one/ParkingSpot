@@ -29,14 +29,12 @@ services:
   api:
     image: parkingzpot_api
     build:
-      context: ./app/
-    ports:
-      - "3001:8080"
+      context: ./server/
     networks:
       - parkingzpot
-    working_dir: /app
+    working_dir: /server
     volumes:
-      - ./app:/app
+      - ./server:/server
       - ~/.m2:/root/.m2
     command: mvn clean spring-boot:run
     depends_on:
@@ -45,15 +43,13 @@ services:
   frontend:
     image: parkingzpot_frontend
     build:
-      context: ./frontend/
-    ports:
-      - "3000:3000"
+      context: ./client/
     networks:
       - parkingzpot
     depends_on:
       - api
     volumes:
-      - ./frontend/:/app/
+      - ./client/:/app/
       - node_modules:/app/node_modules
 
 volumes:
