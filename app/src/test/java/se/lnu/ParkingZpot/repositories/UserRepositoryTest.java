@@ -1,7 +1,7 @@
-package io.ahstn.DockerSpringVue.repositories;
+package se.lnu.ParkingZpot.repositories;
 
-import io.ahstn.DockerSpringVue.DockerSpringVueApplication;
-import io.ahstn.DockerSpringVue.models.User;
+import se.lnu.ParkingZpot.ParkingZpotApplication;
+import se.lnu.ParkingZpot.models.User;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.Before;
@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = DockerSpringVueApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(classes = ParkingZpotApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class UserRepositoryTest {
     private static final String USER_ENDPOINT = "http://localhost:8080/api/v1/users";
 

@@ -1,6 +1,6 @@
-package io.ahstn.DockerSpringVue.repositories;
+package se.lnu.ParkingZpot.repositories;
 
-import io.ahstn.DockerSpringVue.models.User;
+import se.lnu.ParkingZpot.models.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;

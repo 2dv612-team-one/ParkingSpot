@@ -1,12 +1,12 @@
-package io.ahstn.DockerSpringVue;
+package se.lnu.ParkingZpot;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DockerSpringVueApplication {
+public class ParkingZpotApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(DockerSpringVueApplication.class, args);
+		SpringApplication.run(ParkingZpotApplication.class, args);
 	}
 }

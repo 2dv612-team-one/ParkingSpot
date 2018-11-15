@@ -1,4 +1,4 @@
-package io.ahstn.DockerSpringVue.models;
+package se.lnu.ParkingZpot.models;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

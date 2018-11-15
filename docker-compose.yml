@@ -7,9 +7,9 @@ services:
         args:
             CONFIG_FILE: 'nginx.conf'
     restart: on-failure:10
-    # depends_on:
-    #     - api
-    #     - frontend
+    depends_on:
+        - api
+        - frontend
     networks:
         - dsr
     ports:
@@ -38,8 +38,8 @@ services:
       - ./app:/app
       - ~/.m2:/root/.m2
     command: mvn clean spring-boot:run
-    depends_on:
-      - db
+      depends_on:
+        - db
 
   frontend:
     image: dsr_frontend
