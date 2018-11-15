@@ -1,4 +1,4 @@
-# ParkingSpot
+# ParkingZpot
 
 Projektet bygger på en utvecklingsmiljö med Docker och kräver med andra ord att man redan har Docker installerat på sin dator för att kunna köras. Välj att installera den version av Docker nedan som stämmer överens med ditt operativsystem.
 
