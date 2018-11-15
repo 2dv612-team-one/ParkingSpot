@@ -32,5 +32,5 @@ _(Observera att det här kan ta en stund beroende på dator och internetuppkoppl
 
 `docker-compose exec db sh`
 
-`psql -d docker -u docker`
-`password: docker`
+`psql -d pzpot_db -u pzpot`
+`password: pzpot`
