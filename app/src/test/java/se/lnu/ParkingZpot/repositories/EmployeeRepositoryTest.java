@@ -1,7 +1,7 @@
 package se.lnu.ParkingZpot.repositories;
 
 import se.lnu.ParkingZpot.ParkingZpotApplication;
-import se.lnu.ParkingZpot.models.User;
+import se.lnu.ParkingZpot.models.Employee;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.Before;
@@ -15,16 +15,16 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ParkingZpotApplication.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-public class UserRepositoryTest {
-    private static final String USER_ENDPOINT = "http://localhost:8080/api/v1/users";
+public class EmployeeRepositoryTest {
+    private static final String USER_ENDPOINT = "http://localhost:8080/api/employees";
 
     @Autowired
-    private UserRepository userRepo;
+    private EmployeeRepository userRepo;
 
     @Before
     public void setUp() {
-        if (userRepo.findByEmail("adam@ahstn.io").isEmpty()) {
-            User user = new User("Adam", "Houston", "adam@ahstn.io");
+        if (userRepo.findById(1).isEmpty()) {
+            Employee user = new Employee("Adam", "Houston", "Mechanical Systems Engineer");
             user = userRepo.save(user);
         }
     }
@@ -34,8 +34,8 @@ public class UserRepositoryTest {
         final Response res = RestAssured.get(USER_ENDPOINT + "/1");
 
         assertEquals(200, res.getStatusCode());
-        assertTrue(res.asString().contains("email"));
-        assertTrue(res.asString().contains("adam@ahstn.io"));
+        assertTrue(res.asString().contains("description"));
+        assertTrue(res.asString().contains("Mechanical Systems Engineer"));
     }
 
     @Test
@@ -43,7 +43,7 @@ public class UserRepositoryTest {
         final Response res = RestAssured.get(USER_ENDPOINT);
 
         assertEquals(200, res.getStatusCode());
-        assertTrue(res.asString().contains("email"));
-        assertTrue(res.asString().contains("adam@ahstn.io"));
+        assertTrue(res.asString().contains("description"));
+        assertTrue(res.asString().contains("Mechanical Systems Engineer"));
     }
 }

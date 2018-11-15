@@ -6,22 +6,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class User {
+public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     private String forename;
     private String surname;
-    private String email;
+    private String description;
 
-    public User() { }
+    public Employee() { }
 
-    public User(String forename, String surname, String email) {
+    public Employee(String forename, String surname, String description) {
       super();
       this.forename = forename;
       this.surname = surname;
-      this.email = email;
+      this.description = description;
     }
 
     public long getId() {
@@ -48,11 +48,11 @@ public class User {
       this.surname = surname;
     }
 
-    public String getEmail() {
-      return email;
+    public String getDescription() {
+      return description;
     }
 
-    public void setEmail(String email) {
-      this.email = email;
+    public void setDescription(String email) {
+      this.description = email;
     }
 }
