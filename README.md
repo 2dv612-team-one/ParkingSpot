@@ -12,8 +12,7 @@ Projektet bygger på en utvecklingsmiljö med Docker och kräver med andra ord a
 _(Observera att det här kan ta en stund beroende på dator och internetuppkoppling, framför allt att bygga klienten.)_
 2. Om du däremot redan har kört projektet tidigare, räcker det att du kör `docker-compose up -d` i terminalen.
 3. Applikationen körs nu på `localhost:8080` (om du får fram en sida med 'Bad Gateway', så kan det bero på att containern ännu inte har hunnit starta upp - ha tålamod!).
-4. För att live-reloada uppdateringar i klienten, kör kommandot `docker-compose exec containerName npm run start`. Live-reloaden körs på `localhost:9000`
-5. När du är klar med all utveckling, stoppa alla containers genom att köra kommandot `docker-compose stop`.
+4. När du är klar med all utveckling, stoppa alla containers genom att köra kommandot `docker-compose stop`.
 
 
 #### Användbara kommandon under utveckling med docker-compose:
