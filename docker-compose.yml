@@ -38,7 +38,7 @@ services:
       - ./app:/app
       - ~/.m2:/root/.m2
     command: mvn clean spring-boot:run
-      depends_on:
+    depends_on:
         - db
 
   frontend:
