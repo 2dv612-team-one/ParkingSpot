@@ -7,6 +7,14 @@ CREATE TABLE employees (
   description varchar(120)
 );
 
+CREATE TABLE users (
+  id          serial PRIMARY KEY,
+  username    varchar(40),
+  password     varchar(40),
+  email varchar(120)
+  -- Create a mapping for user type aswell
+);
+
 insert into employees (forename, surname, description) values 
   ('Aaron',   'Shaw',       'Research Assistant III'),
   ('Jimmy',   'Henry',      'Marketing Manager'),
@@ -23,3 +31,10 @@ insert into employees (forename, surname, description) values
   ('Jean',    'Burke',      'Software Consultant'),
   ('Dennis',  'Griffin',    'Senior Cost Accountant'),
   ('Linda',   'Bishop',     'Mechanical Systems Engineer');
+
+  insert into users (username, password, email) values 
+  ('Admin',   '123',       'admin@admin.com'),
+  ('User1',   '123',       'user1@admin.com'),
+  ('User2',   '123',       'user2@admin.com'),
+  ('User3',   '123',       'user3@admin.com');
+ 
