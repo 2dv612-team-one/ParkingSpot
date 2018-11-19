@@ -41,7 +41,7 @@ public class User {
       return username;
     }
 
-    public void setForename(String username) {
+    public void setUsername(String username) {
       this.username = username;
     }
 
@@ -49,7 +49,7 @@ public class User {
       return password;
     }
 
-    public void setSurname(String password) {
+    public void setPassword(String password) {
       this.password = password;
     }
 
