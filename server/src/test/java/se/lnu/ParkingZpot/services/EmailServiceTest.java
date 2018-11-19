@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import se.lnu.ParkingZpot.models.User;
+
 import java.io.UnsupportedEncodingException;
 
 
@@ -18,7 +20,8 @@ public class EmailServiceTest {
     EmailServiceImpl emailService;
 
     @Test 
-    public void testSendEmail() throws UnsupportedEncodingException { 
-       emailService.sendWelcomeEmail();
+    public void testSendEmail() throws UnsupportedEncodingException {
+        User user = new User("testuser", "password", "parkingzpot@gmail.com");
+        emailService.sendWelcomeEmail(user);
     }
 }

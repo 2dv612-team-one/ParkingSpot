@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
 import it.ozimov.springboot.mail.model.Email;
+import se.lnu.ParkingZpot.models.User;
 import it.ozimov.springboot.mail.model.defaultimpl.DefaultEmail;
 import javax.mail.internet.InternetAddress;
 
@@ -20,11 +21,11 @@ public class EmailServiceImpl implements EmailService {
 
   @Value("${spring.mail.username}") String fromEmail; 
   @Override
-  public void sendWelcomeEmail() throws UnsupportedEncodingException {
+  public void sendWelcomeEmail(User user) throws UnsupportedEncodingException {
     final Email email = DefaultEmail.builder() 
     .from(new InternetAddress(fromEmail, "From Name"))
     .to(Lists.newArrayList(new InternetAddress(
-      "parkingzpot@gmail.com", "Parking Zpot"))) 
+      user.getEmail(), user.getUsername()))) 
     .subject("Welcome to the Parking Zpot application!")
     .body("Welcome welcome.")
     .encoding("UTF-8").build();
