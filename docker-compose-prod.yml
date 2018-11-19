@@ -35,6 +35,8 @@ services:
     volumes:
       - ./server:/server
       - ~/.m2:/root/.m2
+    environment:
+      - PZPOT_GMAIL_PASSWORD=${PZPOT_GMAIL_PASSWORD}
     command: mvn clean spring-boot:run
     depends_on:
         - db

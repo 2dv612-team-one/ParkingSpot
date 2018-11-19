@@ -4,7 +4,6 @@ import se.lnu.ParkingZpot.ParkingZpotApplication;
 import se.lnu.ParkingZpot.models.Employee;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
