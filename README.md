@@ -1,4 +1,4 @@
-# ParkingSpot
+# ParkingZpot
 
 Projektet bygger på en utvecklingsmiljö med Docker och kräver med andra ord att man redan har Docker installerat på sin dator för att kunna köras. Välj att installera den version av Docker nedan som stämmer överens med ditt operativsystem.
 
@@ -12,8 +12,7 @@ Projektet bygger på en utvecklingsmiljö med Docker och kräver med andra ord a
 _(Observera att det här kan ta en stund beroende på dator och internetuppkoppling, framför allt att bygga klienten.)_
 2. Om du däremot redan har kört projektet tidigare, räcker det att du kör `docker-compose up -d` i terminalen.
 3. Applikationen körs nu på `localhost:8080` (om du får fram en sida med 'Bad Gateway', så kan det bero på att containern ännu inte har hunnit starta upp - ha tålamod!).
-4. För att live-reloada uppdateringar i klienten, kör kommandot `docker-compose exec containerName npm run start`. Live-reloaden körs på `localhost:9000`
-5. När du är klar med all utveckling, stoppa alla containers genom att köra kommandot `docker-compose stop`.
+4. När du är klar med all utveckling, stoppa alla containers genom att köra kommandot `docker-compose stop`.
 
 
 #### Användbara kommandon under utveckling med docker-compose:
@@ -28,3 +27,10 @@ _(Observera att det här kan ta en stund beroende på dator och internetuppkoppl
 * `docker-compose exec containerName sh` - Gå in i en specifik Docker container. Väl inne en container går det att till exempel installera npm paket eller köra automatiska tester.
 * `docker rmi $(docker images -q)` - Tar bort alla Docker images som finns på datorn, även de som tillhör andra projekt. Efter det här är gjort kommer projektet att behöva byggas om på nytt.
 * `docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) && docker system prune -a -f --volumes` - Det ultimata nödkommandot och en sista utväg när ingenting fungerar som det ska - stoppar och tar bort **alla** containrar på datorn, även de som inte körs eller som tillhör andra projekt. Tar även bort **alla** volymer (dvs eventuellt sparat innehåll i databaser). Efter det här är gjort kommer projektet att behöva byggas om på nytt.
+
+#### Postgresql
+
+`docker-compose exec db sh`
+
+`psql -d pzpot_db -u pzpot`
+`password: pzpot`
