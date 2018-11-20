@@ -1,7 +1,7 @@
 /* eslint import/no-webpack-loader-syntax: off */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
+
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -9,32 +9,31 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
-const styles = {
-  root: {
-    flexGrow: 1,
-  },
-  grow: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
-  },
-};
+import { openModal } from '../../actions/authenticate';
+
+const mapStateToProps = state => ({
+  accessToken: state.authentication.accessToken,
+});
+
+const mapDispatchToProps = dispatch => ({
+  openLoginModal: () => dispatch(openModal()),
+})
 
 class MenuBar extends Component {
   render() {
     return (
-      <div className={this.props.root}>
+      <div className="app-bar">
         <AppBar position="static">
           <Toolbar>
-            <IconButton className={this.props.menuButton} color="inherit" aria-label="Menu">
+            <IconButton className="app-bar-btn" color="inherit" aria-label="Menu">
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" color="inherit" className={this.props.grow}>
-              News
+            <Typography variant="h6" color="inherit" className="app-bar-grow">
+              ParkingZpot
             </Typography>
-            <Button color="inherit">Login</Button>
+            <Button color="inherit" onClick={this.props.openLoginModal}>
+              <span>Logga in</span>
+            </Button>
           </Toolbar>
         </AppBar>
       </div>
@@ -42,4 +41,4 @@ class MenuBar extends Component {
   }
 }
 
-export default connect()(withStyles(styles)(MenuBar));
+export default connect(mapStateToProps, mapDispatchToProps)(MenuBar);

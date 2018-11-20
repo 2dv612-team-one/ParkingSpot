@@ -1,3 +1,4 @@
 export const USER_AUTHENTICATION = 'USER_AUTHENTICATION';
 export const USER_REGISTER = 'USER_REGISTER';
-
+export const OPEN_MODAL = 'OPEN_MODAL';
+export const CLOSE_MODAL = 'CLOSE_MODAL';
