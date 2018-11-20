@@ -10,7 +10,7 @@ import se.lnu.ParkingZpot.security.security.CurrentUser;
 import se.lnu.ParkingZpot.security.security.UserPrincipal;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api")
 public class AuthDummy {
 
     private final UserRepository userRepository;
