@@ -1,17 +1,15 @@
+/* eslint import/no-webpack-loader-syntax: off */
 const initialState = {
-  fetching: false,
-  fetched: false,
-  employees: [],
-  error: null
+  accessToken: null,
 }
 
 export default (state = initialState, action) => {
   switch(action.type) {
-    case "FETCH_EMPLOYEES_PENDING":
+    case "LOGIN_USER_PENDING":
       return {...state, fetching: true}
-    case "FETCH_EMPLOYEES_REJECTED":
+    case "LOGIN_USER_REJECTED":
       return {...state, fetching: false, fetched: false, error: action.payload}
-    case "EMPLOYEES_FULFILLED":
+    case "LOGIN_USER_SUCCESS":
       return {...state, fetching: false, fetched: true, employees: action.payload}
     default:
       return state;

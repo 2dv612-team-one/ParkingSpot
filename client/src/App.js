@@ -1,46 +1,28 @@
-// eslint-disable-next-line prefer-destructuring
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
 
-import EmployeeList from './components/Employees/EmployeeList';
-import { fetchEmployees, deleteEmployee } from './actions/employees';
-import logo from './assets/images/logo.svg';
-
-const mapStateToProps = state => ({
-  employees: state.employees.employees.data,
-});
-
-const mapDispatchToProps = dispatch => ({
-  onLoad: () => dispatch(fetchEmployees()),
-  onDeleteClick: id => dispatch(deleteEmployee(id)),
-});
-
-class App extends Component {
-  componentWillMount() {
-    this.props.onLoad();
-  }
-
+class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <div className="App-header">
+        <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to ParkingZpot</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit 
-          {' '}
-          <code>src/App.js</code>
-          {' '}
-          and save to reload.
-        </p>
-        <EmployeeList
-          employees={this.props.employees}
-          onDeleteClick={this.props.onDeleteClick} 
-        />
+          <p>
+            Edit <code>src/App.js</code> and save to reload.
+          </p>
+          <a
+            className="App-link"
+            href="https://reactjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn React
+          </a>
+        </header>
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;
