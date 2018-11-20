@@ -6,12 +6,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import it.ozimov.springboot.mail.configuration.EnableEmailTools;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import se.lnu.ParkingZpot.security.exception.ApplicationException;
-import se.lnu.ParkingZpot.security.model.Role;
-import se.lnu.ParkingZpot.security.model.RoleName;
-import se.lnu.ParkingZpot.security.model.User;
-import se.lnu.ParkingZpot.security.repository.RoleRepository;
-import se.lnu.ParkingZpot.security.repository.UserRepository;
+import se.lnu.ParkingZpot.exceptions.ApplicationException;
+import se.lnu.ParkingZpot.models.Role;
+import se.lnu.ParkingZpot.models.RoleName;
+import se.lnu.ParkingZpot.models.User;
+import se.lnu.ParkingZpot.repositories.RoleRepository;
+import se.lnu.ParkingZpot.repositories.UserRepository;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -38,34 +38,47 @@ class DataLoader {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
 
-    //loadRoles();
-    //saveUser();
+    loadRoles();
+    saveUser();
   }
 
   private void saveUser() {
-    User user = new User("Admin", "Admin@Admin.com", "123");
 
-    user.setPassword(passwordEncoder.encode(user.getPassword()));
     Role userRole = roleRepository.findByName(RoleName.ROLE_ADMIN).orElseThrow(() -> new ApplicationException("No user role exists"));
-    user.setUserRoles(Collections.singleton(userRole));
+    Role adminRole = roleRepository.findByName(RoleName.ROLE_USER).orElseThrow(() -> new ApplicationException("No user role exists"));
 
-    userRepository.save(user);
 
-    User user2 = new User("User", "User@User.com", "123");
+    if (!userRepository.existsByUsername("Admin")) {
 
-    user2.setPassword(passwordEncoder.encode(user2.getPassword()));
-    Role userRole2 = roleRepository.findByName(RoleName.ROLE_USER).orElseThrow(() -> new ApplicationException("No user role exists"));
-    HashSet<Role> roleSet = new HashSet();
-    roleSet.add(userRole);
-    roleSet.add(userRole2);
-    user2.setUserRoles(roleSet);
+      User user = new User("Admin", "Admin@Admin.com", "123");
 
-    userRepository.save(user2);
+      user.setPassword(passwordEncoder.encode(user.getPassword()));
+      user.setUserRoles(Collections.singleton(userRole));
+
+      userRepository.save(user);
+    }
+
+    if (!userRepository.existsByUsername("User")) {
+
+      User user2 = new User("User", "User@User.com", "123");
+
+      user2.setPassword(passwordEncoder.encode(user2.getPassword()));
+      HashSet<Role> roleSet = new HashSet();
+      roleSet.add(userRole);
+      roleSet.add(adminRole);
+      user2.setUserRoles(roleSet);
+
+      userRepository.save(user2);
+    }
   }
 
 
   private void loadRoles() {
-    //roleRepository.save(new Role(RoleName.ROLE_USER));
-    //roleRepository.save(new Role(RoleName.ROLE_ADMIN));
+    if (!roleRepository.existsByName(RoleName.ROLE_USER)) {
+      roleRepository.save(new Role(RoleName.ROLE_USER));
+    }
+    if (!roleRepository.existsByName(RoleName.ROLE_ADMIN)) {
+      roleRepository.save(new Role(RoleName.ROLE_ADMIN));
+    }
   }
 }

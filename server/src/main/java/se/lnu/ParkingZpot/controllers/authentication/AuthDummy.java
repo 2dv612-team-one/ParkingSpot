@@ -1,13 +1,13 @@
-package se.lnu.ParkingZpot.security.controller;
+package se.lnu.ParkingZpot.controllers.authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import se.lnu.ParkingZpot.security.repository.UserRepository;
-import se.lnu.ParkingZpot.security.security.CurrentUser;
-import se.lnu.ParkingZpot.security.security.UserPrincipal;
+import se.lnu.ParkingZpot.repositories.UserRepository;
+import se.lnu.ParkingZpot.authentication.CurrentUser;
+import se.lnu.ParkingZpot.authentication.UserDetailsImpl;
 
 @RestController
 @RequestMapping("/api")
@@ -21,7 +21,7 @@ public class AuthDummy {
     }
 
     @GetMapping
-    public String hello(@CurrentUser UserPrincipal principal) {
+    public String hello(@CurrentUser UserDetailsImpl principal) {
         if (principal != null) {
             return "Hello there, " + principal.getUsername();
         } else {

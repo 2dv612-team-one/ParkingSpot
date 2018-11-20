@@ -1,8 +1,8 @@
-package se.lnu.ParkingZpot.security.repository;
+package se.lnu.ParkingZpot.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import se.lnu.ParkingZpot.security.model.User;
+import se.lnu.ParkingZpot.models.User;
 
 import java.util.List;
 import java.util.Optional;

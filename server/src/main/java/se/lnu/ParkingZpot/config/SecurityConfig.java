@@ -1,4 +1,4 @@
-package se.lnu.ParkingZpot.security.config;
+package se.lnu.ParkingZpot.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,9 +15,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import se.lnu.ParkingZpot.security.security.CustomUserDetailsService;
-import se.lnu.ParkingZpot.security.security.JwtAuthenticationEntryPoint;
-import se.lnu.ParkingZpot.security.security.JwtAuthenticationFilter;
+import se.lnu.ParkingZpot.authentication.UserDetailsServiceImpl;
+import se.lnu.ParkingZpot.authentication.AuthenticationEntryPointImpl;
+import se.lnu.ParkingZpot.authentication.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -28,11 +28,11 @@ import se.lnu.ParkingZpot.security.security.JwtAuthenticationFilter;
 )
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final CustomUserDetailsService userDetailsService;
-    private final JwtAuthenticationEntryPoint unAuthorizedHandler;
+    private final UserDetailsServiceImpl userDetailsService;
+    private final AuthenticationEntryPointImpl unAuthorizedHandler;
 
     @Autowired
-    public SecurityConfig(CustomUserDetailsService userDetailsService, JwtAuthenticationEntryPoint unAuthorizedHandler) {
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService, AuthenticationEntryPointImpl unAuthorizedHandler) {
         this.userDetailsService = userDetailsService;
         this.unAuthorizedHandler = unAuthorizedHandler;
     }

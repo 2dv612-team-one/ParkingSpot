@@ -1,4 +1,4 @@
-package se.lnu.ParkingZpot.security.payload;
+package se.lnu.ParkingZpot.payloads.authentication;
 
 import lombok.Getter;
 import lombok.Setter;

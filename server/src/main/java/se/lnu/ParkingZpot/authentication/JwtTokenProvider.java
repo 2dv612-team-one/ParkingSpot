@@ -1,4 +1,4 @@
-package se.lnu.ParkingZpot.security.security;
+package se.lnu.ParkingZpot.authentication;
 
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
@@ -21,13 +21,13 @@ public class JwtTokenProvider {
     private int jwtExpirationInMs;
 
     public String generateToken(Authentication authentication) {
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
         Date currentDate = new Date();
         Date expirationDate = new Date(currentDate.getTime() + jwtExpirationInMs);
 
         return Jwts.builder()
-                .setSubject(Long.toString(userPrincipal.getId()))
+                .setSubject(Long.toString(userDetails.getId()))
                 .setIssuedAt(new Date())
                 .setExpiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)

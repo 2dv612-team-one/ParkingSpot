@@ -1,4 +1,4 @@
-package se.lnu.ParkingZpot.security.exception;
+package se.lnu.ParkingZpot.exceptions;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

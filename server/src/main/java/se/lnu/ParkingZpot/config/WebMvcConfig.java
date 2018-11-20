@@ -1,4 +1,4 @@
-package se.lnu.ParkingZpot.security.config;
+package se.lnu.ParkingZpot.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

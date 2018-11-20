@@ -1,4 +1,4 @@
-package se.lnu.ParkingZpot.security.security;
+package se.lnu.ParkingZpot.authentication;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 

@@ -55,19 +55,3 @@ TABLESPACE pg_default;
 
 ALTER TABLE public.user_roles
     OWNER to pzpot;
-
-insert into public.users (id, username, password, email) values
-  (1, 'Admin',   '$2y$12$qleGMl378sNN.UXMIzH4A.Imj4e6kiUiyGbHPljqvrutuFXx.UoP.', 'admin@admin.com'),
-  (2, 'User1',   '$2y$12$qleGMl378sNN.UXMIzH4A.Imj4e6kiUiyGbHPljqvrutuFXx.UoP.', 'user1@user.com'),
-  (3, 'User2',   '$2y$12$qleGMl378sNN.UXMIzH4A.Imj4e6kiUiyGbHPljqvrutuFXx.UoP.', 'user2@user.com'),
-  (4, 'User3',   '$2y$12$qleGMl378sNN.UXMIzH4A.Imj4e6kiUiyGbHPljqvrutuFXx.UoP.', 'user3@user.com');
-
-insert into public.roles(id, name) VALUES
-  (1,'ROLE_USER'),
-  (2,'ROLE_ADMIN');
-
-insert into public.user_roles(user_id, role_id) VALUES
-  ('1', '1'),
-  ('2', '2'),
-  ('3', '2'),
-  ('4', '2');

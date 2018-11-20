@@ -1,4 +1,4 @@
-package se.lnu.ParkingZpot.security.controller;
+package se.lnu.ParkingZpot.controllers.authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import se.lnu.ParkingZpot.security.exception.ApplicationException;
-import se.lnu.ParkingZpot.security.model.Role;
-import se.lnu.ParkingZpot.security.model.RoleName;
-import se.lnu.ParkingZpot.security.model.User;
-import se.lnu.ParkingZpot.security.payload.ApiResponse;
-import se.lnu.ParkingZpot.security.payload.JwtAuthenticationResponse;
-import se.lnu.ParkingZpot.security.payload.LoginRequest;
-import se.lnu.ParkingZpot.security.payload.RegistrationRequest;
-import se.lnu.ParkingZpot.security.repository.RoleRepository;
-import se.lnu.ParkingZpot.security.repository.UserRepository;
-import se.lnu.ParkingZpot.security.security.JwtTokenProvider;
+import se.lnu.ParkingZpot.exceptions.ApplicationException;
+import se.lnu.ParkingZpot.models.Role;
+import se.lnu.ParkingZpot.models.RoleName;
+import se.lnu.ParkingZpot.models.User;
+import se.lnu.ParkingZpot.payloads.ApiResponse;
+import se.lnu.ParkingZpot.payloads.authentication.JwtAuthenticationResponse;
+import se.lnu.ParkingZpot.payloads.authentication.LoginRequest;
+import se.lnu.ParkingZpot.payloads.authentication.RegistrationRequest;
+import se.lnu.ParkingZpot.repositories.RoleRepository;
+import se.lnu.ParkingZpot.repositories.UserRepository;
+import se.lnu.ParkingZpot.authentication.JwtTokenProvider;
 
 import javax.validation.Valid;
 import java.net.URI;

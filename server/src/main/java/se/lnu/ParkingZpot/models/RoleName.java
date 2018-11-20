@@ -1,4 +1,4 @@
-package se.lnu.ParkingZpot.security.model;
+package se.lnu.ParkingZpot.models;
 
 public enum RoleName {
     ROLE_USER,

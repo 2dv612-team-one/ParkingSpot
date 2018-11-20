@@ -1,4 +1,4 @@
-package se.lnu.ParkingZpot.security.security;
+package se.lnu.ParkingZpot.authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -6,16 +6,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import se.lnu.ParkingZpot.security.model.User;
-import se.lnu.ParkingZpot.security.repository.UserRepository;
+import se.lnu.ParkingZpot.models.User;
+import se.lnu.ParkingZpot.repositories.UserRepository;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
 
     @Autowired
-    public CustomUserDetailsService(UserRepository userRepository) {
+    public UserDetailsServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -26,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("Username or email, " + usernameOrEmail +
                         " does not belong to an existing member"));
 
-        return UserPrincipal.create(user);
+        return UserDetailsImpl.create(user);
     }
 
     @Transactional
@@ -34,6 +34,6 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("User with id, " + id + " not found"));
 
-        return UserPrincipal.create(user);
+        return UserDetailsImpl.create(user);
     }
 }
