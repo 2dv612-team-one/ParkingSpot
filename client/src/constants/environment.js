@@ -1,2 +1,3 @@
-// use 'proxy' field in package.json to send requests, avoiding CORS issues
+// API Endpoints
 export const API_ROOT = '/api';
+export const AUTH_URI = ''
