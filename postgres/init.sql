@@ -26,6 +26,11 @@ CREATE TABLE vehicles
             ON DELETE NO ACTION
 );
 
+CREATE TABLE roles 
+(
+  id serial PRIMARY KEY,
+  name varchar(20)
+);
 
 
 insert into employees (forename, surname, description) values 
@@ -56,4 +61,10 @@ insert into employees (forename, surname, description) values
   ('2',   '123123'),
   ('3',   '123123'),
   ('4',   '123123');
+
+  insert into roles(name) VALUES
+  ('administrator'),
+  ('developer'),
+  ('marvin'),
+  ('tester');
  
