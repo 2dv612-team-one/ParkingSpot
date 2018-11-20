@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 
 import EmployeeList from './components/Employees/EmployeeList';
 import { fetchEmployees, deleteEmployee } from './actions/employees';
-import logo from './components/App/logo.svg';
-import './components/App/App.css';
+import logo from './assets/images/logo.svg';
 
 const mapStateToProps = state => ({
   employees: state.employees.employees.data,
