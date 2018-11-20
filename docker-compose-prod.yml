@@ -14,7 +14,7 @@ services:
     networks:
         - parkingzpot
     ports:
-        - '8080:80'
+        - '80:80'
 
   db:
     image: parkingzpot_db
