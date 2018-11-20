@@ -2,8 +2,8 @@ package se.lnu.ParkingZpot.models;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "roles")
+//@Entity
+//@Table(name = "roles")
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
