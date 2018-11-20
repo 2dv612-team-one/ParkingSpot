@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 
 import configureStore from './store'
 import App from './App.js';
-import './index.css';
+import './assets/styles/main.css';
 
 const rootEl = document.getElementById('root')
 const store = configureStore();
