@@ -57,6 +57,7 @@ services:
     volumes:
       - ./client/:/app/
       - node_modules:/app/node_modules
+    env_file: ./client/.env
 
 volumes:
   parkingzpot_data:

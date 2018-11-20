@@ -1,11 +1,11 @@
 {
-    "extends": ["react-app"],
+    "extends": ["airbnb", "plugin:react/recommended"],
     "parser": "babel-eslint",
     "plugins": [
       "react"
     ],
     "rules": {
-      "max-len": ["error", {"code": 80, "ignoreUrls": true}],
+      "max-len": ["error", {"code": 120, "ignoreUrls": true}],
       "no-mixed-operators": 0,
       "react/no-string-refs" : 0,
       "no-param-reassign": 0,
@@ -31,5 +31,5 @@
       "node": true,
       "browser": true
     }
-}
+  }
   

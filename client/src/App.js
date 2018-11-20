@@ -1,46 +1,27 @@
-// eslint-disable-next-line prefer-destructuring
+/* eslint import/no-webpack-loader-syntax: off */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import EmployeeList from './components/Employees/EmployeeList';
-import { fetchEmployees, deleteEmployee } from './actions/employees';
-import logo from './assets/images/logo.svg';
+import MenuBar from './components/MenuBar/MenuBar';
+import LoginModal from './components/LoginModal/LoginModal';
 
 const mapStateToProps = state => ({
-  employees: state.employees.employees.data,
-});
-
-const mapDispatchToProps = dispatch => ({
-  onLoad: () => dispatch(fetchEmployees()),
-  onDeleteClick: id => dispatch(deleteEmployee(id)),
+  accessToken: state.authentication.accessToken,
 });
 
 class App extends Component {
-  componentWillMount() {
-    this.props.onLoad();
-  }
 
   render() {
     return (
       <div className="App">
+        <MenuBar />
+        <LoginModal />
         <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to ParkingZpot</h2>
         </div>
-        <p className="App-intro">
-          To get started, edit 
-          {' '}
-          <code>src/App.js</code>
-          {' '}
-          and save to reload.
-        </p>
-        <EmployeeList
-          employees={this.props.employees}
-          onDeleteClick={this.props.onDeleteClick} 
-        />
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);
