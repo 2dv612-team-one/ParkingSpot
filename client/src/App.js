@@ -1,3 +1,4 @@
+// eslint-disable-next-line prefer-destructuring
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -7,13 +8,13 @@ import logo from './components/App/logo.svg';
 import './components/App/App.css';
 
 const mapStateToProps = state => ({
-  employees: state.employees.employees.data
-})
+  employees: state.employees.employees.data,
+});
 
 const mapDispatchToProps = dispatch => ({
   onLoad: () => dispatch(fetchEmployees()),
-  onDeleteClick: (id) => dispatch(deleteEmployee(id))
-})
+  onDeleteClick: id => dispatch(deleteEmployee(id)),
+});
 
 class App extends Component {
   componentWillMount() {
@@ -28,10 +29,16 @@ class App extends Component {
           <h2>Welcome to ParkingZpot</h2>
         </div>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
+          To get started, edit 
+          {' '}
+          <code>src/App.js</code>
+          {' '}
+          and save to reload.
         </p>
-        <EmployeeList employees={this.props.employees}
-                      onDeleteClick={this.props.onDeleteClick}/>
+        <EmployeeList
+          employees={this.props.employees}
+          onDeleteClick={this.props.onDeleteClick} 
+        />
       </div>
     );
   }
