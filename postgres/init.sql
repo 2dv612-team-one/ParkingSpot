@@ -15,6 +15,12 @@ CREATE TABLE users (
   -- Create a mapping for user type aswell
 );
 
+CREATE TABLE roles 
+(
+  id serial PRIMARY KEY,
+  name varchar(20)
+);
+
 CREATE TABLE vehicles
 (
         id serial PRIMARY KEY,
@@ -57,3 +63,8 @@ insert into employees (forename, surname, description) values
   ('3',   '123123'),
   ('4',   '123123');
  
+  insert into roles(name) VALUES
+  ('administrator'),
+  ('developer'),
+  ('marvin'),
+  ('tester');
