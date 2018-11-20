@@ -32,6 +32,21 @@ CREATE TABLE roles
   name varchar(20)
 );
 
+CREATE TABLE user_roles 
+(
+    user_id integer,
+    role_id integer,
+    CONSTRAINT "userid_fkey" FOREIGN KEY (user_id)
+      REFERENCES public.users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION
+      ON DELETE NO ACTION,
+    CONSTRAINT "roleid_fkey" FOREIGN KEY (role_id)
+      REFERENCES public.roles (id) MATCH SIMPLE
+      ON UPDATE NO ACTION
+      ON DELETE NO ACTION,
+    CONSTRAINT "role_pkey" PRIMARY KEY (user_id, role_id)
+);
+
 
 insert into employees (forename, surname, description) values 
   ('Aaron',   'Shaw',       'Research Assistant III'),
@@ -67,4 +82,10 @@ insert into employees (forename, surname, description) values
   ('developer'),
   ('marvin'),
   ('tester');
- 
+
+  insert into user_roles(user_id, role_id) VALUES
+  ('1', '1'),
+  ('2', '2'),
+  ('3', '3'),
+  ('4', '4');
+  
