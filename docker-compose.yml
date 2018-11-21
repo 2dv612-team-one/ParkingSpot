@@ -57,7 +57,8 @@ services:
     volumes:
       - ./client/:/app/
       - node_modules:/app/node_modules
-    env_file: ./client/.env
+    environment:
+      - SKIP_PREFLIGHT_CHECK=true
 
 volumes:
   parkingzpot_data:
