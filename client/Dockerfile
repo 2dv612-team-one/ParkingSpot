@@ -7,7 +7,7 @@ RUN mkdir $PATH_APP
 # Install dependencies
 COPY package*.json $PATH_APP
 WORKDIR $PATH_APP
-RUN npm install
+RUN npm install && npm install --only=dev
 
 # Copy all files
 COPY . $PATH_APP/

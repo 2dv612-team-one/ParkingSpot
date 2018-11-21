@@ -23,7 +23,7 @@ public class EmailServiceImpl implements EmailService {
   @Override
   public void sendWelcomeEmail(User user) throws UnsupportedEncodingException {
     final Email email = DefaultEmail.builder() 
-    .from(new InternetAddress(fromEmail, "From Name"))
+    .from(new InternetAddress(fromEmail, "Parking Zpots"))
     .to(Lists.newArrayList(new InternetAddress(
       user.getEmail(), user.getUsername()))) 
     .subject("Welcome to the Parking Zpot application!")

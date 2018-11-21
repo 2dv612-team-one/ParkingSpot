@@ -1,5 +1,5 @@
 {
-    "extends": ["airbnb", "plugin:react/recommended"],
+    "extends": ["airbnb", "plugin:react/recommended","plugin: import/errors", "plugin: import/warnings", "plugin:jsx-a11y/recommended"],
     "parser": "babel-eslint",
     "plugins": [
       "react"

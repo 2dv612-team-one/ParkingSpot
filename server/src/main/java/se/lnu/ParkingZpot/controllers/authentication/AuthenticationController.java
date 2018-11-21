@@ -24,6 +24,8 @@ import se.lnu.ParkingZpot.payloads.authentication.RegistrationRequest;
 import se.lnu.ParkingZpot.repositories.RoleRepository;
 import se.lnu.ParkingZpot.repositories.UserRepository;
 import se.lnu.ParkingZpot.authentication.JwtTokenProvider;
+import se.lnu.ParkingZpot.services.EmailService;
+import se.lnu.ParkingZpot.services.EmailServiceImpl;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -47,6 +49,9 @@ public class AuthenticationController {
 
     @Autowired
     private JwtTokenProvider tokenProvider;
+
+    @Autowired
+    private EmailService emailService;
 
     @PostMapping("/login")
     public ResponseEntity authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -86,7 +91,13 @@ public class AuthenticationController {
         URI userLocation = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/api/users/{username}")
                 .buildAndExpand(savedUser.getUsername()).toUri();
-
+        
+        try {
+            emailService.sendWelcomeEmail(savedUser);
+        } catch (Exception e) {
+            // TODO: Error log?
+            System.err.println("Welcome  email could not be sent: " + e.getMessage());
+        }
 
         return ResponseEntity.created(userLocation).body(new ApiResponse(true, "User successfully registered"));
     }
