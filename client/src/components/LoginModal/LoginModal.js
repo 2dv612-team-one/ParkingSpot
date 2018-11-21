@@ -5,16 +5,16 @@ import { connect } from 'react-redux';
 import { withStyles, Input, Button, Modal } from '@material-ui/core';
 
 import { closeModal, login } from '../../actions/authenticate';
+import { LOGIN_MODAL } from '../../constants/environment';
 
 const mapStateToProps = state => ({
-    showLoginModal: state.authentication.showLoginModal,
+    showLoginModal: state.authentication[LOGIN_MODAL],
 });
 
 const mapDispatchToProps = dispatch => ({
-    closeLoginModal: () => dispatch(closeModal()),
+    closeModal: () => dispatch(closeModal()),
     login: (username, password) => dispatch(login(username, password)),
 })
-
 
 // TODO: Change and place all these math-styles nonsense to assets/styles
 function rand() {
@@ -56,7 +56,7 @@ class LoginModal extends Component {
     }
 
     handleClose = () => {
-        this.props.closeLoginModal();
+        this.props.closeModal();
     };
 
     handleUserInput(e) {

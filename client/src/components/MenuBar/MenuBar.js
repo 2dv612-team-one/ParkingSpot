@@ -10,13 +10,15 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
 import { openModal, logout } from '../../actions/authenticate';
+import { LOGIN_MODAL, REGISTER_MODAL } from '../../constants/environment';
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
 });
 
 const mapDispatchToProps = dispatch => ({
-  openLoginModal: () => dispatch(openModal()),
+  openLoginModal: () => dispatch(openModal(LOGIN_MODAL)),
+  openRegisterModal: () => dispatch(openModal(REGISTER_MODAL)),
   logout: () => dispatch(logout()),
 })
 
@@ -24,6 +26,7 @@ class MenuBar extends Component {
   handleLogout() {
     this.props.logout();
   }
+
   render() {
     const { accessToken } = this.props;
     return (
@@ -38,9 +41,15 @@ class MenuBar extends Component {
             </Typography>
 
             {!accessToken ? 
-            <Button color="inherit" onClick={this.props.openLoginModal}>
-              <span>Logga in</span>
-            </Button> :
+            <div>
+              <Button color="inherit" onClick={this.props.openLoginModal}>
+                <span>Logga in</span>
+              </Button>
+              <Button color="inherit" onClick={this.props.openRegisterModal}>
+                <span>Registrera</span>
+              </Button> 
+            </div>
+            :
             <Button color="inherit" onClick={this.props.logout}>
               <span>Logga ut</span>
             </Button>  
