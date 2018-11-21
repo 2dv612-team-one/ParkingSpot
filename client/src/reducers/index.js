@@ -1,5 +1,6 @@
+// TODO: There are duplicate reducers, is that really necessary?
 import { combineReducers } from "redux";
 
-import employees from "./employees"
+import authentication from "./authentication"
 
-export default combineReducers({employees});
+export default combineReducers({ authentication });

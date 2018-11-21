@@ -7,13 +7,9 @@ RUN mkdir $PATH_APP
 # Install dependencies
 COPY package*.json $PATH_APP
 WORKDIR $PATH_APP
-RUN npm install
+RUN npm install && npm install --only=dev
 
-# Copy necessary files
-# WARN: Don't include .eslintrc
-# This would break the hot reload module for some reason
-COPY ./src $PATH_APP/src
-COPY ./public $PATH_APP/public
-COPY ./Makefile $PATH_APP/
+# Copy all files
+COPY . $PATH_APP/
 
 CMD ["npm", "start"]
