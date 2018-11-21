@@ -3,6 +3,7 @@ import {
   OPEN_MODAL,
   CLOSE_MODAL,
   USER_AUTHENTICATION,
+  USER_LOGOUT,
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -16,6 +17,8 @@ export default (state = initialState, action) => {
       return { ...state, showLoginModal: true }
     case CLOSE_MODAL:
       return { ...state, showLoginModal: false }
+    case USER_LOGOUT:
+      return { ...state, accessToken: null }
     // TODO: Maybe open login modal and login request actions should be separate reducers
     case USER_AUTHENTICATION + '_PENDING':
       return { ...state }

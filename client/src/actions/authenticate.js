@@ -1,7 +1,7 @@
 import axios from "axios";
 
 import { AUTH_URI } from '../constants/environment';
-import { USER_AUTHENTICATION, OPEN_MODAL, CLOSE_MODAL } from '../constants/actionTypes';
+import { USER_AUTHENTICATION, OPEN_MODAL, CLOSE_MODAL, USER_LOGOUT } from '../constants/actionTypes';
 
    // TODO: Maybe open/close login modal and login request actions should be separate actions
 export function openModal() {
@@ -23,3 +23,8 @@ export function login(usernameOrEmail, password) {
   }
 }
 
+export function logout() {
+  return {
+    type: USER_LOGOUT,
+  }
+}
