@@ -1,5 +1,11 @@
+// Authentication actions
 export const USER_AUTHENTICATION = 'USER_AUTHENTICATION';
 export const USER_REGISTRATION = 'USER_REGISTRATION';
+export const USER_LOGOUT = 'USER_LOGOUT';
+
+// Modal actions
 export const OPEN_MODAL = 'OPEN_MODAL';
 export const CLOSE_MODAL = 'CLOSE_MODAL';
-export const USER_LOGOUT = 'USER_LOGOUT';
+
+// Vehicle actions
+export const ADD_CAR = 'ADD_CAR';

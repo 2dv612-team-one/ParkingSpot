@@ -4,11 +4,12 @@ import { connect } from 'react-redux';
 
 import { Button, Grid, Modal, TextField, withStyles } from '@material-ui/core';
 
-import { closeModal, login } from '../../actions/authenticate';
+import { login } from '../../actions/authenticate';
+import { closeModal } from '../../actions/modal';
 import { LOGIN_MODAL } from '../../constants/environment';
 
 const mapStateToProps = state => ({
-    showLoginModal: state.authentication[LOGIN_MODAL],
+    showLoginModal: state.modal[LOGIN_MODAL],
 });
 
 const mapDispatchToProps = dispatch => ({

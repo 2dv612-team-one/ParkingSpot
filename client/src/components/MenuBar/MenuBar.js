@@ -8,7 +8,8 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
-import { openModal, logout } from '../../actions/authenticate';
+import { logout } from '../../actions/authenticate';
+import { openModal } from '../../actions/modal';
 import { LOGIN_MODAL, REGISTER_MODAL } from '../../constants/environment';
 
 const mapStateToProps = state => ({
