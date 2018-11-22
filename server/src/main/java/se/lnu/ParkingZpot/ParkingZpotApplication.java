@@ -63,7 +63,7 @@ class DataLoader {
       User user2 = new User("User", "User@User.com", "123");
 
       user2.setPassword(passwordEncoder.encode(user2.getPassword()));
-      HashSet<Role> roleSet = new HashSet();
+      HashSet<Role> roleSet = new HashSet<Role>();
       roleSet.add(userRole);
       roleSet.add(adminRole);
       user2.setUserRoles(roleSet);

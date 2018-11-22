@@ -30,7 +30,7 @@ _(Observera att det här kan ta en stund beroende på dator och internetuppkoppl
 * `docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) && docker system prune -a -f --volumes` - Det ultimata nödkommandot och en sista utväg när ingenting fungerar som det ska - stoppar och tar bort **alla** containrar på datorn, även de som inte körs eller som tillhör andra projekt. Tar även bort **alla** volymer (dvs eventuellt sparat innehåll i databaser). Efter det här är gjort kommer projektet att behöva byggas om på nytt.
 
 #### Tester för server
-`docker-compose exec db mvn clean test`
+`docker-compose exec server mvn clean test`
 
 #### Postgresql
 
