@@ -121,18 +121,19 @@ class LoginModal extends Component {
                     >
                         <Grid item>
                             <TextField
+                                error={emptyInputError("usernameOrEmail") ? true : false}
                                 label="Användarnamn"
                                 name="usernameOrEmail"
                                 className="login-input"
                                 margin="normal"
                                 onChange={this.handleUserInput}
                                 value={this.state.usernameOrEmail}
-                                error={emptyInputError("usernameOrEmail") ? true : false}
                                 onBlur={this.handleBlur("usernameOrEmail")}
                             />
                         </Grid>
                         <Grid item>
                             <TextField
+                                error={emptyInputError("password") ? true : false}
                                 label="Lösenord"
                                 name="password"
                                 className={"login-input"}
@@ -142,7 +143,6 @@ class LoginModal extends Component {
                                 }}
                                 onChange={this.handlePassInput}
                                 value={this.state.password}
-                                error={emptyInputError("password") ? true : false}
                                 onBlur={this.handleBlur("password")}
                             />
                         </Grid>
