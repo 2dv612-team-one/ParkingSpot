@@ -127,7 +127,7 @@ class LoginModal extends Component {
                                 margin="normal"
                                 onChange={this.handleUserInput}
                                 value={this.state.usernameOrEmail}
-                                error={emptyInputError("usernameOrEmail") ? true : ""}
+                                error={emptyInputError("usernameOrEmail") ? true : false}
                                 onBlur={this.handleBlur("usernameOrEmail")}
                             />
                         </Grid>
@@ -142,7 +142,7 @@ class LoginModal extends Component {
                                 }}
                                 onChange={this.handlePassInput}
                                 value={this.state.password}
-                                error={emptyInputError("password") ? true : ""}
+                                error={emptyInputError("password") ? true : false}
                                 onBlur={this.handleBlur("password")}
                             />
                         </Grid>

@@ -164,7 +164,7 @@ class RegisterModal extends Component {
                             margin="normal"
                             onChange={this.handleUsernameInput}
                             value={this.state.username}
-                            error={emptyInputError("username") ? true : ""}
+                            error={emptyInputError("username") ? true : false}
                             onBlur={this.handleBlur("username")}
                         />
                         <TextField
@@ -173,7 +173,7 @@ class RegisterModal extends Component {
                             margin="normal"
                             onChange={this.handleEmailInput}
                             value={this.state.email}
-                            error={invalidInputError("email") ? true : ""}
+                            error={invalidInputError("email") ? true : false}
                             onBlur={this.handleBlur("email")}
                         />
                         <TextField
@@ -186,7 +186,7 @@ class RegisterModal extends Component {
                             }}
                             onChange={this.handlePassInput}
                             value={this.state.password}
-                            error={emptyInputError("password") ? true : ""}
+                            error={emptyInputError("password") ? true : false}
                             onBlur={this.handleBlur("password")}
                         />
                         <TextField
@@ -199,7 +199,7 @@ class RegisterModal extends Component {
                             }}
                             onChange={this.handleMatchingPassInput}
                             value={this.state.matchingPassword}
-                            error={emptyInputError("matchingPassword") ? true : "" || invalidInputError("matchingPassword") ? true : ""}
+                            error={emptyInputError("matchingPassword") ? true : "" || invalidInputError("matchingPassword") ? true : false}
                             onBlur={this.handleBlur("matchingPassword")}
                         />
                         <Grid item>
