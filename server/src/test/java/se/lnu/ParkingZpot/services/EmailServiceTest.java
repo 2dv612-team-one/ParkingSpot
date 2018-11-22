@@ -21,7 +21,7 @@ public class EmailServiceTest {
 
     @Test 
     public void testSendEmail() throws UnsupportedEncodingException {
-        User user = new User("testuser", "password", "parkingzpot@gmail.com");
+        User user = new User("testuser", "parkingzpot@gmail.com", "password");
         emailService.sendWelcomeEmail(user);
     }
 }
