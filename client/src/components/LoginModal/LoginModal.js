@@ -17,18 +17,6 @@ const mapDispatchToProps = dispatch => ({
     login: (username, password) => dispatch(login(username, password)),
 })
 
-// TODO: Change and place all these styles nonsense to assets/styles
-function getModalStyle() {
-    const top = 50;
-    const left = 50;
-
-    return {
-        top: `${top}%`,
-        left: `${left}%`,
-        transform: `translate(-${top}%, -${left}%)`,
-    };
-}
-
 class LoginModal extends Component {
     constructor(props) {
         super(props);
@@ -103,7 +91,7 @@ class LoginModal extends Component {
                 open={this.props.showLoginModal || false}
                 onClose={this.handleClose}
             >
-                <div style={getModalStyle()} className="center-modal modal-box">
+                <div className="modal-box center-modal">
                     <Grid container
                         direction="column"
                         justify="flex-start"
