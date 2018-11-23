@@ -7,7 +7,7 @@ import AddIcon from '@material-ui/icons/Add';
 import HideIcon from '@material-ui/icons/Remove';
 import SaveIcon from '@material-ui/icons/Save';
 
-import { addCar, getCars } from '../../actions/vehicle'
+import { addCar } from '../../actions/vehicle'
 
 const mapStateToProps = state => ({
     accessToken: state.authentication.accessToken,
@@ -15,7 +15,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     addCar: (accessToken, registrationNumber) => dispatch(addCar(accessToken, registrationNumber)),
-    updateCarsList: () => dispatch(getCars()),
 })
 
 const styles = theme => ({
@@ -59,7 +58,6 @@ class VehicleForm extends Component {
         const { registrationNumber } = this.state;
         this.setState({ showForm: !this.state.showForm });
         this.props.addCar(accessToken, registrationNumber);
-        this.props.updateCarsList();
     }
 
     render() {

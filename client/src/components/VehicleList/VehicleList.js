@@ -27,13 +27,15 @@ const styles = theme => ({
     },
   });
 
+// TODO: Make vehicle list update after adding or removing a car
 class VehicleList extends Component {
     componentWillMount() {
         this.props.onLoad();
     }
-    
+
     render() {
         const { classes, vehicles } = this.props;
+
         return (    
         <Paper className={classes.root}>
             <Table className={classes.table}>
