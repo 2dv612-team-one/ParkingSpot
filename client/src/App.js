@@ -6,6 +6,7 @@ import MenuBar from './components/MenuBar/MenuBar';
 import LoginModal from './components/LoginModal/LoginModal';
 import RegisterModal from './components/RegisterModal/RegisterModal';
 import VehicleForm from './components/VehicleForm/VehicleForm';
+import VehicleList from './components/VehicleList/VehicleList';
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
@@ -14,6 +15,7 @@ const mapStateToProps = state => ({
 class App extends Component {
 
   render() {
+    const { accessToken } = this.props;
     return (
       <div className="App">
         <MenuBar />
@@ -25,7 +27,12 @@ class App extends Component {
           <h2>Welcome to ParkingZpot</h2>
         </div>
 
-        <VehicleForm />
+        {accessToken &&
+        <div>
+          <VehicleForm />
+          <VehicleList />
+        </div>
+          }
       </div>
     );
   }

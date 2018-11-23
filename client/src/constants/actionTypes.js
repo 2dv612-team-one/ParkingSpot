@@ -9,3 +9,4 @@ export const CLOSE_MODAL = 'CLOSE_MODAL';
 
 // Vehicle actions
 export const ADD_CAR = 'ADD_CAR';
+export const GET_CARS = 'GET_CARS';

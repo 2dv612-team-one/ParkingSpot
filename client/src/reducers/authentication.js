@@ -3,10 +3,6 @@ import {
   USER_AUTHENTICATION,
   USER_LOGOUT,
 } from '../constants/actionTypes';
-import {
-  LOGIN_MODAL,
-} from '../constants/environment';
-
 
 const initialState = {
   accessToken: null,
