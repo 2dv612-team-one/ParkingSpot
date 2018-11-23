@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Button, Grid, Modal, TextField, withStyles } from '@material-ui/core';
+import { Button, Grid, Modal, TextField } from '@material-ui/core';
 
 import { login } from '../../actions/authenticate';
 import { closeModal } from '../../actions/modal';
@@ -28,16 +28,6 @@ function getModalStyle() {
         transform: `translate(-${top}%, -${left}%)`,
     };
 }
-
-const styles = theme => ({
-    paper: {
-        position: "absolute",
-        width: theme.spacing.unit * 35,
-        backgroundColor: theme.palette.background.paper,
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing.unit * 4,
-    },
-});
 
 class LoginModal extends Component {
     constructor(props) {
@@ -99,7 +89,6 @@ class LoginModal extends Component {
     }
 
     render() {
-        const { classes } = this.props;
         const emptyInput = this.hasEmptyInput();
         const canBeSubmitted = this.canBeSubmitted();
 
@@ -114,7 +103,7 @@ class LoginModal extends Component {
                 open={this.props.showLoginModal || false}
                 onClose={this.handleClose}
             >
-                <div style={getModalStyle()} className={classes.paper}>
+                <div style={getModalStyle()} className="center-modal modal-box">
                     <Grid container
                         direction="column"
                         justify="flex-start"
@@ -156,14 +145,10 @@ class LoginModal extends Component {
                             </Button>
                         </Grid>
                     </Grid>
-                    <LoginModalWrapped />
                 </div>
             </Modal>
         );
     }
 }
 
-// We need an intermediary variable for handling the recursive nesting.
-const LoginModalWrapped = withStyles(styles)(LoginModal);
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginModalWrapped);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginModal);
