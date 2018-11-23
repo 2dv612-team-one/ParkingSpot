@@ -7,58 +7,62 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import logo from '../../assets/images/parkingzpot_white.png';
 
 import { logout } from '../../actions/authenticate';
 import { openModal } from '../../actions/modal';
 import { LOGIN_MODAL, REGISTER_MODAL } from '../../constants/environment';
 
 const mapStateToProps = state => ({
-  accessToken: state.authentication.accessToken,
+    accessToken: state.authentication.accessToken,
 });
 
 const mapDispatchToProps = dispatch => ({
-  openLoginModal: () => dispatch(openModal(LOGIN_MODAL)),
-  openRegisterModal: () => dispatch(openModal(REGISTER_MODAL)),
-  logout: () => dispatch(logout()),
+    openLoginModal: () => dispatch(openModal(LOGIN_MODAL)),
+    openRegisterModal: () => dispatch(openModal(REGISTER_MODAL)),
+    logout: () => dispatch(logout()),
 })
 
 class MenuBar extends Component {
-  handleLogout() {
-    this.props.logout();
-  }
+    handleLogout() {
+        this.props.logout();
+    }
 
-  render() {
-    const { accessToken } = this.props;
-    return (
-      <div className="app-bar">
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton className="app-bar-btn" color="inherit" aria-label="Menu">
-              <MenuIcon />
-            </IconButton>
-            <h2 variant="h6" color="inherit" className="app-bar-grow">
-              ParkingZpot
-            </h2>
+    render() {
+        const { accessToken } = this.props;
+        return (
+            <div className="app-bar">
+                <AppBar position="static">
+                    <Toolbar>
+                        <IconButton className="app-bar-btn" color="inherit" aria-label="Menu">
+                            <MenuIcon />
+                        </IconButton>
 
-            {!accessToken ? 
-            <div>
-              <Button color="inherit" onClick={this.props.openLoginModal}>
-                <span>Logga in</span>
-              </Button>
-              <Button color="inherit" onClick={this.props.openRegisterModal}>
-                <span>Registrera</span>
-              </Button> 
+                        <div className="app-bar-grow">
+                            <a href="/">
+                                <img src={logo} alt="ParkingZpot logo" className="app-bar-logo" />
+                            </a>
+                        </div>
+
+                        {!accessToken ?
+                            <div>
+                                <Button color="inherit" onClick={this.props.openLoginModal}>
+                                    <span>Logga in</span>
+                                </Button>
+                                <Button color="inherit" onClick={this.props.openRegisterModal}>
+                                    <span>Registrera</span>
+                                </Button>
+                            </div>
+                            :
+                            <Button color="inherit" onClick={this.props.logout}>
+                                <span>Logga ut</span>
+                            </Button>
+                        }
+                    </Toolbar>
+                </AppBar>
             </div>
-            :
-            <Button color="inherit" onClick={this.props.logout}>
-              <span>Logga ut</span>
-            </Button>  
-          }
-          </Toolbar>
-        </AppBar>
-      </div>
-    );
-  }
+        );
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MenuBar);
