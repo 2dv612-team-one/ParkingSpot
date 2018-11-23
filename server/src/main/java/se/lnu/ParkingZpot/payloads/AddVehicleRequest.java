@@ -9,7 +9,8 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class AddVehicleRequest {
 
-  private int user_id;
+  public String accessToken;
 
-  private String registration_number;
+  private String registrationNumber;
+
 }

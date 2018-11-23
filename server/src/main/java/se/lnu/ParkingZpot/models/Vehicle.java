@@ -9,16 +9,16 @@ public class Vehicle {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    private int user_id;
-    private String registration_number;
+    private long user_id;
+    private String registrationNumber;
 
     
     public Vehicle() { }
 
-    public Vehicle(int user_id, String registration_number) {
+    public Vehicle(long user_id, String registrationNumber) {
       super();
       this.user_id = user_id;
-      this.registration_number = registration_number;
+      this.registrationNumber = registrationNumber;
       
     }
 
@@ -30,18 +30,18 @@ public class Vehicle {
       this.id = id;
     }
 
-    public void setUser_Id(int user_id){
+    public void setUser_Id(long user_id){
       this.user_id = user_id;
     }
-    public int getUser_Id(){
+    public long getUser_Id(){
       return this.user_id;
     }
-    public String getRegistration_number() {
-      return registration_number;
+    public String getRegistrationNumber() {
+      return registrationNumber;
     }
 
-    public void setRegistration_number(String registration_number) {
-      this.registration_number = registration_number;
+    public void setRegistrationNumber(String registrationNumber) {
+      this.registrationNumber = registrationNumber;
     }
 
 }

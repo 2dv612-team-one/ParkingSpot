@@ -12,4 +12,5 @@ import java.util.List;
 @CrossOrigin
 public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
   List<Vehicle> findById(@Param("id") long id);
+  Boolean existsByRegistrationNumber(String registrationNumber);
 }
