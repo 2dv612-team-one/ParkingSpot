@@ -20,10 +20,10 @@ import {
       case OPEN_MODAL:
         return { ...state, [action.content]: true }
       case CLOSE_MODAL:
+            return { ...state, [LOGIN_MODAL]: false, [REGISTER_MODAL]: false, }
       case USER_AUTHENTICATION + '_FULFILLED':
         return { ...state, [LOGIN_MODAL]: false, }
       default:
         return state;
     }
   }
-  

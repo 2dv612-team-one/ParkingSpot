@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Button, Grid, Modal, TextField, withStyles } from '@material-ui/core';
+import { Button, Grid, Modal, TextField } from '@material-ui/core';
 
 import { register } from '../../actions/register';
 import { closeModal } from '../../actions/modal';
@@ -16,28 +16,6 @@ const mapDispatchToProps = dispatch => ({
     closeModal: () => dispatch(closeModal()),
     register: (username, email, password) => dispatch(register(username, email, password)),
 })
-
-// TODO: Change and place all these styles nonsense to assets/styles
-function getModalStyle() {
-    const top = 50;
-    const left = 50;
-
-    return {
-        top: `${top}%`,
-        left: `${left}%`,
-        transform: `translate(-${top}%, -${left}%)`,
-    };
-}
-
-const styles = theme => ({
-    paper: {
-        position: "absolute",
-        width: theme.spacing.unit * 35,
-        backgroundColor: theme.palette.background.paper,
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing.unit * 4,
-    },
-});
 
 class RegisterModal extends Component {
     constructor(props) {
@@ -130,7 +108,6 @@ class RegisterModal extends Component {
     }
 
     render() {
-        const { classes } = this.props;
         const emptyInput = this.hasEmptyInput();
         const isValidInput = this.isValidInput();
         const canBeSubmitted = this.canBeSubmitted();
@@ -152,7 +129,7 @@ class RegisterModal extends Component {
                 open={this.props.showRegisterModal || false}
                 onClose={this.handleClose}
             >
-                <div style={getModalStyle()} className={classes.paper}>
+                <div className="modal-box center-modal">
                     <Grid container
                         direction="column"
                         justify="flex-start"
@@ -212,14 +189,10 @@ class RegisterModal extends Component {
                             </Button>
                         </Grid>
                     </Grid>
-                    <RegisterModalWrapped />
                 </div>
             </Modal >
         );
     }
 }
 
-// We need an intermediary variable for handling the recursive nesting.
-const RegisterModalWrapped = withStyles(styles)(RegisterModal);
-
-export default connect(mapStateToProps, mapDispatchToProps)(RegisterModalWrapped);
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterModal);
