@@ -8,7 +8,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import se.lnu.ParkingZpot.exceptions.ApplicationException;
 import se.lnu.ParkingZpot.models.Role;
-import se.lnu.ParkingZpot.models.RoleName;
 import se.lnu.ParkingZpot.models.User;
 import se.lnu.ParkingZpot.repositories.RoleRepository;
 import se.lnu.ParkingZpot.repositories.UserRepository;
@@ -44,8 +43,8 @@ class DataLoader {
 
   private void saveUser() {
 
-    Role userRole = roleRepository.findByName(RoleName.ROLE_ADMIN).orElseThrow(() -> new ApplicationException("No user role exists"));
-    Role adminRole = roleRepository.findByName(RoleName.ROLE_USER).orElseThrow(() -> new ApplicationException("No user role exists"));
+    Role userRole = roleRepository.findByName("ROLE_USER").orElseThrow(() -> new ApplicationException("No user role exists"));
+    Role adminRole = roleRepository.findByName("ROLE_ADMIN").orElseThrow(() -> new ApplicationException("No admin role exists"));
 
 
     if (!userRepository.existsByUsername("Admin")) {
@@ -74,11 +73,11 @@ class DataLoader {
 
 
   private void loadRoles() {
-    if (!roleRepository.existsByName(RoleName.ROLE_USER)) {
-      roleRepository.save(new Role(RoleName.ROLE_USER));
+    if (!roleRepository.existsByName("ROLE_USER")) {
+      roleRepository.save(new Role("ROLE_USER"));
     }
-    if (!roleRepository.existsByName(RoleName.ROLE_ADMIN)) {
-      roleRepository.save(new Role(RoleName.ROLE_ADMIN));
+    if (!roleRepository.existsByName("ROLE_ADMIN")) {
+      roleRepository.save(new Role("ROLE_ADMIN"));
     }
   }
 }

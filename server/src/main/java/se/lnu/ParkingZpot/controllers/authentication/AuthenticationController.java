@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import se.lnu.ParkingZpot.exceptions.ApplicationException;
 import se.lnu.ParkingZpot.models.Role;
-import se.lnu.ParkingZpot.models.RoleName;
 import se.lnu.ParkingZpot.models.User;
 import se.lnu.ParkingZpot.payloads.ApiResponse;
 import se.lnu.ParkingZpot.payloads.authentication.JwtAuthenticationResponse;
@@ -82,7 +81,7 @@ public class AuthenticationController {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        Role userRole = roleRepository.findByName(RoleName.ROLE_USER).orElseThrow(() -> new ApplicationException("No user role exists"));
+        Role userRole = roleRepository.findByName("ROLE_USER").orElseThrow(() -> new ApplicationException("No user role exists"));
 
         user.setUserRoles(Collections.singleton(userRole));
 
@@ -91,7 +90,7 @@ public class AuthenticationController {
         URI userLocation = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/api/users/{username}")
                 .buildAndExpand(savedUser.getUsername()).toUri();
-        
+
         try {
             emailService.sendWelcomeEmail(savedUser);
         } catch (Exception e) {
