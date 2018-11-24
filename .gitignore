@@ -4,6 +4,9 @@ target/
 *.class
 bundle.js*
 
+#PEM
+*.pem
+
 # STS
 .apt_generated
 .classpath
