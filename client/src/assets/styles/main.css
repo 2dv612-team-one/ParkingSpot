@@ -26,6 +26,12 @@ code {
     flex-grow: 1
 }
 
+.app-bar-logo {
+    margin-left: 10px;
+    max-width: 150px;
+    max-height: 150px;
+}
+
 .modal-submit-button { margin-top: 25px !important; }
 
 .modal-box {
