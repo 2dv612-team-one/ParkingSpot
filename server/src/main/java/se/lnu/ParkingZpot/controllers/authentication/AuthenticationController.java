@@ -74,7 +74,7 @@ public class AuthenticationController {
 
             URI basePathLocation = ServletUriComponentsBuilder
                 .fromCurrentContextPath().port("8080").build().toUri();
-            basePathLocation = basePathLocation.resolve("/api/auth/confirm");
+            basePathLocation = basePathLocation.resolve("/api/auth/confirm/");
             
             emailService.sendVerificationEmail(savedUser, basePathLocation);
 
@@ -94,6 +94,8 @@ public class AuthenticationController {
 
     @GetMapping("/confirm")
     public ResponseEntity<ApiResponse> confirmUser(@RequestParam("token") String token) {
+
+        //TODO: Handle expired and nonexistant tokens
 
         VerificationToken verificationToken = userService.getVerificationToken(token);
         User user = verificationToken.getUser();
