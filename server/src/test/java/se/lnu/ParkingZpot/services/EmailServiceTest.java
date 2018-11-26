@@ -8,8 +8,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import se.lnu.ParkingZpot.models.User;
+import se.lnu.ParkingZpot.repositories.UserRepository;
+
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
 
 
 @RunWith(SpringRunner.class)
@@ -17,11 +21,20 @@ import java.io.UnsupportedEncodingException;
 public class EmailServiceTest {
 
     @Autowired
-    EmailServiceImpl emailService;
+    EmailService emailService;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Test 
     public void testSendEmail() throws UnsupportedEncodingException {
-        User user = new User("testuser", "parkingzpot@gmail.com", "password");
-        emailService.sendWelcomeEmail(user);
+        User user = userService.registerNewUserAccount("testuser", "parkingzpot@gmail.com", "password", "user");
+        URI basePathLocation = ServletUriComponentsBuilder
+                .fromCurrentContextPath().path("/api/auth/confirm").build().toUri();
+        emailService.sendVerificationEmail(user, basePathLocation);
+        userRepository.deleteByUsername("testuser");
     }
 }

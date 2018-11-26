@@ -7,24 +7,26 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import se.lnu.ParkingZpot.exceptions.ApplicationException;
+import se.lnu.ParkingZpot.exceptions.EntityExistsException;
 import se.lnu.ParkingZpot.models.Role;
 import se.lnu.ParkingZpot.models.User;
+import se.lnu.ParkingZpot.models.VerificationToken;
 import se.lnu.ParkingZpot.payloads.ApiResponse;
 import se.lnu.ParkingZpot.payloads.authentication.JwtAuthenticationResponse;
 import se.lnu.ParkingZpot.payloads.authentication.LoginRequest;
 import se.lnu.ParkingZpot.payloads.authentication.RegistrationRequest;
-import se.lnu.ParkingZpot.repositories.RoleRepository;
-import se.lnu.ParkingZpot.repositories.UserRepository;
+import se.lnu.ParkingZpot.services.IUserService;
 import se.lnu.ParkingZpot.authentication.JwtTokenProvider;
 import se.lnu.ParkingZpot.services.EmailService;
-import se.lnu.ParkingZpot.services.EmailServiceImpl;
+import se.lnu.ParkingZpot.services.IEmailService;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -38,13 +40,7 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private IUserService userService;
 
     @Autowired
     private JwtTokenProvider tokenProvider;
@@ -68,38 +64,43 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) {
-        if (userRepository.existsByUsername(registrationRequest.getUsername())) {
-            return new ResponseEntity(new ApiResponse(false, "Username already exists"), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<ApiResponse> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) {
 
-        if (userRepository.existsByEmail(registrationRequest.getEmail())) {
-            return new ResponseEntity(new ApiResponse(false, "This email address is already in use"), HttpStatus.BAD_REQUEST);
-        }
+        String role = "User"; //TODO: Get from registration request
+        User savedUser;
 
-        User user = new User(registrationRequest.getUsername(), registrationRequest.getEmail(), registrationRequest.getPassword());
+        try {
+            savedUser = userService.registerNewUserAccount(registrationRequest.getUsername(), registrationRequest.getEmail(), registrationRequest.getPassword(), role);
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+            URI basePathLocation = ServletUriComponentsBuilder
+                .fromCurrentContextPath().port("8080").build().toUri();
+            basePathLocation = basePathLocation.resolve("/api/auth/confirm");
+            
+            emailService.sendVerificationEmail(savedUser, basePathLocation);
 
-        Role userRole = roleRepository.findByName("ROLE_USER").orElseThrow(() -> new ApplicationException("No user role exists"));
-
-        user.setUserRoles(Collections.singleton(userRole));
-
-        User savedUser = userRepository.save(user);
-
-        URI userLocation = ServletUriComponentsBuilder
+            URI userLocation = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/api/users/{username}")
                 .buildAndExpand(savedUser.getUsername()).toUri();
 
-        try {
-            emailService.sendWelcomeEmail(savedUser);
+            return ResponseEntity.created(userLocation).body(new ApiResponse(true, "User successfully registered"));
+        } catch (EntityExistsException e) {
+            return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
+        } catch (ApplicationException e) {
+            return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            // TODO: Error log?
-            System.err.println("Welcome  email could not be sent: " + e.getMessage());
+            return new ResponseEntity<ApiResponse>(new ApiResponse(false, "Verification email could not be sent."), HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        return ResponseEntity.created(userLocation).body(new ApiResponse(true, "User successfully registered"));
     }
 
+    @GetMapping("/confirm")
+    public ResponseEntity<ApiResponse> confirmUser(@RequestParam("token") String token) {
 
+        VerificationToken verificationToken = userService.getVerificationToken(token);
+        User user = verificationToken.getUser();
+        user.setEnabled(true);
+        userService.saveRegisteredUser(user);
+        userService.deleteVerificationToken(verificationToken);
+
+        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Email verified."), HttpStatus.OK);
+    }
 }
