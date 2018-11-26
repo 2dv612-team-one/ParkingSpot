@@ -38,3 +38,14 @@ _(Observera att det här kan ta en stund beroende på dator och internetuppkoppl
 
 `psql -d pzpot_db -u pzpot`
 `password: pzpot`
+
+
+#### Deployment
+We use a git post-receive hook to deploy code to the server. The post-receive script is included in the repo. The basic flow is that when the push is complete the post-receive script is executed and it in its turn executed the script deploy.sh For this to work for you there are two things you need to do. 
+* Create a new remote where the code will be deployed.
+    - `git remote add deploy_dev ubuntu@194.47.206.231:deploy` - This adds a remote that will point to the dev server.
+* Execute a SSH command when you do the git push command
+    - `git config --local core.sshCommand "ssh -i cloud.pem"` - This makes it so on every push or pull that uses SSH executed this command.
+    What I did here was to put the cloud.pem file in the project root. I have added it to the .gitignore so it should not be included in the repo. Make sure you have the `--local` flag so you do not set this globally.
+* Do the push.
+    - `git push deploy_dev master` - You could technically push whatever branch you like but right know the post-receive script will only accept the master branch.
