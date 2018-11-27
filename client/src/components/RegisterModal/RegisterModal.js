@@ -84,6 +84,7 @@ class RegisterModal extends Component {
       const { username, email, password } = this.state;
       const { register } = this.props;
       register(username, email, password);
+      this.handleClose();
     }
 
     handleBlur = field => () => {
