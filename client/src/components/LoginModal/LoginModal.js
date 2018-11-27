@@ -30,10 +30,18 @@ class LoginModal extends Component {
       },
     };
 
+    this.onKeyPress = this.onKeyPress.bind(this);
     this.handleUserInput = this.handleUserInput.bind(this);
     this.handlePassInput = this.handlePassInput.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
   }
+
+  onKeyPress= (e) => {
+    if (e.key === 'Enter') {
+      this.handleLogin();
+    }
+  }
+
 
   hasEmptyInput() {
     const { usernameOrEmail, password } = this.state;
@@ -95,6 +103,7 @@ class LoginModal extends Component {
         <Modal
           open={showLoginModal || false}
           onClose={this.handleClose}
+          onKeyPress={this.onKeyPress}
         >
           <div className="modal-box center-modal">
             <Grid

@@ -41,6 +41,12 @@ class RegisterModal extends Component {
     this.handleRegister = this.handleRegister.bind(this);
   }
 
+  onKeyPress= (e) => {
+    if (e.key === 'Enter') {
+      this.handleRegister();
+    }
+  }
+
   isValidInput() {
     const { email, password, matchingPassword } = this.state;
     return {
