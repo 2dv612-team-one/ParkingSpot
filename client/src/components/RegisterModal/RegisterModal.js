@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import { Button, Grid, Modal, TextField } from '@material-ui/core';
 
-import { register } from '../../actions/register';
+import register from '../../actions/register';
 import { closeModal } from '../../actions/modal';
 import { REGISTER_MODAL } from '../../constants/environment';
 
