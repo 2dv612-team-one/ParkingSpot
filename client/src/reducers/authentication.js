@@ -22,10 +22,15 @@ export default (state = initialState, action) => {
         accessToken: action.payload.data.accessToken,
       };
 
-    case `${USER_AUTHENTICATION_TOKEN}`:
+    case `${USER_AUTHENTICATION_TOKEN}_REJECTED`:
       return {
         ...state,
-        accessToken: action.payload.data.accessToken,
+        accessToken: null,
+      };
+    case `${USER_AUTHENTICATION_TOKEN}_FULFILLED`:
+      return {
+        ...state,
+        accessToken: action.meta.accessToken,
       };
 
     case USER_LOGOUT:

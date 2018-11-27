@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { AUTH_URI, ACCESS_TOKEN_STORAGE } from '../constants/environment';
+import { AUTH_URI, VALIDATE_TOKEN_URI, ACCESS_TOKEN_STORAGE } from '../constants/environment';
 import {
   USER_AUTHENTICATION,
   USER_AUTHENTICATION_TOKEN,
@@ -24,8 +24,8 @@ function accessTokenLoaded(accessToken) {
   // TODO: Check against the server if the token is valid
   return {
     type: USER_AUTHENTICATION_TOKEN,
-    payload: { data: { accessToken } },
-    // payload: axios.get(AUTH_URI, { accessToken }), // TODO: Use this one instead
+    payload: axios.get(`${VALIDATE_TOKEN_URI}?token=${accessToken}`), // TODO: Use this one instead
+    meta: { accessToken },
   };
 }
 
