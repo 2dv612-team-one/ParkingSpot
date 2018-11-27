@@ -15,6 +15,7 @@ import se.lnu.ParkingZpot.models.Role;
 import se.lnu.ParkingZpot.models.User;
 import se.lnu.ParkingZpot.payloads.ApiResponse;
 import se.lnu.ParkingZpot.payloads.authentication.JwtAuthenticationResponse;
+import se.lnu.ParkingZpot.payloads.authentication.JwtValidationResponse;
 import se.lnu.ParkingZpot.payloads.authentication.LoginRequest;
 import se.lnu.ParkingZpot.payloads.authentication.RegistrationRequest;
 import se.lnu.ParkingZpot.repositories.RoleRepository;
@@ -27,6 +28,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -56,11 +58,19 @@ public class AuthenticationController {
       boolean validToken = tokenProvider.validateToken(authToken);
 
       if (validToken) {
-        return new ResponseEntity(new ApiResponse(true, "Token is valid"), HttpStatus.OK);
-      } else {
-        return new ResponseEntity(new ApiResponse(false, "Token is invalid"), HttpStatus.FORBIDDEN);
-      }
+        Optional<Role> userRole = roleRepository.findByName("ROLE_USER");
+        Optional<Role> adminRole = roleRepository.findByName("ROLE_ADMIN");
 
+        User currentUser = userRepository.getOne(tokenProvider.getUserIdFromJWT(authToken));
+
+        if (currentUser.getUserRoles().contains(adminRole.get())) {
+          return new ResponseEntity(new JwtValidationResponse(true, adminRole.get().getName()), HttpStatus.OK);
+        } else if (currentUser.getUserRoles().contains(userRole.get())) {
+          return new ResponseEntity(new JwtValidationResponse(true, userRole.get().getName()), HttpStatus.OK);
+        }
+
+      }
+      return new ResponseEntity(new JwtValidationResponse(false, ""), HttpStatus.FORBIDDEN);
     }
 
     @PostMapping("/login")
