@@ -7,96 +7,100 @@ import AddIcon from '@material-ui/icons/Add';
 import HideIcon from '@material-ui/icons/Remove';
 import SaveIcon from '@material-ui/icons/Save';
 
-import { addCar } from '../../actions/vehicle'
+import { addCar } from '../../actions/vehicle';
 
 const mapStateToProps = state => ({
-    accessToken: state.authentication.accessToken,
+  accessToken: state.authentication.accessToken,
 });
 
 const mapDispatchToProps = dispatch => ({
-    addCar: (accessToken, registrationNumber) => dispatch(addCar(accessToken, registrationNumber)),
-})
+  addCar: (accessToken, registrationNumber) => dispatch(addCar(accessToken, registrationNumber)),
+});
 
 const styles = theme => ({
-    button: {
-      margin: theme.spacing.unit,
-    },
-    extendedIcon: {
-      marginRight: theme.spacing.unit,
-    },
-    textField: {
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
-        width: 200,
-    },
+  button: {
+    margin: theme.spacing.unit,
+  },
+  extendedIcon: {
+    marginRight: theme.spacing.unit,
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200,
+  },
 });
 
 class VehicleForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            registrationNumber: '',
-            showForm: false,
-        }
+  constructor(props) {
+    super(props);
+    this.state = {
+      registrationNumber: '',
+      showForm: false,
+    };
 
-        this.handleRegistrationNumberInput = this.handleRegistrationNumberInput.bind(this);
-        this.handleShowForm = this.handleShowForm.bind(this);
-        this.handleSave = this.handleSave.bind(this);
-    }
+    this.handleRegistrationNumberInput = this.handleRegistrationNumberInput.bind(this);
+    this.handleShowForm = this.handleShowForm.bind(this);
+    this.handleSave = this.handleSave.bind(this);
+  }
 
-    handleRegistrationNumberInput(e) {
-        const registrationNumber = e.target.value.toUpperCase();
-        this.setState({ registrationNumber });
-    }
+  handleRegistrationNumberInput(e) {
+    const registrationNumber = e.target.value.toUpperCase();
+    this.setState({ registrationNumber });
+  }
 
-    handleShowForm() {
-        this.setState({ showForm: !this.state.showForm });
-    }
+  handleShowForm() {
+    const { showForm } = this.props;
+    this.setState({ showForm: !showForm });
+  }
 
-    handleSave() {
-        const { accessToken } = this.props;
-        const { registrationNumber } = this.state;
-        this.setState({ showForm: !this.state.showForm });
-        this.props.addCar(accessToken, registrationNumber);
-    }
+  handleSave() {
+    const { accessToken } = this.props;
+    const { registrationNumber, showForm, addCar } = this.state;
+    this.setState({ showForm: !showForm });
+    addCar(accessToken, registrationNumber);
+  }
 
-    render() {
-        const { classes } = this.props;
+  render() {
+    const { classes } = this.props;
+    const { showForm, registrationNumber } = this.state;
 
-        return (
-			<div className='add-vehicle-btn'>
-				<Button
-                    variant="extendedFab"
-                    color={!this.state.showForm  ? "primary" : "secondary"}
-                    aria-label="Add"
-                    className={classes.button}
-                    onClick={this.handleShowForm}
-                >
-                    {!this.state.showForm ?
-                    <AddIcon className={classes.extendedIcon} />
-                    :
-                    <HideIcon className={classes.extendedIcon} />}
+    return (
+      <div className="add-vehicle-btn">
+        <Button
+          variant="extendedFab"
+          color={!showForm ? 'primary' : 'secondary'}
+          aria-label="Add"
+          className={classes.button}
+          onClick={this.handleShowForm}
+        >
+          {!showForm
+            ? <AddIcon className={classes.extendedIcon} />
+            : <HideIcon className={classes.extendedIcon} />}
                     Lägg till en bil
-				</Button>
-                {this.state.showForm && 
+
+        </Button>
+        {showForm
+                && (
                 <Paper>
-                    <TextField
-                        label="Registreringsnummer"
-                        name="matchingPassword"
-                        className={classes.textField}
-                        margin="normal"
-                        onChange={this.handleRegistrationNumberInput}
-                        value={this.state.registrationNumber}
-                    />
-                    <Button variant="contained" size="small" className={classes.button} onClick={this.handleSave}>
-                        <SaveIcon className={classes.extendedIcon} />
+                  <TextField
+                    label="Registreringsnummer"
+                    name="matchingPassword"
+                    className={classes.textField}
+                    margin="normal"
+                    onChange={this.handleRegistrationNumberInput}
+                    value={registrationNumber}
+                  />
+                  <Button variant="contained" size="small" className={classes.button} onClick={this.handleSave}>
+                    <SaveIcon className={classes.extendedIcon} />
                         Spara
-                    </Button>
+                  </Button>
                 </Paper>
+                )
                 }
-			</div>
-        );
-    }
+      </div>
+    );
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(VehicleForm));

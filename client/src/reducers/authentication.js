@@ -6,23 +6,23 @@ import {
 
 const initialState = {
   accessToken: null,
-}
+};
 
 export default (state = initialState, action) => {
-  switch(action.type) {
-    case USER_AUTHENTICATION + '_PENDING':
-      return { ...state }
-    case USER_AUTHENTICATION + '_REJECTED':
-      return { ...state }
-    case USER_AUTHENTICATION + '_FULFILLED':
+  switch (action.type) {
+    case `${USER_AUTHENTICATION}_PENDING`:
+      return { ...state };
+    case `${USER_AUTHENTICATION}_REJECTED`:
+      return { ...state };
+    case `${USER_AUTHENTICATION}_FULFILLED`:
       return {
         ...state,
         accessToken: action.payload.data.accessToken,
-      }
+      };
 
     case USER_LOGOUT:
-      return { ...state, accessToken: null }
+      return { ...state, accessToken: null };
     default:
       return state;
   }
-}
+};

@@ -13,7 +13,6 @@ const mapStateToProps = state => ({
 });
 
 class App extends Component {
-
   render() {
     const { accessToken } = this.props;
     return (
@@ -27,11 +26,13 @@ class App extends Component {
           <h2>Welcome to ParkingZpot</h2>
         </div>
 
-        {accessToken &&
+        {accessToken
+        && (
         <div>
           <VehicleForm />
           <VehicleList />
         </div>
+        )
           }
       </div>
     );

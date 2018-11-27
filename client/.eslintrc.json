@@ -1,0 +1,40 @@
+{
+    "extends": "airbnb",
+    "parser": "babel-eslint",
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "react/boolean-prop-naming": ["off", {
+            "propTypeNames": ["bool", "mutuallyExclusiveTrueProps"],
+            "rule": "^(is|has)[A-Z]([A-Za-z0-9]?)+",
+            "message": "It is better if your prop ({{ propName }}) matches this pattern: ({{ pattern }})"
+          }],
+        "max-len": ["error", {"code": 120, "ignoreUrls": true}],
+        "no-mixed-operators": 0,
+        "react/no-string-refs" : 0,
+        "no-param-reassign": 0,
+        "no-prototype-builtins": 0,
+        "camelcase": "warn",
+        "no-shadow": "off",
+        "comma-dangle": ["warn", "always-multiline"],
+        "react/prop-types": 0,
+        "react/require-default-props": 0,
+        "react/jsx-filename-extension": 0,
+        "object-curly-newline": ["off", {"multiline": true }],
+        "import/no-named-as-default": 0,
+        "no-use-before-define": 0,
+        "prefer-destructuring": ["error", {
+        "array": false,
+        "object": true
+        }, {
+        "enforceForRenamedProperties": false
+        }],
+        "react/prefer-stateless-function": 0
+    },
+    "env": {
+        "es6": true,
+        "browser": true
+      }
+}
+
