@@ -26,6 +26,8 @@ import se.lnu.ParkingZpot.services.EmailServiceImpl;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -109,6 +111,4 @@ public class AuthenticationController {
 
         return ResponseEntity.created(userLocation).body(new ApiResponse(true, "User successfully registered"));
     }
-
-
 }
