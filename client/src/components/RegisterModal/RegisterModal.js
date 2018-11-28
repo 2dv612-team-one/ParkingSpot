@@ -140,46 +140,46 @@ class RegisterModal extends Component {
                             label="Användarnamn"
                             name="username"
                             className={"register-input"}
-                            margin="normal"
                             onChange={this.handleUsernameInput}
                             value={this.state.username}
-                            error={emptyInputError("username") ? true : false}
                             onBlur={this.handleBlur("username")}
+                            error={emptyInputError("username") ? true : false}
+                            helperText={emptyInputError("username") ? "Ange ett användarnamn." : " "}
                         />
                         <TextField
                             label="Mailadress"
                             name="email"
-                            margin="normal"
                             onChange={this.handleEmailInput}
                             value={this.state.email}
-                            error={invalidInputError("email") ? true : false}
                             onBlur={this.handleBlur("email")}
+                            error={invalidInputError("email") ? true : false}
+                            helperText={invalidInputError("email") ? "Ange en korrekt mailadress." : " "}
                         />
                         <TextField
                             label="Lösenord"
                             name="password"
                             className={"register-input"}
-                            margin="normal"
                             inputProps={{
                                 type: "password"
                             }}
                             onChange={this.handlePassInput}
                             value={this.state.password}
-                            error={emptyInputError("password") ? true : false}
                             onBlur={this.handleBlur("password")}
+                            error={emptyInputError("password") ? true : false}
+                            helperText={emptyInputError("password") ? "Ange ett lösenord." : " "}
                         />
                         <TextField
                             label="Upprepa lösenord"
                             name="matchingPassword"
                             className={"register-input"}
-                            margin="normal"
                             inputProps={{
                                 type: "password"
                             }}
                             onChange={this.handleMatchingPassInput}
                             value={this.state.matchingPassword}
-                            error={emptyInputError("matchingPassword") ? true : "" || invalidInputError("matchingPassword") ? true : false}
                             onBlur={this.handleBlur("matchingPassword")}
+                            error={emptyInputError("matchingPassword") ? true : "" || invalidInputError("matchingPassword") ? true : false}
+                            helperText={invalidInputError("matchingPassword") ? "Ange samma lösenord igen." : " "}
                         />
                         <Grid item>
                             <Button type="button" color="primary" variant="outlined"

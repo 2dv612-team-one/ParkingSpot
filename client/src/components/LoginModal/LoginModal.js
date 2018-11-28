@@ -99,29 +99,29 @@ class LoginModal extends Component {
                     >
                         <Grid item>
                             <TextField
-                                error={emptyInputError("usernameOrEmail") ? true : false}
                                 label="Användarnamn"
                                 name="usernameOrEmail"
                                 className="login-input"
-                                margin="normal"
                                 onChange={this.handleUserInput}
                                 value={this.state.usernameOrEmail}
                                 onBlur={this.handleBlur("usernameOrEmail")}
+                                error={emptyInputError("usernameOrEmail") ? true : false}
+                                helperText={emptyInputError("usernameOrEmail") ? "Ange ett användarnamn." : " "}
                             />
                         </Grid>
                         <Grid item>
                             <TextField
-                                error={emptyInputError("password") ? true : false}
                                 label="Lösenord"
                                 name="password"
                                 className={"login-input"}
-                                margin="normal"
                                 inputProps={{
                                     type: "password"
                                 }}
                                 onChange={this.handlePassInput}
                                 value={this.state.password}
                                 onBlur={this.handleBlur("password")}
+                                error={emptyInputError("password") ? true : false}
+                                helperText={emptyInputError("password") ? "Ange ett lösenord." : " "}
                             />
                         </Grid>
                         <Grid item>
