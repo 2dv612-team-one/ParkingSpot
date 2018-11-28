@@ -32,6 +32,7 @@ import javax.validation.Valid;
 
 import java.io.IOException;
 import java.net.URI;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -75,8 +76,6 @@ public class AuthenticationController {
         Long id = tokenProvider.getUserIdFromJWT(jwt);
         User user = userService.getUser(id).get();
 
-        user.setEnabled(false);
-
         if (user.getEnabled() == true) {
             return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
         } else {
@@ -117,10 +116,16 @@ public class AuthenticationController {
 
     @Value("${app.port}") String port;
     @GetMapping("/confirm")
-    public ResponseEntity<ApiResponse> confirmUser(@RequestParam("token") String token, HttpServletResponse httpResponse) {
+    public ResponseEntity confirmUser(@RequestParam("token") String token, HttpServletResponse httpResponse) {
 
-        //TODO: Handle expired and nonexistant tokens
         VerificationToken verificationToken = userService.getVerificationToken(token);
+
+        if (verificationToken == null || verificationToken.getExpiryDate().before(new Date())) {
+            if (verificationToken != null) {
+                userService.deleteVerificationToken(verificationToken);
+            }
+            return new ResponseEntity<String>("<p>Your verification token has expired or does not exist. Please try registering again.</p>", HttpStatus.EXPECTATION_FAILED);
+        }
 
         User user = verificationToken.getUser();
         user.setEnabled(true);
