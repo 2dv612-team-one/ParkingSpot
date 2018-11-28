@@ -10,9 +10,10 @@ import se.lnu.ParkingZpot.repositories.VerificationTokenRepository;
 import se.lnu.ParkingZpot.exceptions.EntityExistsException;
 import se.lnu.ParkingZpot.exceptions.ApplicationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import se.lnu.ParkingZpot.repositories.RoleRepository;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 import java.util.Optional;
 
 @Component
@@ -25,13 +26,13 @@ public class UserService implements IUserService {
   private VerificationTokenRepository tokenRepository;
 
   @Autowired
-  private RoleRepository roleRepository;
+  private RoleService roleService;
 
   @Autowired
   private PasswordEncoder passwordEncoder;
 
   @Override
-  public User registerNewUserAccount(String username, String email, String password, String role) throws EntityExistsException {
+  public User registerNewUserAccount(String username, String email, String password, Set<Role> roles) throws EntityExistsException {
 
     if (repository.existsByUsername(username)) {
       throw new EntityExistsException("Username already exists");
@@ -43,10 +44,22 @@ public class UserService implements IUserService {
 
     User user = new User(username, email, password);
     user.setPassword(passwordEncoder.encode(user.getPassword()));
-    Role userRole = roleRepository.findByName("ROLE_" + role.toUpperCase()).orElseThrow(() -> new ApplicationException("No such role exists"));
-    user.setUserRoles(Collections.singleton(userRole));
+
+    Set<Role> userRoles = new HashSet<Role>();
+
+    for (Role role : roles) {
+      userRoles.add(roleService.findByName(role.getName()).orElseThrow(() -> new ApplicationException("No such user role exists: " + role.getName())));
+    }
+
+    user.setUserRoles(userRoles);
 
     return repository.save(user);
+  }
+
+  @Override
+  public User registerNewUserAccount(String username, String email, String password, String role) throws EntityExistsException {
+    Set<Role> userRole = Collections.singleton(new Role("ROLE_" + role.toUpperCase()));
+    return registerNewUserAccount(username, email, password, userRole);
   }
     
   @Override

@@ -8,4 +8,5 @@ import java.net.URI;
 @Service
 public interface IEmailService {
   void sendVerificationEmail(User user, URI baseURL) throws UnsupportedEncodingException;
+  void sendEmailTo(User user, String subject, String message) throws UnsupportedEncodingException;
 }

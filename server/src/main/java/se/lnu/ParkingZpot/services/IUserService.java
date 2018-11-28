@@ -5,9 +5,12 @@ import se.lnu.ParkingZpot.models.User;
 import se.lnu.ParkingZpot.models.VerificationToken;
 import java.util.Optional;
 import java.util.List;
+import java.util.Set;
+import se.lnu.ParkingZpot.models.Role;
 
 @Service
 public interface IUserService {
+  User registerNewUserAccount(String username, String email, String password, Set<Role> roles);
   User registerNewUserAccount(String username, String email, String password, String role);
   User getUser(String verificationToken);
   Optional<User> getUser(long id);

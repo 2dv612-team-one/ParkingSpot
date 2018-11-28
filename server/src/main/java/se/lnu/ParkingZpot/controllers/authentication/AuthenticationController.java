@@ -36,10 +36,9 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Date;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.HashSet;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -104,12 +103,17 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) {
-
-        String role = "User"; //TODO: Get from registration request
-        User savedUser;
-
         try {
-            savedUser = userService.registerNewUserAccount(registrationRequest.getUsername(), registrationRequest.getEmail(), registrationRequest.getPassword(), role);
+            Set<Role> roles = new HashSet<Role>();
+            if (registrationRequest.getRoles().isPresent()) {
+                for (Role role : registrationRequest.getRoles().get()) {
+                    roles.add(role);
+                  }
+            } else {
+                roles.add(new Role("USER_ROLE"));
+            }
+
+            User savedUser = userService.registerNewUserAccount(registrationRequest.getUsername(), registrationRequest.getEmail(), registrationRequest.getPassword(), roles);
 
             URI basePathLocation = ServletUriComponentsBuilder
                 .fromCurrentContextPath().port(port).build().toUri();

@@ -25,21 +25,32 @@ public class EmailService implements IEmailService {
   @Autowired
   UserService userService;
 
-  @Value("${spring.mail.username}") String fromEmail; 
   @Override
   public void sendVerificationEmail(User user, URI baseURL) throws UnsupportedEncodingException {
     String token = UUID.randomUUID().toString();
     userService.createVerificationToken(user, token);
         
-      String recipientAddress = user.getEmail();
-      String recipientName = user.getUsername();
-      String subject = "Welcome to the Parking Zpot application! Please verify your email address.";
-      String confirmationUrl = baseURL.resolve("?token=" + token).toString();
-      String message = "Welcome to the Parking Zpot application. Please confirm your email address by following the provided link: " + confirmationUrl;
-    
-      final Email email = DefaultEmail.builder() 
+    String recipientAddress = user.getEmail();
+    String recipientName = user.getUsername();
+    String subject = "Welcome to the Parking Zpot application! Please verify your email address.";
+    String confirmationUrl = baseURL.resolve("?token=" + token).toString();
+    String message = "Welcome to the Parking Zpot application. Please confirm your email address by following the provided link: " + confirmationUrl;
+
+    sendMail(recipientAddress, recipientName, subject, message);
+  }
+
+  @Override
+  public void sendEmailTo(User user, String subject, String message) throws UnsupportedEncodingException {
+    String recipientAddress = user.getEmail();
+    String recipientName = user.getUsername();
+    sendMail(recipientAddress, recipientName, subject, message);
+  }
+
+  @Value("${spring.mail.username}") String fromEmail; 
+  private void sendMail(String address, String name, String subject, String message) throws UnsupportedEncodingException {
+    final Email email = DefaultEmail.builder() 
         .from(new InternetAddress(fromEmail, "Parking Zpots"))
-        .to(Lists.newArrayList(new InternetAddress(recipientAddress, recipientName)))
+        .to(Lists.newArrayList(new InternetAddress(address, name)))
         .subject(subject)
         .body(message)
         .encoding("UTF-8").build();
