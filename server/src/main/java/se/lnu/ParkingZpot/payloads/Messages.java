@@ -15,7 +15,7 @@ public class Messages {
   public static final String VEHICLE = "Fordonet";
   public static final String REG_ERROR_USERNAME = "Användarnamnet finns redan.";
   public static final String REG_ERROR_EMAIL = "Mailadressen är redan registrerad.";
-  public static final String REG_ERROR_ROLE = "Rollen finns inte i systemet.";
+  public static final String REG_ERROR_ROLE = "Rollen finns inte i systemet: ";
 
 
   private static String added = " har lagts till i databasen.";

@@ -49,7 +49,7 @@ public class UserController {
     try {
       Set<Role> userRoles = new HashSet<Role>();
 
-      if (registrationRequest.getRoles().isPresent()) {
+      if (registrationRequest.getRoles() != null && registrationRequest.getRoles().isPresent()) {
         for (Role role : registrationRequest.getRoles().get()) {
           userRoles.add(role);
         }
@@ -69,9 +69,9 @@ public class UserController {
         return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
     } catch (ApplicationException e) {
         return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
-    } catch (Exception e) {
+    } catch (UnsupportedEncodingException e) {
         logger.error(e.getMessage());
-        return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<ApiResponse>(new ApiResponse(false, Messages.REG_MAILFAIL), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

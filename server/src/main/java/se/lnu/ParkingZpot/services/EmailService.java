@@ -60,8 +60,6 @@ public class EmailService implements IEmailService {
         .subject(subject)
         .body(message)
         .encoding("UTF-8").build();
-
-    logger.error("sending mail");
     
     emailService.send(email); 
   }

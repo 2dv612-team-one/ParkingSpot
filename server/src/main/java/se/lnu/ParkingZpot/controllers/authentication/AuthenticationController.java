@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import se.lnu.ParkingZpot.exceptions.ApplicationException;
 import se.lnu.ParkingZpot.exceptions.EntityExistsException;
+import java.io.UnsupportedEncodingException;
 import se.lnu.ParkingZpot.models.User;
 import se.lnu.ParkingZpot.models.Role;
 import se.lnu.ParkingZpot.models.VerificationToken;
@@ -108,12 +109,11 @@ public class AuthenticationController {
     public ResponseEntity<ApiResponse> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) {
         try {
             Set<Role> roles = new HashSet<Role>();
-            if (registrationRequest.getRoles().isPresent()) {
+
+            if (registrationRequest.getRoles() != null && registrationRequest.getRoles().isPresent()) {
                 for (Role role : registrationRequest.getRoles().get()) {
                     roles.add(role);
                   }
-            } else {
-                roles.add(new Role("USER_ROLE"));
             }
 
             User savedUser = userService.registerNewUserAccount(registrationRequest.getUsername(), registrationRequest.getEmail(), registrationRequest.getPassword(), roles);
@@ -133,12 +133,8 @@ public class AuthenticationController {
             return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (ApplicationException e) {
             return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            String error = ((e == null) ? "is null" : "is not null");
-            String errormesg = e.getStackTrace().toString();
-            logger.error(error);
-            logger.error(errormesg);
-            return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (UnsupportedEncodingException e) {
+            return new ResponseEntity<ApiResponse>(new ApiResponse(false, Messages.REG_MAILFAIL), HttpStatus.INTERNAL_SERVER_ERROR);*/
         }
     }
 
