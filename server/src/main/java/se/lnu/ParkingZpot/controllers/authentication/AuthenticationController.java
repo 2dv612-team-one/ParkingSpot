@@ -48,25 +48,24 @@ import java.util.HashSet;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthenticationController {
-
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final UserService userService;
+    private final RoleService roleService;
+    private final JwtTokenProvider tokenProvider;
+    private final EmailService emailService;
 
-    @Autowired
-    private UserService userService;
+  @Autowired
+  public AuthenticationController(AuthenticationManager authenticationManager, UserService userService, RoleService roleService, JwtTokenProvider tokenProvider, EmailService emailService) {
+    this.authenticationManager = authenticationManager;
+    this.userService = userService;
+    this.roleService = roleService;
+    this.tokenProvider = tokenProvider;
+    this.emailService = emailService;
+  }
 
-    @Autowired
-    private RoleService roleService;
-
-    @Autowired
-    private JwtTokenProvider tokenProvider;
-
-    @Autowired
-    private EmailService emailService;
-
-    @GetMapping("/validate")
+  @GetMapping("/validate")
     public ResponseEntity<JwtValidationResponse> validateToken(@RequestParam("token") String authToken) {
       boolean validToken = tokenProvider.validateToken(authToken);
 
@@ -76,11 +75,8 @@ public class AuthenticationController {
 
         User currentUser = userService.getUser(tokenProvider.getUserIdFromJWT(authToken)).get();
 
-        if (currentUser.getUserRoles().contains(adminRole.get())) {
-          return new ResponseEntity<JwtValidationResponse>(new JwtValidationResponse(true, adminRole.get().getName()), HttpStatus.OK);
-        } else if (currentUser.getUserRoles().contains(userRole.get())) {
-          return new ResponseEntity<JwtValidationResponse>(new JwtValidationResponse(true, userRole.get().getName()), HttpStatus.OK);
-        }
+        return new ResponseEntity<JwtValidationResponse>(new JwtValidationResponse(true,
+          userService.getUserRole(currentUser).get().getName()), HttpStatus.OK);
 
       }
       return new ResponseEntity<JwtValidationResponse>(new JwtValidationResponse(false, ""), HttpStatus.FORBIDDEN);
@@ -105,7 +101,7 @@ public class AuthenticationController {
             return new ResponseEntity<ApiResponse>(new ApiResponse(false, Messages.LOGIN_UNVERIFIED), HttpStatus.UNAUTHORIZED);
         }
 
-        
+
     }
 
     @PostMapping("/register")
@@ -125,7 +121,7 @@ public class AuthenticationController {
             URI basePathLocation = ServletUriComponentsBuilder
                 .fromCurrentContextPath().port(port).build().toUri();
             basePathLocation = basePathLocation.resolve("/api/auth/confirm/");
-            
+
             emailService.sendVerificationEmail(savedUser, basePathLocation);
 
             URI userLocation = ServletUriComponentsBuilder

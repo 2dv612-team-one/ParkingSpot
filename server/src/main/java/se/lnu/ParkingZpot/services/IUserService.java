@@ -24,4 +24,5 @@ public interface IUserService {
   Boolean existsByUsername(String username);
   Boolean existsByEmail(String email);
   User saveUser(User user);
+  Optional<Role> getUserRole(User user);
 }
