@@ -138,8 +138,8 @@ public class AuthenticationController {
         } catch (ApplicationException e) {
             return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            logger.error(InternalMessages.ERROR_MAILFAIL);
-            return new ResponseEntity<ApiResponse>(new ApiResponse(false, Messages.REG_MAILFAIL), HttpStatus.INTERNAL_SERVER_ERROR);
+            logger.error(e.getMessage());
+            return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

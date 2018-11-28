@@ -21,7 +21,6 @@ import se.lnu.ParkingZpot.payloads.authentication.RegistrationRequest;
 import se.lnu.ParkingZpot.services.EmailService;
 import se.lnu.ParkingZpot.services.UserService;
 import se.lnu.ParkingZpot.payloads.Messages;
-import se.lnu.ParkingZpot.payloads.InternalMessages;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -71,7 +70,7 @@ public class UserController {
     } catch (ApplicationException e) {
         return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
     } catch (Exception e) {
-        logger.error(InternalMessages.ERROR_MAILFAIL);
+        logger.error(e.getMessage());
         return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
