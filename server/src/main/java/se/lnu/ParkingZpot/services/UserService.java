@@ -18,18 +18,19 @@ import java.util.Optional;
 
 @Component
 public class UserService implements IUserService {
-    
-  @Autowired
-  private UserRepository repository;
+
+  private final UserRepository repository;
+  private final VerificationTokenRepository tokenRepository;
+  private final RoleService roleService;
+  private final PasswordEncoder passwordEncoder;
 
   @Autowired
-  private VerificationTokenRepository tokenRepository;
-
-  @Autowired
-  private RoleService roleService;
-
-  @Autowired
-  private PasswordEncoder passwordEncoder;
+  public UserService(UserRepository repository, VerificationTokenRepository tokenRepository, RoleService roleService, PasswordEncoder passwordEncoder) {
+    this.repository = repository;
+    this.tokenRepository = tokenRepository;
+    this.roleService = roleService;
+    this.passwordEncoder = passwordEncoder;
+  }
 
   @Override
   public User registerNewUserAccount(String username, String email, String password, Set<Role> roles) throws EntityExistsException {
@@ -61,7 +62,7 @@ public class UserService implements IUserService {
     Set<Role> userRole = Collections.singleton(new Role("ROLE_" + role.toUpperCase()));
     return registerNewUserAccount(username, email, password, userRole);
   }
-    
+
   @Override
   public User getUser(String verificationToken) {
       User user = tokenRepository.findByToken(verificationToken).getUser();
@@ -72,12 +73,12 @@ public class UserService implements IUserService {
   public Optional<User> getUser(long id) {
     return repository.findById(id);
   }
-    
+
   @Override
   public VerificationToken getVerificationToken(String verificationToken) {
       return tokenRepository.findByToken(verificationToken);
   }
-    
+
   @Override
   public void createVerificationToken(User user, String token) {
       VerificationToken myToken = new VerificationToken(user, token);
@@ -122,5 +123,23 @@ public class UserService implements IUserService {
   @Override
   public User saveUser(User user) {
     return repository.save(user);
+  }
+
+  @Override
+  public Optional<Role> getUserRole(User user) {
+    Optional<Role> userRole = roleService.findByName("ROLE_USER");
+    Optional<Role> adminRole = roleService.findByName("ROLE_ADMIN");
+
+    if (userRole.isPresent() && adminRole.isPresent()) {
+      if (user.getUserRoles().contains(adminRole.get())) {
+        return adminRole;
+      } else if (user.getUserRoles().contains(userRole.get())) {
+        return userRole;
+      }
+    } else {
+      // TODO: Exception, roles not initialized
+    }
+
+    return Optional.empty();
   }
 }
