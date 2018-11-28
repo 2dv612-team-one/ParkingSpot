@@ -47,9 +47,9 @@ class DataLoader {
     Role adminRole = roleRepository.findByName("ROLE_ADMIN").orElseThrow(() -> new ApplicationException("No admin role exists"));
 
 
-    if (!userRepository.existsByUsername("Admin")) {
+    if (!userRepository.existsByUsername("User")) {
 
-      User user = new User("Admin", "Admin@Admin.com", "123");
+      User user = new User("User", "User@User.com", "123");
 
       user.setPassword(passwordEncoder.encode(user.getPassword()));
       user.setUserRoles(Collections.singleton(userRole));
@@ -57,9 +57,9 @@ class DataLoader {
       userRepository.save(user);
     }
 
-    if (!userRepository.existsByUsername("User")) {
+    if (!userRepository.existsByUsername("Admin")) {
 
-      User user2 = new User("User", "User@User.com", "123");
+      User user2 = new User("Admin", "Admin@Admin.com", "123");
 
       user2.setPassword(passwordEncoder.encode(user2.getPassword()));
       HashSet<Role> roleSet = new HashSet<Role>();
