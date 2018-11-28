@@ -134,7 +134,10 @@ public class AuthenticationController {
         } catch (ApplicationException e) {
             return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            logger.error(e.getMessage());
+            String error = ((e == null) ? "is null" : "is not null");
+            String errormesg = e.getStackTrace().toString();
+            logger.error(error);
+            logger.error(errormesg);
             return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

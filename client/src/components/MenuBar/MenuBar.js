@@ -30,7 +30,7 @@ class MenuBar extends Component {
   }
 
     render() {
-        const { accessToken, openLoginModal, openRegisterModal } = this.props;
+        const { accessToken, openLoginModal, openRegisterModal, logout} = this.props;
         return (
             <div className="app-bar">
                 <AppBar className="app-theme-color" position="static">
