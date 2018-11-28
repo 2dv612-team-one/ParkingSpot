@@ -55,8 +55,8 @@ class VehicleForm extends Component {
   }
 
   handleSave() {
-    const { accessToken } = this.props;
-    const { registrationNumber, showForm, addCar } = this.state;
+    const { accessToken, addCar } = this.props;
+    const { registrationNumber, showForm } = this.state;
     this.setState({ showForm: !showForm });
     addCar(accessToken, registrationNumber);
   }
