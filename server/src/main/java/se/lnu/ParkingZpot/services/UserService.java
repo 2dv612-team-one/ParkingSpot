@@ -12,6 +12,7 @@ import se.lnu.ParkingZpot.exceptions.ApplicationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import se.lnu.ParkingZpot.repositories.RoleRepository;
 import java.util.Collections;
+import java.util.Optional;
 
 import java.util.List;
 
@@ -53,6 +54,11 @@ public class UserService implements IUserService {
   public User getUser(String verificationToken) {
       User user = tokenRepository.findByToken(verificationToken).getUser();
       return user;
+  }
+
+  @Override
+  public Optional<User> getUser(long id) {
+    return repository.findById(id);
   }
     
   @Override

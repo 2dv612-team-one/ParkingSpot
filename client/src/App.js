@@ -8,11 +8,21 @@ import RegisterModal from './components/RegisterModal/RegisterModal';
 import VehicleForm from './components/VehicleForm/VehicleForm';
 import VehicleList from './components/VehicleList/VehicleList';
 
+import { fetchAccessTokenFromLocalStorage } from './actions/authenticate';
+
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
 });
 
+const mapDispatchToProps = dispatch => ({
+  loadAccessToken: () => dispatch(fetchAccessTokenFromLocalStorage()),
+});
+
 class App extends Component {
+  componentDidMount() {
+    const { loadAccessToken } = this.props;
+    loadAccessToken();
+  }
 
   render() {
     const { accessToken } = this.props;
@@ -27,15 +37,17 @@ class App extends Component {
           <h2>Welcome to ParkingZpot</h2>
         </div>
 
-        {accessToken &&
+        {accessToken
+        && (
         <div>
           <VehicleForm />
           <VehicleList />
         </div>
+        )
           }
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

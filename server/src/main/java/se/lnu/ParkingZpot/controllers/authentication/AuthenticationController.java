@@ -1,6 +1,7 @@
 package se.lnu.ParkingZpot.controllers.authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import se.lnu.ParkingZpot.exceptions.ApplicationException;
 import se.lnu.ParkingZpot.exceptions.EntityExistsException;
-import se.lnu.ParkingZpot.models.Role;
 import se.lnu.ParkingZpot.models.User;
 import se.lnu.ParkingZpot.models.VerificationToken;
 import se.lnu.ParkingZpot.payloads.ApiResponse;
@@ -26,11 +27,11 @@ import se.lnu.ParkingZpot.payloads.authentication.RegistrationRequest;
 import se.lnu.ParkingZpot.services.IUserService;
 import se.lnu.ParkingZpot.authentication.JwtTokenProvider;
 import se.lnu.ParkingZpot.services.EmailService;
-import se.lnu.ParkingZpot.services.IEmailService;
 
 import javax.validation.Valid;
+
+import java.io.IOException;
 import java.net.URI;
-import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -48,6 +49,18 @@ public class AuthenticationController {
     @Autowired
     private EmailService emailService;
 
+    @GetMapping("/validate")
+    public ResponseEntity validateToken(@RequestParam("token") String authToken) {
+      boolean validToken = tokenProvider.validateToken(authToken);
+
+      if (validToken) {
+        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Token is valid"), HttpStatus.OK);
+      } else {
+        return new ResponseEntity<ApiResponse>(new ApiResponse(false, "Token is invalid"), HttpStatus.FORBIDDEN);
+      }
+
+    }
+
     @PostMapping("/login")
     public ResponseEntity authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -59,8 +72,18 @@ public class AuthenticationController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = tokenProvider.generateToken(authentication);
+        Long id = tokenProvider.getUserIdFromJWT(jwt);
+        User user = userService.getUser(id).get();
 
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+        user.setEnabled(false);
+
+        if (user.getEnabled() == true) {
+            return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+        } else {
+            return new ResponseEntity<ApiResponse>(new ApiResponse(false, "User is not verified."), HttpStatus.UNAUTHORIZED);
+        }
+
+        
     }
 
     @PostMapping("/register")
@@ -73,7 +96,7 @@ public class AuthenticationController {
             savedUser = userService.registerNewUserAccount(registrationRequest.getUsername(), registrationRequest.getEmail(), registrationRequest.getPassword(), role);
 
             URI basePathLocation = ServletUriComponentsBuilder
-                .fromCurrentContextPath().port("8080").build().toUri();
+                .fromCurrentContextPath().port(port).build().toUri();
             basePathLocation = basePathLocation.resolve("/api/auth/confirm/");
             
             emailService.sendVerificationEmail(savedUser, basePathLocation);
@@ -92,17 +115,27 @@ public class AuthenticationController {
         }
     }
 
+    @Value("${app.port}") String port;
     @GetMapping("/confirm")
-    public ResponseEntity<ApiResponse> confirmUser(@RequestParam("token") String token) {
+    public ResponseEntity<ApiResponse> confirmUser(@RequestParam("token") String token, HttpServletResponse httpResponse) {
 
         //TODO: Handle expired and nonexistant tokens
-
         VerificationToken verificationToken = userService.getVerificationToken(token);
+
         User user = verificationToken.getUser();
         user.setEnabled(true);
         userService.saveRegisteredUser(user);
         userService.deleteVerificationToken(verificationToken);
 
-        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Email verified."), HttpStatus.OK);
+        String basePathLocation = ServletUriComponentsBuilder
+                .fromCurrentContextPath().port(port).build().toString();
+
+        try {
+            httpResponse.sendRedirect(basePathLocation);
+        } catch (IOException e) {
+            return new ResponseEntity<ApiResponse>(new ApiResponse(false, "Verification redirect went wrong."), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return null;
     }
 }

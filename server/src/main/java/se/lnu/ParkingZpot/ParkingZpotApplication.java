@@ -53,6 +53,7 @@ class DataLoader {
 
       user.setPassword(passwordEncoder.encode(user.getPassword()));
       user.setUserRoles(Collections.singleton(userRole));
+      user.setEnabled(true);
 
       userRepository.save(user);
     }
@@ -66,6 +67,7 @@ class DataLoader {
       roleSet.add(userRole);
       roleSet.add(adminRole);
       user2.setUserRoles(roleSet);
+      user2.setEnabled(true);
 
       userRepository.save(user2);
     }
