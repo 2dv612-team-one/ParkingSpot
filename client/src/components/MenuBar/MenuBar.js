@@ -32,7 +32,7 @@ class MenuBar extends Component {
         const { accessToken } = this.props;
         return (
             <div className="app-bar">
-                <AppBar position="static">
+                <AppBar className="app-theme-color" position="static">
                     <Toolbar>
                         <IconButton className="app-bar-btn" color="inherit" aria-label="Menu">
                             <MenuIcon />

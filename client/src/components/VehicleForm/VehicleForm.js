@@ -67,9 +67,8 @@ class VehicleForm extends Component {
 			<div className='add-vehicle-btn'>
 				<Button
                     variant="extendedFab"
-                    color={!this.state.showForm  ? "primary" : "secondary"}
                     aria-label="Add"
-                    className={classes.button}
+                    className={`app-theme-color has-white-text ${classes.button}`}
                     onClick={this.handleShowForm}
                 >
                     {!this.state.showForm ?
