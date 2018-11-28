@@ -155,6 +155,8 @@ class LoginModal extends Component {
                         </Grid>
                     </Grid>
                 </div>
+                </Grid>
+                </div>
             </Modal>
         );
     }

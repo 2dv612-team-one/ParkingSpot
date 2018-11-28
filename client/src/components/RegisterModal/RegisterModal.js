@@ -146,69 +146,6 @@ class RegisterModal extends Component {
               justify="flex-start"
               alignItems="center"
             >
-<<<<<<< HEAD
-              <TextField
-                label="Användarnamn"
-                name="username"
-                className="register-input"
-                margin="normal"
-                onChange={this.handleUsernameInput}
-                value={username}
-                error={!!emptyInputError('username')}
-                onBlur={this.handleBlur('username')}
-              />
-              <TextField
-                label="Mailadress"
-                name="email"
-                margin="normal"
-                onChange={this.handleEmailInput}
-                value={email}
-                error={!!invalidInputError('email')}
-                onBlur={this.handleBlur('email')}
-              />
-              <TextField
-                label="Lösenord"
-                name="password"
-                className="register-input"
-                margin="normal"
-                inputProps={{
-                  type: 'password',
-                }}
-                onChange={this.handlePassInput}
-                value={password}
-                error={!!emptyInputError('password')}
-                onBlur={this.handleBlur('password')}
-              />
-              <TextField
-                label="Upprepa lösenord"
-                name="matchingPassword"
-                className="register-input"
-                margin="normal"
-                inputProps={{
-                  type: 'password',
-                }}
-                onChange={this.handleMatchingPassInput}
-                value={matchingPassword}
-                error={emptyInputError('matchingPassword') ? true : !!('' || invalidInputError('matchingPassword'))}
-                onBlur={this.handleBlur('matchingPassword')}
-              />
-              <Grid item>
-                <Button
-                  type="button"
-                  color="primary"
-                  variant="outlined"
-                  className="modal-submit-button"
-                  onClick={this.handleRegister}
-                  disabled={!canBeSubmitted}
-                >
-                  <span>Registrera</span>
-                </Button>
-              </Grid>
-            </Grid>
-          </div>
-        </Modal>
-      );
-=======
                 <div className="modal-box center-modal">
                     <Grid container
                         direction="column"
@@ -270,9 +207,10 @@ class RegisterModal extends Component {
                         </Grid>
                     </Grid>
                 </div>
+                </Grid>
+                </div>
             </Modal >
         );
->>>>>>> menubar-logo
     }
 }
 
