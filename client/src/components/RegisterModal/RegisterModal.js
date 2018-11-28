@@ -157,7 +157,7 @@ class RegisterModal extends Component {
                             name="username"
                             className={"register-input"}
                             onChange={this.handleUsernameInput}
-                            value={this.state.username}
+                            value={username}
                             onBlur={this.handleBlur("username")}
                             error={emptyInputError("username") ? true : false}
                             helperText={emptyInputError("username") ? "Ange ett användarnamn." : " "}
@@ -166,7 +166,7 @@ class RegisterModal extends Component {
                             label="Mailadress"
                             name="email"
                             onChange={this.handleEmailInput}
-                            value={this.state.email}
+                            value={email}
                             onBlur={this.handleBlur("email")}
                             error={invalidInputError("email") ? true : false}
                             helperText={invalidInputError("email") ? "Ange en korrekt mailadress." : " "}
@@ -179,7 +179,7 @@ class RegisterModal extends Component {
                                 type: "password"
                             }}
                             onChange={this.handlePassInput}
-                            value={this.state.password}
+                            value={password}
                             onBlur={this.handleBlur("password")}
                             error={emptyInputError("password") ? true : false}
                             helperText={emptyInputError("password") ? "Ange ett lösenord." : " "}
@@ -192,7 +192,7 @@ class RegisterModal extends Component {
                                 type: "password"
                             }}
                             onChange={this.handleMatchingPassInput}
-                            value={this.state.matchingPassword}
+                            value={matchingPassword}
                             onBlur={this.handleBlur("matchingPassword")}
                             error={emptyInputError("matchingPassword") ? true : "" || invalidInputError("matchingPassword") ? true : false}
                             helperText={invalidInputError("matchingPassword") ? "Ange samma lösenord igen." : " "}

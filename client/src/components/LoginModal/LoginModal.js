@@ -124,7 +124,7 @@ class LoginModal extends Component {
                                 name="usernameOrEmail"
                                 className="login-input"
                                 onChange={this.handleUserInput}
-                                value={this.state.usernameOrEmail}
+                                value={usernameOrEmail}
                                 onBlur={this.handleBlur("usernameOrEmail")}
                                 error={emptyInputError("usernameOrEmail") ? true : false}
                                 helperText={emptyInputError("usernameOrEmail") ? "Ange ett användarnamn." : " "}
@@ -139,7 +139,7 @@ class LoginModal extends Component {
                                     type: "password"
                                 }}
                                 onChange={this.handlePassInput}
-                                value={this.state.password}
+                                value={password}
                                 onBlur={this.handleBlur("password")}
                                 error={emptyInputError("password") ? true : false}
                                 helperText={emptyInputError("password") ? "Ange ett lösenord." : " "}
