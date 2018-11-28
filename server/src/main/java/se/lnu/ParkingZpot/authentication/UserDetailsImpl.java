@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 
 public class UserDetailsImpl implements UserDetails {
 
+    public static final long serialVersionUID = 1L;
+
     private Long id;
     private String username;
     private String email;
@@ -41,7 +43,7 @@ public class UserDetailsImpl implements UserDetails {
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),
-                user.getEnabled(),
+                user.isEnabled(),
                 authorities
         );
     }
@@ -95,7 +97,6 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public int hashCode() {
-
         return Objects.hash(id);
     }
 }

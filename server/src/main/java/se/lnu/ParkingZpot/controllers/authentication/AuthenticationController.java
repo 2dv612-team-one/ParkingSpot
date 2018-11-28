@@ -1,5 +1,8 @@
 package se.lnu.ParkingZpot.controllers.authentication;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -30,6 +33,8 @@ import se.lnu.ParkingZpot.services.UserService;
 import se.lnu.ParkingZpot.services.RoleService;
 import se.lnu.ParkingZpot.authentication.JwtTokenProvider;
 import se.lnu.ParkingZpot.services.EmailService;
+import se.lnu.ParkingZpot.payloads.Messages;
+import se.lnu.ParkingZpot.payloads.InternalMessages;
 
 import javax.validation.Valid;
 
@@ -43,6 +48,8 @@ import java.util.HashSet;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthenticationController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -92,10 +99,10 @@ public class AuthenticationController {
         String jwt = tokenProvider.generateToken(authentication);
         User user = userService.getUser(tokenProvider.getUserIdFromJWT(jwt)).get();
 
-        if (user.getEnabled() == true) {
+        if (user.isEnabled() == true) {
             return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
         } else {
-            return new ResponseEntity<ApiResponse>(new ApiResponse(false, "User is not verified."), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<ApiResponse>(new ApiResponse(false, Messages.LOGIN_UNVERIFIED), HttpStatus.UNAUTHORIZED);
         }
 
         
@@ -125,13 +132,14 @@ public class AuthenticationController {
                 .fromCurrentContextPath().path("/api/users/{username}")
                 .buildAndExpand(savedUser.getUsername()).toUri();
 
-            return ResponseEntity.created(userLocation).body(new ApiResponse(true, "User successfully registered"));
+            return ResponseEntity.created(userLocation).body(new ApiResponse(true, Messages.REG_SUCCESS));
         } catch (EntityExistsException e) {
             return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (ApplicationException e) {
             return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            return new ResponseEntity<ApiResponse>(new ApiResponse(false, "Verification email could not be sent."), HttpStatus.INTERNAL_SERVER_ERROR);
+            logger.error(InternalMessages.ERROR_MAILFAIL);
+            return new ResponseEntity<ApiResponse>(new ApiResponse(false, Messages.REG_MAILFAIL), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -145,7 +153,7 @@ public class AuthenticationController {
             if (verificationToken != null) {
                 userService.deleteVerificationToken(verificationToken);
             }
-            return new ResponseEntity<String>("<p>Your verification token has expired or does not exist. Please try registering again.</p>", HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<String>(Messages.VERIFY_FAIL, HttpStatus.EXPECTATION_FAILED);
         }
 
         User user = verificationToken.getUser();
@@ -159,7 +167,8 @@ public class AuthenticationController {
         try {
             httpResponse.sendRedirect(basePathLocation);
         } catch (IOException e) {
-            return new ResponseEntity<ApiResponse>(new ApiResponse(false, "Verification redirect went wrong."), HttpStatus.INTERNAL_SERVER_ERROR);
+            logger.error(InternalMessages.ERROR_REG_VERIFICATION_REDIRECT);
+            return new ResponseEntity<ApiResponse>(new ApiResponse(false, Messages.REG_VERIFICATION_REDIRECT_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return null;

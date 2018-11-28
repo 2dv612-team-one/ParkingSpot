@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import se.lnu.ParkingZpot.models.Vehicle;
 import se.lnu.ParkingZpot.repositories.VehicleRepository;
 import se.lnu.ParkingZpot.exceptions.EntityExistsException;
+import se.lnu.ParkingZpot.payloads.Messages;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class VehicleService implements IVehicleService {
   @Override
   public Vehicle addVehicles(long userId, String registrationNumber) throws EntityExistsException {
     if (vehicleRepository.existsByRegistrationNumber(registrationNumber)) {
-      throw new EntityExistsException("Vehicle already exists registred to this user.");
+      throw new EntityExistsException(Messages.entityExists(Messages.VEHICLE));
     }
     Vehicle vehicle = new Vehicle(userId, registrationNumber);
     return vehicleRepository.save(vehicle);

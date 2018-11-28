@@ -1,4 +1,4 @@
-package se.lnu.ParkingZpot.controllers;
+package se.lnu.ParkingZpot.controllers.crud;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +16,7 @@ import se.lnu.ParkingZpot.models.Vehicle;
 import se.lnu.ParkingZpot.services.VehicleService;
 import se.lnu.ParkingZpot.payloads.AddVehicleRequest;
 import se.lnu.ParkingZpot.payloads.ApiResponse;
+import se.lnu.ParkingZpot.payloads.Messages;
 
 import java.util.List;
 import javax.validation.Valid;
@@ -55,6 +56,6 @@ public class VehicleController {
       .fromCurrentContextPath().path("/api/vehicles/{registrationNumber}")
       .buildAndExpand(registrationNumber).toUri();
 
-    return ResponseEntity.created(vehicleLocation).body(new ApiResponse(true, "Vehicle successfully added"));
+    return ResponseEntity.created(vehicleLocation).body(new ApiResponse(true, Messages.addSuccess(Messages.VEHICLE)));
   }
 }

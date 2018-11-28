@@ -13,12 +13,8 @@ import se.lnu.ParkingZpot.authentication.UserDetailsImpl;
 @RequestMapping("/api")
 public class AuthDummy {
 
-    private final UserRepository userRepository;
-
     @Autowired
-    public AuthDummy(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private UserRepository userRepository;
 
     @GetMapping
     public String hello(@CurrentUser UserDetailsImpl principal) {

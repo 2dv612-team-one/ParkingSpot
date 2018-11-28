@@ -31,8 +31,7 @@ public class User {
   private String email;
 
   private String password;
-
-  @Column(name = "enabled")
+  
   private boolean enabled;
 
   @ManyToMany(fetch = FetchType.LAZY)
@@ -46,9 +45,5 @@ public class User {
     this.email = email;
     this.password = password;
     this.enabled = false;
-  }
-
-  public boolean getEnabled() {
-    return this.enabled;
   }
 }

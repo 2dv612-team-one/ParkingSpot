@@ -9,6 +9,7 @@ import se.lnu.ParkingZpot.repositories.UserRepository;
 import se.lnu.ParkingZpot.repositories.VerificationTokenRepository;
 import se.lnu.ParkingZpot.exceptions.EntityExistsException;
 import se.lnu.ParkingZpot.exceptions.ApplicationException;
+import se.lnu.ParkingZpot.payloads.Messages;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Collections;
 import java.util.List;
@@ -35,11 +36,11 @@ public class UserService implements IUserService {
   public User registerNewUserAccount(String username, String email, String password, Set<Role> roles) throws EntityExistsException {
 
     if (repository.existsByUsername(username)) {
-      throw new EntityExistsException("Username already exists");
+      throw new EntityExistsException(Messages.REG_ERROR_USERNAME);
     }
 
     if (repository.existsByEmail(email)) {
-      throw new EntityExistsException("This email is already in use");
+      throw new EntityExistsException(Messages.REG_ERROR_EMAIL);
     }
 
     User user = new User(username, email, password);
@@ -48,7 +49,7 @@ public class UserService implements IUserService {
     Set<Role> userRoles = new HashSet<Role>();
 
     for (Role role : roles) {
-      userRoles.add(roleService.findByName(role.getName()).orElseThrow(() -> new ApplicationException("No such user role exists: " + role.getName())));
+      userRoles.add(roleService.findByName(role.getName()).orElseThrow(() -> new ApplicationException(Messages.REG_ERROR_ROLE + role.getName())));
     }
 
     user.setUserRoles(userRoles);
