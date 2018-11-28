@@ -19,12 +19,15 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import se.lnu.ParkingZpot.exceptions.ApplicationException;
 import se.lnu.ParkingZpot.exceptions.EntityExistsException;
 import se.lnu.ParkingZpot.models.User;
+import se.lnu.ParkingZpot.models.Role;
 import se.lnu.ParkingZpot.models.VerificationToken;
 import se.lnu.ParkingZpot.payloads.ApiResponse;
 import se.lnu.ParkingZpot.payloads.authentication.JwtAuthenticationResponse;
+import se.lnu.ParkingZpot.payloads.authentication.JwtValidationResponse;
 import se.lnu.ParkingZpot.payloads.authentication.LoginRequest;
 import se.lnu.ParkingZpot.payloads.authentication.RegistrationRequest;
-import se.lnu.ParkingZpot.services.IUserService;
+import se.lnu.ParkingZpot.services.UserService;
+import se.lnu.ParkingZpot.services.RoleService;
 import se.lnu.ParkingZpot.authentication.JwtTokenProvider;
 import se.lnu.ParkingZpot.services.EmailService;
 
@@ -33,6 +36,10 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Date;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -42,7 +49,10 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private IUserService userService;
+    private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     private JwtTokenProvider tokenProvider;
@@ -51,15 +61,23 @@ public class AuthenticationController {
     private EmailService emailService;
 
     @GetMapping("/validate")
-    public ResponseEntity validateToken(@RequestParam("token") String authToken) {
+    public ResponseEntity<JwtValidationResponse> validateToken(@RequestParam("token") String authToken) {
       boolean validToken = tokenProvider.validateToken(authToken);
 
       if (validToken) {
-        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Token is valid"), HttpStatus.OK);
-      } else {
-        return new ResponseEntity<ApiResponse>(new ApiResponse(false, "Token is invalid"), HttpStatus.FORBIDDEN);
-      }
+        Optional<Role> userRole = roleService.findByName("ROLE_USER");
+        Optional<Role> adminRole = roleService.findByName("ROLE_ADMIN");
 
+        User currentUser = userService.getUser(tokenProvider.getUserIdFromJWT(authToken)).get();
+
+        if (currentUser.getUserRoles().contains(adminRole.get())) {
+          return new ResponseEntity<JwtValidationResponse>(new JwtValidationResponse(true, adminRole.get().getName()), HttpStatus.OK);
+        } else if (currentUser.getUserRoles().contains(userRole.get())) {
+          return new ResponseEntity<JwtValidationResponse>(new JwtValidationResponse(true, userRole.get().getName()), HttpStatus.OK);
+        }
+
+      }
+      return new ResponseEntity<JwtValidationResponse>(new JwtValidationResponse(false, ""), HttpStatus.FORBIDDEN);
     }
 
     @PostMapping("/login")
@@ -73,8 +91,7 @@ public class AuthenticationController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String jwt = tokenProvider.generateToken(authentication);
-        Long id = tokenProvider.getUserIdFromJWT(jwt);
-        User user = userService.getUser(id).get();
+        User user = userService.getUser(tokenProvider.getUserIdFromJWT(jwt)).get();
 
         if (user.getEnabled() == true) {
             return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
@@ -129,7 +146,7 @@ public class AuthenticationController {
 
         User user = verificationToken.getUser();
         user.setEnabled(true);
-        userService.saveRegisteredUser(user);
+        userService.saveUser(user);
         userService.deleteVerificationToken(verificationToken);
 
         String basePathLocation = ServletUriComponentsBuilder

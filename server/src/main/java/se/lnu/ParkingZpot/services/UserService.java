@@ -12,9 +12,8 @@ import se.lnu.ParkingZpot.exceptions.ApplicationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import se.lnu.ParkingZpot.repositories.RoleRepository;
 import java.util.Collections;
-import java.util.Optional;
-
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class UserService implements IUserService {
@@ -67,11 +66,6 @@ public class UserService implements IUserService {
   }
     
   @Override
-  public void saveRegisteredUser(User user) {
-      repository.save(user);
-  }
-    
-  @Override
   public void createVerificationToken(User user, String token) {
       VerificationToken myToken = new VerificationToken(user, token);
       tokenRepository.save(myToken);
@@ -80,5 +74,40 @@ public class UserService implements IUserService {
   @Override
   public void deleteVerificationToken(VerificationToken token) {
       tokenRepository.delete(token);
+  }
+
+  @Override
+  public Optional<User> findByEmail(String email) {
+    return repository.findByEmail(email);
+  }
+
+  @Override
+  public Optional<User> findByUsernameOrEmail(String username, String email) {
+    return repository.findByUsernameOrEmail(username, email);
+  }
+
+  @Override
+  public List<User> findByIdIn(List<Long> userIds) {
+    return repository.findByIdIn(userIds);
+  }
+
+  @Override
+  public Optional<User> findByUsername(String username) {
+    return repository.findByUsername(username);
+  }
+
+  @Override
+  public Boolean existsByUsername(String username) {
+    return repository.existsByUsername(username);
+  }
+
+  @Override
+  public Boolean existsByEmail(String email) {
+    return repository.existsByEmail(email);
+  }
+
+  @Override
+  public User saveUser(User user) {
+    return repository.save(user);
   }
 }

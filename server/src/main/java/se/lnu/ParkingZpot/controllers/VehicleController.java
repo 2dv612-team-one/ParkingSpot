@@ -17,7 +17,6 @@ import se.lnu.ParkingZpot.services.VehicleService;
 import se.lnu.ParkingZpot.payloads.AddVehicleRequest;
 import se.lnu.ParkingZpot.payloads.ApiResponse;
 
-import java.lang.reflect.Method;
 import java.util.List;
 import javax.validation.Valid;
 import java.net.URI;
