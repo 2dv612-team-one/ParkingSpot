@@ -14,7 +14,7 @@ code {
 }
 
 .app-bar {
-    flex-grow: 1
+    flex-grow: 1;
 }
 
 .app-bar-btn {
@@ -23,7 +23,7 @@ code {
 }
 
 .app-bar-grow {
-    flex-grow: 1
+    flex-grow: 1;
 }
 
 .app-bar-logo {
@@ -31,6 +31,10 @@ code {
     max-width: 150px;
     max-height: 150px;
 }
+
+.app-theme-color { background-color: #427DF2 !important; }
+
+.has-white-text {color: #fff !important}
 
 .modal-submit-button { margin-top: 25px !important; }
 

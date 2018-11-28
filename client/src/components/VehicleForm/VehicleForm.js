@@ -65,18 +65,18 @@ class VehicleForm extends Component {
     const { classes } = this.props;
     const { showForm, registrationNumber } = this.state;
 
-    return (
-      <div className="add-vehicle-btn">
-        <Button
-          variant="extendedFab"
-          color={!showForm ? 'primary' : 'secondary'}
-          aria-label="Add"
-          className={classes.button}
-          onClick={this.handleShowForm}
-        >
-          {!showForm
-            ? <AddIcon className={classes.extendedIcon} />
-            : <HideIcon className={classes.extendedIcon} />}
+        return (
+			<div className='add-vehicle-btn'>
+				<Button
+                    variant="extendedFab"
+                    aria-label="Add"
+                    className={`app-theme-color has-white-text ${classes.button}`}
+                    onClick={this.handleShowForm}
+                >
+                    {!this.state.showForm ?
+                    <AddIcon className={classes.extendedIcon} />
+                    :
+                    <HideIcon className={classes.extendedIcon} />}
                     Lägg till en bil
 
         </Button>

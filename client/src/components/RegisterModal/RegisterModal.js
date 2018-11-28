@@ -87,10 +87,9 @@ class RegisterModal extends Component {
     }
 
     handleRegister() {
-      const { username, email, password } = this.state;
-      const { register } = this.props;
-      register(username, email, password);
-      this.handleClose();
+        const { username, email, password } = this.state;
+        this.props.register(username, email, password);
+        this.props.closeModal();
     }
 
     handleBlur = field => () => {
@@ -147,6 +146,7 @@ class RegisterModal extends Component {
               justify="flex-start"
               alignItems="center"
             >
+<<<<<<< HEAD
               <TextField
                 label="Användarnamn"
                 name="username"
@@ -208,6 +208,71 @@ class RegisterModal extends Component {
           </div>
         </Modal>
       );
+=======
+                <div className="modal-box center-modal">
+                    <Grid container
+                        direction="column"
+                        justify="flex-start"
+                        alignItems="center"
+                    >
+                        <TextField
+                            label="Användarnamn"
+                            name="username"
+                            className={"register-input"}
+                            onChange={this.handleUsernameInput}
+                            value={this.state.username}
+                            onBlur={this.handleBlur("username")}
+                            error={emptyInputError("username") ? true : false}
+                            helperText={emptyInputError("username") ? "Ange ett användarnamn." : " "}
+                        />
+                        <TextField
+                            label="Mailadress"
+                            name="email"
+                            onChange={this.handleEmailInput}
+                            value={this.state.email}
+                            onBlur={this.handleBlur("email")}
+                            error={invalidInputError("email") ? true : false}
+                            helperText={invalidInputError("email") ? "Ange en korrekt mailadress." : " "}
+                        />
+                        <TextField
+                            label="Lösenord"
+                            name="password"
+                            className={"register-input"}
+                            inputProps={{
+                                type: "password"
+                            }}
+                            onChange={this.handlePassInput}
+                            value={this.state.password}
+                            onBlur={this.handleBlur("password")}
+                            error={emptyInputError("password") ? true : false}
+                            helperText={emptyInputError("password") ? "Ange ett lösenord." : " "}
+                        />
+                        <TextField
+                            label="Upprepa lösenord"
+                            name="matchingPassword"
+                            className={"register-input"}
+                            inputProps={{
+                                type: "password"
+                            }}
+                            onChange={this.handleMatchingPassInput}
+                            value={this.state.matchingPassword}
+                            onBlur={this.handleBlur("matchingPassword")}
+                            error={emptyInputError("matchingPassword") ? true : "" || invalidInputError("matchingPassword") ? true : false}
+                            helperText={invalidInputError("matchingPassword") ? "Ange samma lösenord igen." : " "}
+                        />
+                        <Grid item>
+                            <Button type="button" color="primary" variant="outlined"
+                                className="modal-submit-button"
+                                onClick={this.handleRegister}
+                                disabled={!canBeSubmitted}>
+                                <span>Registrera</span>
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </div>
+            </Modal >
+        );
+>>>>>>> menubar-logo
     }
 }
 
