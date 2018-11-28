@@ -11,13 +11,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import se.lnu.ParkingZpot.authentication.JwtTokenProvider;
+import se.lnu.ParkingZpot.exceptions.EntityExistsException;
 import se.lnu.ParkingZpot.models.Vehicle;
 import se.lnu.ParkingZpot.services.VehicleService;
-import se.lnu.ParkingZpot.repositories.VehicleRepository;
 import se.lnu.ParkingZpot.payloads.AddVehicleRequest;
 import se.lnu.ParkingZpot.payloads.ApiResponse;
 
-import java.lang.reflect.Method;
 import java.util.List;
 import javax.validation.Valid;
 import java.net.URI;
@@ -28,9 +27,6 @@ public class VehicleController {
 
   @Autowired
   private JwtTokenProvider tokenProvider;
-
-  @Autowired
-  private VehicleRepository vehicleRepository;
 
   private final VehicleService vehicleService;
 
@@ -45,16 +41,15 @@ public class VehicleController {
   }
 
   @PostMapping
-  public ResponseEntity addVehicles(@Valid @RequestBody AddVehicleRequest addVehicleRequest) {
+  public ResponseEntity<ApiResponse> addVehicles(@Valid @RequestBody AddVehicleRequest addVehicleRequest) {
     Long id = tokenProvider.getUserIdFromJWT(addVehicleRequest.accessToken);
     String registrationNumber = addVehicleRequest.getRegistrationNumber();
-
-    if (vehicleRepository.existsByRegistrationNumber(registrationNumber)) {
-      return new ResponseEntity(new ApiResponse(false, "This vehicle already exists"), HttpStatus.BAD_REQUEST);
+    
+    try {
+      vehicleService.addVehicles(id, registrationNumber);
+    } catch (EntityExistsException e) {
+      return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
     }
-
-    Vehicle vehicle = new Vehicle(id, registrationNumber);
-    vehicleService.addVehicles(vehicle);
 
     URI vehicleLocation = ServletUriComponentsBuilder
       .fromCurrentContextPath().path("/api/vehicles/{registrationNumber}")

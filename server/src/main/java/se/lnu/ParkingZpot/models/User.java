@@ -32,6 +32,9 @@ public class User {
 
   private String password;
 
+  @Column(name = "enabled")
+  private boolean enabled;
+
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(name = "user_roles",
     joinColumns = @JoinColumn(name = "user_id"),
@@ -42,5 +45,10 @@ public class User {
     this.username = username;
     this.email = email;
     this.password = password;
+    this.enabled = false;
+  }
+
+  public boolean getEnabled() {
+    return this.enabled;
   }
 }

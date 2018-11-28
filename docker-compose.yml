@@ -41,6 +41,7 @@ services:
       - ~/.m2:/root/.m2
     environment:
       - PZPOT_GMAIL_PASSWORD=${PZPOT_GMAIL_PASSWORD}
+      - ACTIVE_PORT=8080
     command: mvn clean spring-boot:run
     depends_on:
         - db

@@ -21,6 +21,7 @@ CREATE TABLE public.users
     email character varying(255) COLLATE pg_catalog."default",
     password character varying(255) COLLATE pg_catalog."default",
     username character varying(255) COLLATE pg_catalog."default",
+    enabled boolean COLLATE pg_catalog."default",
     CONSTRAINT users_pkey PRIMARY KEY (id),
     CONSTRAINT uk6dotkott2kjsp8vw4d0m25fb7 UNIQUE (email),
     CONSTRAINT ukr43af9ap4edm43mmtq01oddj6 UNIQUE (username)

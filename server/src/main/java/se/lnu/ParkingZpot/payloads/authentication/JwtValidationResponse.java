@@ -2,9 +2,6 @@ package se.lnu.ParkingZpot.payloads.authentication;
 
 import lombok.Getter;
 import lombok.Setter;
-import se.lnu.ParkingZpot.models.Role;
-
-import java.util.Set;
 
 @Getter
 @Setter
