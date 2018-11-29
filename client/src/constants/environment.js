@@ -4,6 +4,7 @@ export const AUTH_URI = `${API_ROOT}/auth/login`;
 export const REGISTER_URI = `${API_ROOT}/auth/register`;
 export const VEHICLE_URI = `${API_ROOT}/vehicles`;
 export const VALIDATE_TOKEN_URI = `${API_ROOT}/auth/validate`;
+export const GET_ROLES_URI = `${API_ROOT}/roles`;
 
 
 // Modals
