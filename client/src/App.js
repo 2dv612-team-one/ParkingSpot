@@ -8,8 +8,10 @@ import RegisterModal from './components/RegisterModal/RegisterModal';
 import VehicleForm from './components/VehicleForm/VehicleForm';
 import VehicleList from './components/VehicleList/VehicleList';
 import AdminUserControl from './components/AdminUserControl/AdminUserControl';
+import ErrorHandling from './components/ErrorHandling/ErrorHandling';
 
 import { fetchAccessTokenFromLocalStorage } from './actions/authenticate';
+import { emailVerificationError } from './actions/snackbar';
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
@@ -17,9 +19,19 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   loadAccessToken: () => dispatch(fetchAccessTokenFromLocalStorage()),
+  emailVerificationError: () => dispatch(emailVerificationError()),
 });
 
 class App extends Component {
+  componentWillMount() {
+    // Check for email verification errors
+    const { emailVerificationError } = this.props;
+    const tokenVal = new URLSearchParams(window.location.search.substr(1)).get('token');
+    if (tokenVal === 'error') {
+      emailVerificationError();
+    }
+  }
+
   componentDidMount() {
     const { loadAccessToken } = this.props;
     loadAccessToken();
@@ -38,12 +50,14 @@ class App extends Component {
           <h2>Welcome to ParkingZpot</h2>
         </div>
 
+        <ErrorHandling />
+
         {accessToken
         && (
         <div>
           <VehicleForm />
           <VehicleList />
-          <AdminUserControl/>
+          <AdminUserControl />
         </div>
         )
           }

@@ -11,6 +11,7 @@ export const REGISTER_USER_URI = `${API_ROOT}/admin/user/register`;
 // Modals
 export const LOGIN_MODAL = 'showLoginModal';
 export const REGISTER_MODAL = 'showRegisterModal';
+export const ERRORHANDLING_MODAL = 'showErrorHandlingModal';
 
 // Local Storage
 export const ACCESS_TOKEN_STORAGE = 'ACCESS_TOKEN_STORAGE';

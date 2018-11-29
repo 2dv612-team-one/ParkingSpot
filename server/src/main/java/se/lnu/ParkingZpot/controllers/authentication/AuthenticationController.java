@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -148,7 +149,9 @@ public class AuthenticationController {
             if (verificationToken != null) {
                 userService.deleteVerificationToken(verificationToken);
             }
-            return new ResponseEntity<String>(Messages.VERIFY_FAIL, HttpStatus.EXPECTATION_FAILED);
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Location", "/?token=error");    
+            return new ResponseEntity<String>(headers,HttpStatus.FOUND);
         }
 
         User user = verificationToken.getUser();

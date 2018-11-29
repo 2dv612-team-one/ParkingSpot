@@ -7,6 +7,7 @@ import registration from './reducers/registration';
 import modal from './reducers/modal';
 import vehicle from './reducers/vehicle';
 import userController from './reducers/userController';
+import error from './reducers/error';
 
 export default combineReducers({
   authentication,
@@ -14,4 +15,5 @@ export default combineReducers({
   modal,
   vehicle,
   userController,
+  error,
 });

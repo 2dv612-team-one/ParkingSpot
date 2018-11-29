@@ -1,6 +1,7 @@
 /* eslint import/no-webpack-loader-syntax: off */
 import {
   USER_AUTHENTICATION,
+  USER_REGISTRATION,
   OPEN_MODAL,
   CLOSE_MODAL,
 } from '../constants/actionTypes';
@@ -21,8 +22,11 @@ export default (state = initialState, action) => {
       return { ...state, [action.content]: true };
     case CLOSE_MODAL:
       return { ...state, [LOGIN_MODAL]: false, [REGISTER_MODAL]: false };
+
     case `${USER_AUTHENTICATION}_FULFILLED`:
       return { ...state, [LOGIN_MODAL]: false };
+    case `${USER_REGISTRATION}_FULFILLED`:
+      return { ...state, [REGISTER_MODAL]: false };
     default:
       return state;
   }

@@ -87,9 +87,8 @@ class RegisterModal extends Component {
     }
 
     handleRegister() {
-        const { username, email, password } = this.state;
-        this.props.register(username, email, password);
-        this.props.closeModal();
+      const { username, email, password } = this.state;
+      this.props.register(username, email, password);
     }
 
     handleBlur = field => () => {
@@ -146,71 +145,76 @@ class RegisterModal extends Component {
               justify="flex-start"
               alignItems="center"
             >
-                <div className="modal-box center-modal">
-                    <Grid container
-                        direction="column"
-                        justify="flex-start"
-                        alignItems="center"
+              <div className="modal-box center-modal">
+                <Grid
+                  container
+                  direction="column"
+                  justify="flex-start"
+                  alignItems="center"
+                >
+                  <TextField
+                    label="Användarnamn"
+                    name="username"
+                    className="register-input"
+                    onChange={this.handleUsernameInput}
+                    value={username}
+                    onBlur={this.handleBlur('username')}
+                    error={!!emptyInputError('username')}
+                    helperText={emptyInputError('username') ? 'Ange ett användarnamn.' : ' '}
+                  />
+                  <TextField
+                    label="Mailadress"
+                    name="email"
+                    onChange={this.handleEmailInput}
+                    value={email}
+                    onBlur={this.handleBlur('email')}
+                    error={!!invalidInputError('email')}
+                    helperText={invalidInputError('email') ? 'Ange en korrekt mailadress.' : ' '}
+                  />
+                  <TextField
+                    label="Lösenord"
+                    name="password"
+                    className="register-input"
+                    inputProps={{
+                      type: 'password',
+                    }}
+                    onChange={this.handlePassInput}
+                    value={password}
+                    onBlur={this.handleBlur('password')}
+                    error={!!emptyInputError('password')}
+                    helperText={emptyInputError('password') ? 'Ange ett lösenord.' : ' '}
+                  />
+                  <TextField
+                    label="Upprepa lösenord"
+                    name="matchingPassword"
+                    className="register-input"
+                    inputProps={{
+                      type: 'password',
+                    }}
+                    onChange={this.handleMatchingPassInput}
+                    value={matchingPassword}
+                    onBlur={this.handleBlur('matchingPassword')}
+                    error={emptyInputError('matchingPassword') ? true : !!('' || invalidInputError('matchingPassword'))}
+                    helperText={invalidInputError('matchingPassword') ? 'Ange samma lösenord igen.' : ' '}
+                  />
+                  <Grid item>
+                    <Button
+                      type="button"
+                      color="primary"
+                      variant="outlined"
+                      className="modal-submit-button"
+                      onClick={this.handleRegister}
+                      disabled={!canBeSubmitted}
                     >
-                        <TextField
-                            label="Användarnamn"
-                            name="username"
-                            className={"register-input"}
-                            onChange={this.handleUsernameInput}
-                            value={username}
-                            onBlur={this.handleBlur("username")}
-                            error={emptyInputError("username") ? true : false}
-                            helperText={emptyInputError("username") ? "Ange ett användarnamn." : " "}
-                        />
-                        <TextField
-                            label="Mailadress"
-                            name="email"
-                            onChange={this.handleEmailInput}
-                            value={email}
-                            onBlur={this.handleBlur("email")}
-                            error={invalidInputError("email") ? true : false}
-                            helperText={invalidInputError("email") ? "Ange en korrekt mailadress." : " "}
-                        />
-                        <TextField
-                            label="Lösenord"
-                            name="password"
-                            className={"register-input"}
-                            inputProps={{
-                                type: "password"
-                            }}
-                            onChange={this.handlePassInput}
-                            value={password}
-                            onBlur={this.handleBlur("password")}
-                            error={emptyInputError("password") ? true : false}
-                            helperText={emptyInputError("password") ? "Ange ett lösenord." : " "}
-                        />
-                        <TextField
-                            label="Upprepa lösenord"
-                            name="matchingPassword"
-                            className={"register-input"}
-                            inputProps={{
-                                type: "password"
-                            }}
-                            onChange={this.handleMatchingPassInput}
-                            value={matchingPassword}
-                            onBlur={this.handleBlur("matchingPassword")}
-                            error={emptyInputError("matchingPassword") ? true : "" || invalidInputError("matchingPassword") ? true : false}
-                            helperText={invalidInputError("matchingPassword") ? "Ange samma lösenord igen." : " "}
-                        />
-                        <Grid item>
-                            <Button type="button" color="primary" variant="outlined"
-                                className="modal-submit-button"
-                                onClick={this.handleRegister}
-                                disabled={!canBeSubmitted}>
-                                <span>Registrera</span>
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </div>
+                      <span>Registrera</span>
+                    </Button>
+                  </Grid>
                 </Grid>
-                </div>
-            </Modal >
-        );
+              </div>
+            </Grid>
+          </div>
+        </Modal>
+      );
     }
 }
 

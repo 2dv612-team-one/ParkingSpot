@@ -13,10 +13,6 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case `${USER_REGISTRATION}_PENDING`:
-      return { ...state };
-    case `${USER_REGISTRATION}_REJECTED`:
-      return { ...state, message: action.payload };
     case `${USER_REGISTRATION}_FULFILLED`:
       return { ...state, message: action.payload, [REGISTER_MODAL]: false };
     default:

@@ -16,3 +16,7 @@ export const GET_CARS = 'GET_CARS';
 // User control actions
 export const GET_ROLES = 'GET_ROLES';
 export const REGISTER_USER = 'REGISTER_USER';
+
+// Error Snackbar
+export const VERIFICATION_ERROR = 'VERIFICATION_ERROR';
+export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';

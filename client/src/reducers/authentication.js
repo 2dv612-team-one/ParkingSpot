@@ -8,10 +8,13 @@ import {
 import {
   ACCESS_TOKEN_STORAGE,
 } from '../constants/environment';
+import error from './error';
 
 const initialState = {
   accessToken: null,
-  role: null
+  role: null,
+  message: null,
+  showError: null,
 };
 
 export default (state = initialState, action) => {
@@ -23,12 +26,6 @@ export default (state = initialState, action) => {
         accessToken: action.payload.data.accessToken,
         role: action.payload.data.role,
       };
-
-    case `${USER_AUTHENTICATION_TOKEN}_REJECTED`:
-      return {
-        ...state,
-        accessToken: null,
-      };
     case `${USER_AUTHENTICATION_TOKEN}_FULFILLED`:
       return {
         ...state,
@@ -39,7 +36,7 @@ export default (state = initialState, action) => {
     case USER_LOGOUT:
       window.localStorage[ACCESS_TOKEN_STORAGE] = '';
       window.location.reload(false);
-      break;
+      return null;
     default:
       return state;
   }
