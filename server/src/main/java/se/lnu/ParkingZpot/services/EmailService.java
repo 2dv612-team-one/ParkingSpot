@@ -1,5 +1,8 @@
 package se.lnu.ParkingZpot.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,11 +22,15 @@ import java.net.URI;
 @Component
 public class EmailService implements IEmailService {
 
+  private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
+
   @Autowired
   it.ozimov.springboot.mail.service.EmailService emailService;
 
   @Autowired
   UserService userService;
+
+  @Value("${spring.mail.username}") String fromEmail;
 
   @Override
   public void sendVerificationEmail(User user, URI baseURL) throws UnsupportedEncodingException {
@@ -45,8 +52,7 @@ public class EmailService implements IEmailService {
     String recipientName = user.getUsername();
     sendMail(recipientAddress, recipientName, subject, message);
   }
-
-  @Value("${spring.mail.username}") String fromEmail; 
+ 
   private void sendMail(String address, String name, String subject, String message) throws UnsupportedEncodingException {
     final Email email = DefaultEmail.builder() 
         .from(new InternetAddress(fromEmail, "Parking Zpots"))

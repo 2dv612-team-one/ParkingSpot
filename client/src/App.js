@@ -7,6 +7,7 @@ import LoginModal from './components/LoginModal/LoginModal';
 import RegisterModal from './components/RegisterModal/RegisterModal';
 import VehicleForm from './components/VehicleForm/VehicleForm';
 import VehicleList from './components/VehicleList/VehicleList';
+import AdminUserControl from './components/AdminUserControl/AdminUserControl';
 
 import { fetchAccessTokenFromLocalStorage } from './actions/authenticate';
 
@@ -42,6 +43,7 @@ class App extends Component {
         <div>
           <VehicleForm />
           <VehicleList />
+          <AdminUserControl/>
         </div>
         )
           }

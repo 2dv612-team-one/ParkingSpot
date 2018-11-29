@@ -7,7 +7,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import logo from '../../assets/images/parkingzpot_white.png';
+import logo from '../../assets/images/parkingzpot_white.svg';
 
 import { logout } from '../../actions/authenticate';
 import { openModal } from '../../actions/modal';
@@ -29,15 +29,15 @@ class MenuBar extends Component {
     logout();
   }
 
-  render() {
-    const { accessToken, openLoginModal, openRegisterModal, logout } = this.props;
-    return (
-      <div className="app-bar">
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton className="app-bar-btn" color="inherit" aria-label="Menu">
-              <MenuIcon />
-            </IconButton>
+    render() {
+        const { accessToken, openLoginModal, openRegisterModal, logout} = this.props;
+        return (
+            <div className="app-bar">
+                <AppBar className="app-theme-color" position="static">
+                    <Toolbar>
+                        <IconButton className="app-bar-btn" color="inherit" aria-label="Menu">
+                            <MenuIcon />
+                        </IconButton>
 
             <div className="app-bar-grow">
               <a href="/">

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import se.lnu.ParkingZpot.payloads.InternalMessages;
+
 import java.util.Date;
 
 @Component
@@ -48,15 +50,15 @@ public class JwtTokenProvider {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException ex) {
-            logger.error("Invalid JWT signature");
+            logger.error(InternalMessages.ERROR_JWT_INVALID_SIGN);
         } catch (MalformedJwtException ex) {
-            logger.error("Invalid JWT token");
+            logger.error(InternalMessages.ERROR_JWT_INVALID_TOKEN);
         } catch (ExpiredJwtException ex) {
-            logger.error("Expired JWT token");
+            logger.error(InternalMessages.ERROR_JWT_EXPIRED);
         } catch (UnsupportedJwtException ex) {
-            logger.error("Unsupported JWT token");
+            logger.error(InternalMessages.ERROR_JWT_UNSUPPORTED);
         } catch (IllegalArgumentException ex) {
-            logger.error("JWT claims string is empty.");
+            logger.error(InternalMessages.ERROR_JWT_EMPTY_CLAIMS);
         }
         return false;
     }

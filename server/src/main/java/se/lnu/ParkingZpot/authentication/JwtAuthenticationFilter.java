@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import se.lnu.ParkingZpot.payloads.InternalMessages;
+
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -41,7 +43,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception ex) {
-            logger.error("Could not set user authentication in authentication context", ex);
+            logger.error(InternalMessages.ERROR_AUTH_CONTEXT, ex);
         }
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);

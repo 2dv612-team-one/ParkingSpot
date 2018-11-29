@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import se.lnu.ParkingZpot.payloads.InternalMessages;
+
 @Component
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
@@ -18,7 +20,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        logger.error("UNAUTHORIZED");
+        logger.error(InternalMessages.ERROR_UNAUTHORIZED);
         httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED);
     }
 }

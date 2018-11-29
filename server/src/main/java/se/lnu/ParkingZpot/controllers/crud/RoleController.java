@@ -1,4 +1,4 @@
-package se.lnu.ParkingZpot.controllers;
+package se.lnu.ParkingZpot.controllers.crud;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

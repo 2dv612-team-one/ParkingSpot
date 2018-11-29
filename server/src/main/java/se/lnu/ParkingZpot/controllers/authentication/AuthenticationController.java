@@ -1,5 +1,8 @@
 package se.lnu.ParkingZpot.controllers.authentication;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -18,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import se.lnu.ParkingZpot.exceptions.ApplicationException;
 import se.lnu.ParkingZpot.exceptions.EntityExistsException;
+import java.io.UnsupportedEncodingException;
 import se.lnu.ParkingZpot.models.User;
 import se.lnu.ParkingZpot.models.Role;
 import se.lnu.ParkingZpot.models.VerificationToken;
@@ -30,6 +34,8 @@ import se.lnu.ParkingZpot.services.UserService;
 import se.lnu.ParkingZpot.services.RoleService;
 import se.lnu.ParkingZpot.authentication.JwtTokenProvider;
 import se.lnu.ParkingZpot.services.EmailService;
+import se.lnu.ParkingZpot.payloads.Messages;
+import se.lnu.ParkingZpot.payloads.InternalMessages;
 
 import javax.validation.Valid;
 
@@ -43,23 +49,24 @@ import java.util.HashSet;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthenticationController {
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationController.class);
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
+    private final UserService userService;
+    private final RoleService roleService;
+    private final JwtTokenProvider tokenProvider;
+    private final EmailService emailService;
 
-    @Autowired
-    private UserService userService;
+  @Autowired
+  public AuthenticationController(AuthenticationManager authenticationManager, UserService userService, RoleService roleService, JwtTokenProvider tokenProvider, EmailService emailService) {
+    this.authenticationManager = authenticationManager;
+    this.userService = userService;
+    this.roleService = roleService;
+    this.tokenProvider = tokenProvider;
+    this.emailService = emailService;
+  }
 
-    @Autowired
-    private RoleService roleService;
-
-    @Autowired
-    private JwtTokenProvider tokenProvider;
-
-    @Autowired
-    private EmailService emailService;
-
-    @GetMapping("/validate")
+  @GetMapping("/validate")
     public ResponseEntity<JwtValidationResponse> validateToken(@RequestParam("token") String authToken) {
       boolean validToken = tokenProvider.validateToken(authToken);
 
@@ -69,11 +76,8 @@ public class AuthenticationController {
 
         User currentUser = userService.getUser(tokenProvider.getUserIdFromJWT(authToken)).get();
 
-        if (currentUser.getUserRoles().contains(adminRole.get())) {
-          return new ResponseEntity<JwtValidationResponse>(new JwtValidationResponse(true, adminRole.get().getName()), HttpStatus.OK);
-        } else if (currentUser.getUserRoles().contains(userRole.get())) {
-          return new ResponseEntity<JwtValidationResponse>(new JwtValidationResponse(true, userRole.get().getName()), HttpStatus.OK);
-        }
+        return new ResponseEntity<JwtValidationResponse>(new JwtValidationResponse(true,
+          userService.getUserRole(currentUser).get().getName()), HttpStatus.OK);
 
       }
       return new ResponseEntity<JwtValidationResponse>(new JwtValidationResponse(false, ""), HttpStatus.FORBIDDEN);
@@ -92,25 +96,24 @@ public class AuthenticationController {
         String jwt = tokenProvider.generateToken(authentication);
         User user = userService.getUser(tokenProvider.getUserIdFromJWT(jwt)).get();
 
-        if (user.getEnabled() == true) {
-            return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+        if (user.isEnabled() == true) {
+            return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, "ROLE_USER"));
         } else {
-            return new ResponseEntity<ApiResponse>(new ApiResponse(false, "User is not verified."), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<ApiResponse>(new ApiResponse(false, Messages.LOGIN_UNVERIFIED), HttpStatus.UNAUTHORIZED);
         }
 
-        
+
     }
 
     @PostMapping("/register")
     public ResponseEntity<ApiResponse> registerUser(@Valid @RequestBody RegistrationRequest registrationRequest) {
         try {
             Set<Role> roles = new HashSet<Role>();
-            if (registrationRequest.getRoles().isPresent()) {
+
+            if (registrationRequest.getRoles() != null && registrationRequest.getRoles().isPresent()) {
                 for (Role role : registrationRequest.getRoles().get()) {
                     roles.add(role);
                   }
-            } else {
-                roles.add(new Role("USER_ROLE"));
             }
 
             User savedUser = userService.registerNewUserAccount(registrationRequest.getUsername(), registrationRequest.getEmail(), registrationRequest.getPassword(), roles);
@@ -118,20 +121,20 @@ public class AuthenticationController {
             URI basePathLocation = ServletUriComponentsBuilder
                 .fromCurrentContextPath().port(port).build().toUri();
             basePathLocation = basePathLocation.resolve("/api/auth/confirm/");
-            
+
             emailService.sendVerificationEmail(savedUser, basePathLocation);
 
             URI userLocation = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/api/users/{username}")
                 .buildAndExpand(savedUser.getUsername()).toUri();
 
-            return ResponseEntity.created(userLocation).body(new ApiResponse(true, "User successfully registered"));
+            return ResponseEntity.created(userLocation).body(new ApiResponse(true, Messages.REG_SUCCESS));
         } catch (EntityExistsException e) {
             return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
         } catch (ApplicationException e) {
             return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            return new ResponseEntity<ApiResponse>(new ApiResponse(false, "Verification email could not be sent."), HttpStatus.INTERNAL_SERVER_ERROR);
+        } catch (UnsupportedEncodingException e) {
+            return new ResponseEntity<ApiResponse>(new ApiResponse(false, Messages.REG_MAILFAIL), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -145,7 +148,7 @@ public class AuthenticationController {
             if (verificationToken != null) {
                 userService.deleteVerificationToken(verificationToken);
             }
-            return new ResponseEntity<String>("<p>Your verification token has expired or does not exist. Please try registering again.</p>", HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<String>(Messages.VERIFY_FAIL, HttpStatus.EXPECTATION_FAILED);
         }
 
         User user = verificationToken.getUser();
@@ -159,7 +162,8 @@ public class AuthenticationController {
         try {
             httpResponse.sendRedirect(basePathLocation);
         } catch (IOException e) {
-            return new ResponseEntity<ApiResponse>(new ApiResponse(false, "Verification redirect went wrong."), HttpStatus.INTERNAL_SERVER_ERROR);
+            logger.error(InternalMessages.ERROR_REG_VERIFICATION_REDIRECT);
+            return new ResponseEntity<ApiResponse>(new ApiResponse(false, Messages.REG_VERIFICATION_REDIRECT_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return null;

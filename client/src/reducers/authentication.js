@@ -11,6 +11,7 @@ import {
 
 const initialState = {
   accessToken: null,
+  role: null
 };
 
 export default (state = initialState, action) => {
@@ -20,6 +21,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         accessToken: action.payload.data.accessToken,
+        role: action.payload.data.role,
       };
 
     case `${USER_AUTHENTICATION_TOKEN}_REJECTED`:
@@ -31,6 +33,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         accessToken: action.meta.accessToken,
+        role: action.payload.data.role,
       };
 
     case USER_LOGOUT:

@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="264mm"
+   height="66mm"
+   viewBox="0 0 79.200001 19.8"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
+   sodipodi:docname="parkingzpot_8.svg"
+   inkscape:export-filename="/Users/richardscheffer/inkscape/agile_web/parkingzpot_8.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <defs
+     id="defs2">
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:menu-tooltip="Basic noise fill texture; adjust color in Flood"
+       inkscape:menu="Overlays"
+       inkscape:label="Alpha Turbulent"
+       id="filter1555">
+      <feColorMatrix
+         result="fbSourceGraphic"
+         type="luminanceToAlpha"
+         id="feColorMatrix1533" />
+      <feFlood
+         flood-opacity="1"
+         result="result1"
+         flood-color="rgb(134,39,24)"
+         id="feFlood1535" />
+      <feComposite
+         result="result2"
+         operator="out"
+         in2="fbSourceGraphic"
+         id="feComposite1537" />
+      <feColorMatrix
+         in="result2"
+         result="fbSourceGraphic"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 "
+         id="feColorMatrix1539" />
+      <feTurbulence
+         type="fractalNoise"
+         baseFrequency="0.035"
+         numOctaves="5"
+         id="feTurbulence1541" />
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 -1.5 0 0 4.7 -1 "
+         result="result0"
+         id="feColorMatrix1543" />
+      <feFlood
+         result="result1"
+         flood-color="rgb(145,199,195)"
+         flood-opacity="1"
+         id="feFlood1545" />
+      <feBlend
+         result="result3"
+         in="result1"
+         mode="normal"
+         in2="fbSourceGraphic"
+         id="feBlend1547" />
+      <feComposite
+         result="result4"
+         operator="out"
+         in2="result0"
+         id="feComposite1549" />
+      <feComposite
+         operator="atop"
+         in2="fbSourceGraphic"
+         result="result5"
+         id="feComposite1551" />
+      <feComposite
+         in2="SourceGraphic"
+         operator="in"
+         id="feComposite1553" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:menu-tooltip="Basic noise fill texture; adjust color in Flood"
+       inkscape:menu="Overlays"
+       inkscape:label="Alpha Turbulent"
+       id="filter1605">
+      <feColorMatrix
+         result="fbSourceGraphic"
+         type="luminanceToAlpha"
+         id="feColorMatrix1583" />
+      <feFlood
+         flood-opacity="1"
+         result="result1"
+         flood-color="rgb(134,39,24)"
+         id="feFlood1585" />
+      <feComposite
+         result="result2"
+         operator="out"
+         in2="fbSourceGraphic"
+         id="feComposite1587" />
+      <feColorMatrix
+         in="result2"
+         result="fbSourceGraphic"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 "
+         id="feColorMatrix1589" />
+      <feTurbulence
+         type="fractalNoise"
+         baseFrequency="0.035"
+         numOctaves="5"
+         id="feTurbulence1591" />
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 -1.5 0 0 4.7 -1 "
+         result="result0"
+         id="feColorMatrix1593" />
+      <feFlood
+         result="result1"
+         flood-color="rgb(145,199,195)"
+         flood-opacity="1"
+         id="feFlood1595" />
+      <feBlend
+         result="result3"
+         in="result1"
+         mode="normal"
+         in2="fbSourceGraphic"
+         id="feBlend1597" />
+      <feComposite
+         result="result4"
+         operator="out"
+         in2="result0"
+         id="feComposite1599" />
+      <feComposite
+         operator="atop"
+         in2="fbSourceGraphic"
+         result="result5"
+         id="feComposite1601" />
+      <feComposite
+         in2="SourceGraphic"
+         operator="in"
+         id="feComposite1603" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:menu-tooltip="Basic noise fill texture; adjust color in Flood"
+       inkscape:menu="Overlays"
+       inkscape:label="Alpha Turbulent"
+       id="filter1629">
+      <feColorMatrix
+         result="fbSourceGraphic"
+         type="luminanceToAlpha"
+         id="feColorMatrix1607" />
+      <feFlood
+         flood-opacity="1"
+         result="result1"
+         flood-color="rgb(134,39,24)"
+         id="feFlood1609" />
+      <feComposite
+         result="result2"
+         operator="out"
+         in2="fbSourceGraphic"
+         id="feComposite1611" />
+      <feColorMatrix
+         in="result2"
+         result="fbSourceGraphic"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 "
+         id="feColorMatrix1613" />
+      <feTurbulence
+         type="fractalNoise"
+         baseFrequency="0.035"
+         numOctaves="5"
+         id="feTurbulence1615" />
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 -1.5 0 0 4.7 -1 "
+         result="result0"
+         id="feColorMatrix1617" />
+      <feFlood
+         result="result1"
+         flood-color="rgb(145,199,195)"
+         flood-opacity="1"
+         id="feFlood1619" />
+      <feBlend
+         result="result3"
+         in="result1"
+         mode="normal"
+         in2="fbSourceGraphic"
+         id="feBlend1621" />
+      <feComposite
+         result="result4"
+         operator="out"
+         in2="result0"
+         id="feComposite1623" />
+      <feComposite
+         operator="atop"
+         in2="fbSourceGraphic"
+         result="result5"
+         id="feComposite1625" />
+      <feComposite
+         in2="SourceGraphic"
+         operator="in"
+         id="feComposite1627" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:menu-tooltip="Basic noise fill texture; adjust color in Flood"
+       inkscape:menu="Overlays"
+       inkscape:label="Alpha Turbulent"
+       id="filter1653">
+      <feColorMatrix
+         result="fbSourceGraphic"
+         type="luminanceToAlpha"
+         id="feColorMatrix1631" />
+      <feFlood
+         flood-opacity="1"
+         result="result1"
+         flood-color="rgb(134,39,24)"
+         id="feFlood1633" />
+      <feComposite
+         result="result2"
+         operator="out"
+         in2="fbSourceGraphic"
+         id="feComposite1635" />
+      <feColorMatrix
+         in="result2"
+         result="fbSourceGraphic"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 "
+         id="feColorMatrix1637" />
+      <feTurbulence
+         type="fractalNoise"
+         baseFrequency="0.035"
+         numOctaves="5"
+         id="feTurbulence1639" />
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 -1.5 0 0 4.7 -1 "
+         result="result0"
+         id="feColorMatrix1641" />
+      <feFlood
+         result="result1"
+         flood-color="rgb(145,199,195)"
+         flood-opacity="1"
+         id="feFlood1643" />
+      <feBlend
+         result="result3"
+         in="result1"
+         mode="normal"
+         in2="fbSourceGraphic"
+         id="feBlend1645" />
+      <feComposite
+         result="result4"
+         operator="out"
+         in2="result0"
+         id="feComposite1647" />
+      <feComposite
+         operator="atop"
+         in2="fbSourceGraphic"
+         result="result5"
+         id="feComposite1649" />
+      <feComposite
+         in2="SourceGraphic"
+         operator="in"
+         id="feComposite1651" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:menu-tooltip="Basic noise fill texture; adjust color in Flood"
+       inkscape:menu="Overlays"
+       inkscape:label="Alpha Turbulent"
+       id="filter1677">
+      <feColorMatrix
+         result="fbSourceGraphic"
+         type="luminanceToAlpha"
+         id="feColorMatrix1655" />
+      <feFlood
+         flood-opacity="1"
+         result="result1"
+         flood-color="rgb(134,39,24)"
+         id="feFlood1657" />
+      <feComposite
+         result="result2"
+         operator="out"
+         in2="fbSourceGraphic"
+         id="feComposite1659" />
+      <feColorMatrix
+         in="result2"
+         result="fbSourceGraphic"
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 "
+         id="feColorMatrix1661" />
+      <feTurbulence
+         type="fractalNoise"
+         baseFrequency="0.035"
+         numOctaves="5"
+         id="feTurbulence1663" />
+      <feColorMatrix
+         values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 -1.5 0 0 4.7 -1 "
+         result="result0"
+         id="feColorMatrix1665" />
+      <feFlood
+         result="result1"
+         flood-color="rgb(145,199,195)"
+         flood-opacity="1"
+         id="feFlood1667" />
+      <feBlend
+         result="result3"
+         in="result1"
+         mode="normal"
+         in2="fbSourceGraphic"
+         id="feBlend1669" />
+      <feComposite
+         result="result4"
+         operator="out"
+         in2="result0"
+         id="feComposite1671" />
+      <feComposite
+         operator="atop"
+         in2="fbSourceGraphic"
+         result="result5"
+         id="feComposite1673" />
+      <feComposite
+         in2="SourceGraphic"
+         operator="in"
+         id="feComposite1675" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.70000001"
+     inkscape:cx="268.86468"
+     inkscape:cy="67.516117"
+     inkscape:document-units="mm"
+     inkscape:current-layer="g1181"
+     showgrid="false"
+     scale-x="0.3" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-262.5)">
+    <g
+       id="g1181"
+       transform="translate(-55.057523,193.50314)">
+      <path
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:medium;line-height:1.25;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue, Light';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;opacity:1;fill:#f9f9f9;fill-opacity:0;stroke:#f9f9f9;stroke-width:0.47099251;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         d="m 86.781284,73.369637 1.32362,1.05279 c 0.30709,0.24425 0.36066,0.67079 0.12011,0.95635 l -3.28076,3.89457 c -0.24055,0.28556 -0.68144,0.31881 -0.98853,0.0746 l -1.32363,-1.0528 c -0.30709,-0.24425 -0.36066,-0.67079 -0.1201,-0.95635 l 3.28075,-3.89456 c 0.24056,-0.28557 0.68145,-0.31882 0.98854,-0.0746 z"
+         id="rect940"
+         inkscape:connector-curvature="0" />
+      <path
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:medium;line-height:1.25;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue, Light';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;opacity:1;fill:#f9f9f9;fill-opacity:0;stroke:#f9f9f9;stroke-width:0.29929587;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         d="m 85.167214,74.775547 1.82406,1.45083 c 0.13126,0.10439 0.15415,0.2867 0.0513,0.40876 l -1.40225,1.6646 c -0.10282,0.12205 -0.29126,0.13626 -0.42252,0.0319 l -1.82406,-1.45083 c -0.13126,-0.10439 -0.15415,-0.2867 -0.0513,-0.40876 l 1.40224,-1.66459 c 0.10282,-0.12206 0.29126,-0.13627 0.42252,-0.0319 z"
+         id="rect942"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 56.294865,70.292537 v 15.640487 h 3.132836 v -5.321877 h 3.59437 c 3.832132,0 6.307632,-2.05939 6.307632,-5.1593 0,-3.11076 -2.419556,-5.15931 -6.181759,-5.15931 z m 3.132836,2.03771 h 2.937036 c 2.447527,0 3.7622,1.10557 3.7622,3.1216 0,2.02687 -1.32866,3.13243 -3.776186,3.13243 h -2.92305 z"
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:85.13052368px;line-height:1.25;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue, Light';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#f9f9f9;fill-opacity:1;stroke:#f9f9f9;stroke-width:0.49399999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path1032"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 68.397303,85.194347 c -0.792533,0 -1.30535,-0.29529 -1.30535,-0.81072 0,-0.51542 0.528358,-0.79461 1.460748,-0.87515 l 1.561756,-0.0966 v 0.60133 c 0,0.69797 -0.738144,1.18118 -1.717154,1.18118 z m -0.528354,0.923467 c 0.963468,0 1.849242,-0.35435 2.245508,-0.912727 h 0.03885 v 0.832197 h 1.623915 v -3.978437 c 0,-1.1436 -1.126639,-1.83083 -2.983653,-1.83083 -1.880325,0 -3.030273,0.74092 -3.100203,1.79862 h 1.569525 c 0.11655,-0.5369 0.606057,-0.84294 1.476289,-0.84294 0.86246,0 1.375276,0.33825 1.375276,0.95569 v 0.45636 l -1.818163,0.11812 c -1.911403,0.14497 -2.898185,0.72482 -2.898185,1.72345 0,1.03085 1.033402,1.680497 2.470841,1.680497 z"
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:47.29473495px;line-height:1.25;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue, Light';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#f9f9f9;fill-opacity:1;stroke:none;stroke-width:0.2796874"
+         id="path1034"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 72.190635,86.060904 h 1.686076 v -3.398577 c 0,-0.82683 0.582743,-1.32615 1.592835,-1.32615 0.303026,0 0.559436,0.0269 0.707065,0.0698 v -1.09528 c -0.132091,-0.0215 -0.318567,-0.0483 -0.551667,-0.0483 -0.878001,0 -1.499596,0.34362 -1.771543,1.03085 h -0.03885 v -0.95031 h -1.623914 z"
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:47.29473495px;line-height:1.25;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue, Light';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#f9f9f9;fill-opacity:1;stroke:none;stroke-width:0.2796874"
+         id="path1036"
+         inkscape:connector-curvature="0" />
+      <path
+         d="M 78.17004,82.721387 H 78.1545 v -4.99619 h -1.693845 v 8.276647 H 78.1545 v -2.002637 l 0.613825,-0.49932 2.439758,2.501957 h 1.903634 l -3.139054,-3.258987 3.014735,-2.459 h -1.903634 z"
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:47.29473495px;line-height:1.25;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue, Light';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#f9f9f9;fill-opacity:1;stroke:none;stroke-width:0.2796874"
+         id="path1038"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccccccccccccc" />
+      <path
+         d="m 83.555989,86.013654 h 1.686075 v -5.717987 h -1.686075 z m 0.839153,-6.552877 c 0.567206,0 0.986779,-0.4947 0.986779,-0.85979 0,-0.37583 -0.420021,-0.86609 -0.987226,-0.86609 -0.551668,0 -0.970794,0.49026 -0.970794,0.86609 0,0.36509 0.419573,0.85979 0.971241,0.85979 z"
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:47.29473495px;line-height:1.25;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue, Light';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#f9f9f9;fill-opacity:1;stroke:none;stroke-width:0.2796874"
+         id="path1040"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cccccsssss" />
+      <path
+         d="m 85.753256,86.037284 h 1.686075 v -3.495227 c 0,-0.81072 0.629367,-1.30467 1.631687,-1.30467 0.986782,0 1.460747,0.40268 1.460747,1.16508 v 3.634817 h 1.686075 v -3.854947 c 0,-1.21877 -0.878,-1.94895 -2.501918,-1.94895 -1.111101,0 -1.903634,0.36509 -2.299901,0.97179 h -0.03885 v -0.88589 h -1.623917 z"
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:47.29473495px;line-height:1.25;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue, Light';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#f9f9f9;fill-opacity:1;stroke:none;stroke-width:0.2796874"
+         id="path1042"
+         inkscape:connector-curvature="0" />
+      <path
+         d="m 96.163394,85.126937 c -1.111101,0 -1.787084,-0.68723 -1.787084,-1.91674 0,-1.21876 0.675983,-1.91673 1.787084,-1.91673 1.11887,0 1.810394,0.6926 1.810394,1.92211 0,1.23487 -0.691524,1.91136 -1.810394,1.91136 z m 0.01555,3.022757 c 2.066801,0 3.480926,-0.72482 3.480926,-2.21204 v -5.551547 h -1.654994 v 0.89125 h -0.03109 c -0.411808,-0.6067 -1.21211,-0.97179 -2.276591,-0.97179 -1.903634,0 -3.045814,1.08991 -3.045814,2.90463 0,1.804 1.149952,2.888527 3.030276,2.888527 1.056709,0 1.872552,-0.36509 2.253278,-0.944937 h 0.03885 v 0.794607 c 0,0.85367 -0.613826,1.29393 -1.740465,1.29393 -0.839153,0 -1.437437,-0.26845 -1.639455,-0.74092 h -1.654996 c 0.170939,0.97716 1.406358,1.64829 3.240063,1.64829 z"
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:47.29473495px;line-height:1.25;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue, Light';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#f9f9f9;fill-opacity:1;stroke:none;stroke-width:0.2796874"
+         id="path1044"
+         inkscape:connector-curvature="0" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path1046"
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:85.13052368px;line-height:1.25;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue, Light';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#f9f9f9;fill-opacity:1;stroke:#f9f9f9;stroke-width:0.493;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 100.66449,85.639754 h 13.59427 v -2.091897 h -9.84606 v -0.0759 l 9.6083,-11.79269 v -1.68 h -13.09078 v 2.0919 h 9.38452 v 0.0759 l -9.65025,11.79269 z" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path1048"
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:47.29473495px;line-height:1.25;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue, Light';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#f9f9f9;fill-opacity:1;stroke:none;stroke-width:0.28209013"
+         d="m 119.1083,80.361997 c -1.07225,0 -1.86479,0.38231 -2.26105,0.98856 h -0.0389 v -0.90664 h -1.655 v 7.700927 h 1.68607 v -2.769057 h 0.0389 c 0.39627,0.600787 1.18103,0.966717 2.25328,0.966717 1.88033,0 3.03028,-1.125097 3.03028,-2.992987 0,-1.86789 -1.15772,-2.98752 -3.05358,-2.98752 z m -0.47397,4.97556 c -1.10333,0 -1.79485,-0.71001 -1.79485,-1.98258 0,-1.27256 0.68375,-1.98804 1.79485,-1.98804 1.12664,0 1.80263,0.7264 1.80263,1.98258 0,1.2671 -0.67599,1.98804 -1.80263,1.98804 z" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path1050"
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:47.29473495px;line-height:1.25;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue, Light';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#f9f9f9;fill-opacity:1;stroke:none;stroke-width:0.28209013"
+         d="m 126.04133,86.284544 c 2.17558,0 3.52754,-1.075947 3.52754,-3.003907 0,-1.9225 -1.35973,-3.00391 -3.52754,-3.00391 -2.16782,0 -3.53532,1.08141 -3.53532,3.00391 0,1.92796 1.35197,3.003907 3.53532,3.003907 z m 0,-0.983097 c -1.14218,0 -1.81817,-0.68817 -1.81817,-2.02081 0,-1.32718 0.68376,-2.02081 1.81817,-2.02081 1.13441,0 1.81039,0.69363 1.81039,2.02081 0,1.33264 -0.67598,2.02081 -1.81039,2.02081 z" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path1052"
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:47.29473495px;line-height:1.25;font-family:'Helvetica Neue';-inkscape-font-specification:'Helvetica Neue, Light';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#f9f9f9;fill-opacity:1;stroke:none;stroke-width:0.28209013"
+         d="m 130.34177,79.020547 v 1.34903 h -1.08001 v 0.94486 h 1.08001 v 3.34254 c 0,1.136017 0.61382,1.567487 2.22997,1.567487 0.35742,0 0.71483,-0.0219 0.90131,-0.0546 v -0.933937 c -0.10878,0.0164 -0.35742,0.0273 -0.52058,0.0273 -0.64491,0 -0.92463,-0.22393 -0.92463,-0.73186 v -3.21692 h 1.45298 v -0.94486 h -1.45298 v -1.34903 z" />
+    </g>
+    <g
+       id="g1277"
+       transform="translate(0.25237392,180.41012)" />
+    <g
+       id="g1001"
+       transform="translate(0,-33.828869)" />
+  </g>
+</svg>
