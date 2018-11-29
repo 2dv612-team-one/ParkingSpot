@@ -21,6 +21,7 @@ import se.lnu.ParkingZpot.payloads.authentication.RegistrationRequest;
 import se.lnu.ParkingZpot.services.EmailService;
 import se.lnu.ParkingZpot.services.UserService;
 import se.lnu.ParkingZpot.payloads.Messages;
+import java.io.UnsupportedEncodingException;
 
 import javax.validation.Valid;
 import java.net.URI;
