@@ -13,7 +13,6 @@ import se.lnu.ParkingZpot.repositories.RoleRepository;
 import se.lnu.ParkingZpot.repositories.UserRepository;
 
 import java.util.Collections;
-import java.util.HashSet;
 
 @EnableEmailTools
 @SpringBootApplication
@@ -63,10 +62,7 @@ class DataLoader {
       User user2 = new User("Admin", "Admin@Admin.com", "123");
 
       user2.setPassword(passwordEncoder.encode(user2.getPassword()));
-      HashSet<Role> roleSet = new HashSet<Role>();
-      roleSet.add(userRole);
-      roleSet.add(adminRole);
-      user2.setUserRoles(roleSet);
+      user2.setUserRoles(Collections.singleton(adminRole));
       user2.setEnabled(true);
 
       userRepository.save(user2);
