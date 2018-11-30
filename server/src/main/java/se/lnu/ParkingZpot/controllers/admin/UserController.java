@@ -58,7 +58,9 @@ public class UserController {
 
       savedUser = userService.registerNewUserAccount(registrationRequest.getUsername(), registrationRequest.getEmail(), registrationRequest.getPassword(), userRoles);
       savedUser.setEnabled(true);
-      
+
+      userService.saveUser(savedUser);
+
       emailService.sendEmailTo(savedUser, Messages.REG_WELCOME_MAIL_SUBJECT, Messages.REG_WELCOME_MAIL_BODY);
 
       URI userLocation = ServletUriComponentsBuilder
