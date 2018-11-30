@@ -16,6 +16,7 @@ const initialState = {
 };
 
 const isServerError = p => p.response.status >= 500;
+const isInvalidCredentials = p => p.response.status >= 400;
 const getError = (state, message) => ({ ...state, message, showError: true });
 
 export default (state = initialState, action) => {
@@ -24,10 +25,16 @@ export default (state = initialState, action) => {
       if (isServerError(action.payload)) {
         return getError(state, 'Fel uppstod vid inloggning. Försök igen');
       }
+      if (isInvalidCredentials(action.payload)) {
+        return getError(state, 'Fel användarnamn eller lösenord.');
+      }
       return initialState;
     case `${USER_REGISTRATION}_REJECTED`:
       if (isServerError(action.payload)) {
         return getError(state, 'Fel uppstod vid registrering. Försök igen');
+      }
+      if (isInvalidCredentials(action.payload)) {
+        return getError(state, 'Användarnamnet eller mailadressen finns redan');
       }
       return initialState;
     case `${USER_AUTHENTICATION_TOKEN}_REJECTED`:

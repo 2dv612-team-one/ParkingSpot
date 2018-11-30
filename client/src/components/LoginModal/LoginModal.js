@@ -112,53 +112,58 @@ class LoginModal extends Component {
               justify="flex-start"
               alignItems="center"
             >
-                <div className="modal-box center-modal">
-                    <Grid container
-                        direction="column"
-                        justify="flex-start"
-                        alignItems="center"
+              <div className="modal-box center-modal">
+                <Grid
+                  container
+                  direction="column"
+                  justify="flex-start"
+                  alignItems="center"
+                >
+                  <Grid item>
+                    <TextField
+                      label="Användarnamn"
+                      name="usernameOrEmail"
+                      className="login-input"
+                      onChange={this.handleUserInput}
+                      value={usernameOrEmail}
+                      onBlur={this.handleBlur('usernameOrEmail')}
+                      error={!!emptyInputError('usernameOrEmail')}
+                      helperText={emptyInputError('usernameOrEmail') ? 'Ange ett användarnamn.' : ' '}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <TextField
+                      label="Lösenord"
+                      name="password"
+                      className="login-input"
+                      inputProps={{
+                          type: 'password',
+                        }}
+                      onChange={this.handlePassInput}
+                      value={password}
+                      onBlur={this.handleBlur('password')}
+                      error={!!emptyInputError('password')}
+                      helperText={emptyInputError('password') ? 'Ange ett lösenord.' : ' '}
+                    />
+                  </Grid>
+                  <Grid item>
+                    <Button
+                      type="button"
+                      color="primary"
+                      variant="outlined"
+                      className="modal-submit-button"
+                      onClick={this.handleLogin}
+                      disabled={!canBeSubmitted}
                     >
-                        <Grid item>
-                            <TextField
-                                label="Användarnamn"
-                                name="usernameOrEmail"
-                                className="login-input"
-                                onChange={this.handleUserInput}
-                                value={usernameOrEmail}
-                                onBlur={this.handleBlur("usernameOrEmail")}
-                                error={emptyInputError("usernameOrEmail") ? true : false}
-                                helperText={emptyInputError("usernameOrEmail") ? "Ange ett användarnamn." : " "}
-                            />
-                        </Grid>
-                        <Grid item>
-                            <TextField
-                                label="Lösenord"
-                                name="password"
-                                className={"login-input"}
-                                inputProps={{
-                                    type: "password"
-                                }}
-                                onChange={this.handlePassInput}
-                                value={password}
-                                onBlur={this.handleBlur("password")}
-                                error={emptyInputError("password") ? true : false}
-                                helperText={emptyInputError("password") ? "Ange ett lösenord." : " "}
-                            />
-                        </Grid>
-                        <Grid item>
-                            <Button type="button" color="primary" variant="outlined"
-                                className="modal-submit-button"
-                                onClick={this.handleLogin}
-                                disabled={!canBeSubmitted}>
-                                <span>Logga in</span>
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </div>
+                      <span>Logga in</span>
+                    </Button>
+                  </Grid>
                 </Grid>
-                </div>
-            </Modal>
-        );
+              </div>
+            </Grid>
+          </div>
+        </Modal>
+      );
     }
 }
 
