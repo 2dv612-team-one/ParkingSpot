@@ -97,7 +97,7 @@ public class AuthenticationController {
         User user = userService.getUser(tokenProvider.getUserIdFromJWT(jwt)).get();
 
         if (user.isEnabled() == true) {
-            return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, "ROLE_USER"));
+            return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, userService.getUserRole(user).get().getName()));
         } else {
             return new ResponseEntity<ApiResponse>(new ApiResponse(false, Messages.LOGIN_UNVERIFIED), HttpStatus.UNAUTHORIZED);
         }
