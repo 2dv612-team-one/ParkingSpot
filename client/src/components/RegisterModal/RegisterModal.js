@@ -138,14 +138,14 @@ class RegisterModal extends Component {
           open={showRegisterModal || false}
           onClose={this.handleClose}
         >
-          <div className="modal-box center-modal">
+          <div className="modal-box">
             <Grid
               container
               direction="column"
               justify="flex-start"
               alignItems="center"
             >
-              <div className="modal-box center-modal">
+              <div className="modal-box">
                 <Grid
                   container
                   direction="column"
@@ -202,7 +202,7 @@ class RegisterModal extends Component {
                       type="button"
                       color="primary"
                       variant="outlined"
-                      className="modal-submit-button"
+                      className="modal-submit-btn"
                       onClick={this.handleRegister}
                       disabled={!canBeSubmitted}
                     >

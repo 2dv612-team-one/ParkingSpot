@@ -2,147 +2,164 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 /* eslint import/no-webpack-loader-syntax: off */
-import { Paper, Button, Table, TableHead, TableBody, TableRow, TableCell, withStyles,TextField} from '@material-ui/core';
-
-
+import { Button, Checkbox, Chip, FormControl, FormHelperText, Input, InputLabel, ListItemText, MenuItem, Select, TextField, withStyles } from '@material-ui/core';
 import { getRoles, register } from '../../actions/userControl';
 
-
 const mapStateToProps = state => ({
-  accessToken: state.authentication.accessToken,
-  role: state.authentication.role,
-  roles: state.userController.roles,
+    accessToken: state.authentication.accessToken,
+    role: state.authentication.role,
+    roles: state.userController.roles,
 });
 
-const mapDispatchToProps = dispatch => ({ 
-  onLoad: (accessToken) => dispatch(getRoles(accessToken)),
-  register: (accessToken,usernameOrEmail, password, email, rolesSelected) => dispatch(register(accessToken,usernameOrEmail, password, email, rolesSelected))
+const mapDispatchToProps = dispatch => ({
+    onLoad: (accessToken) => dispatch(getRoles(accessToken)),
+    register: (accessToken, usernameOrEmail, password, email, selectedRoles) => dispatch(register(accessToken, usernameOrEmail, password, email, selectedRoles))
 });
 
 const styles = theme => ({
-  button: {
-    margin: theme.spacing.unit,
-  }
+    button: {
+        margin: theme.spacing.unit,
+    },
+    formControl: {
+        margin: theme.spacing.unit,
+        minWidth: 120,
+    },
 });
 
-class AdminUserControl extends Component {
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
+    },
+};
 
-  constructor(props){
-    super(props);
-    this.state= {
-      usernameOrEmail: '',
-      password: '',
-      email: '',
-      rolesSelected: []
+class AdminUserControl extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            usernameOrEmail: '',
+            password: '',
+            email: '',
+            selectedRoles: []
+        }
+
+        this.handleUserInput = this.handleUserInput.bind(this);
+        this.handlePassInput = this.handlePassInput.bind(this);
+        this.handleEmail = this.handleEmail.bind(this);
+        this.handleRoles = this.handleRoles.bind(this);
+        this.registerUser = this.registerUser.bind(this);
     }
 
-    
-    this.handleUserInput = this.handleUserInput.bind(this);
-    this.handlePassInput = this.handlePassInput.bind(this);
-    this.handleEmail = this.handleEmail.bind(this);
-    this.handleRoles = this.handleRoles.bind(this);
-    this.registerUser = this.registerUser.bind(this);
-  }
+    componentWillMount() {
+        const { onLoad } = this.props;
+        const { accessToken } = this.props;
+        onLoad(accessToken);
+    }
 
-  componentWillMount() {
-    const { onLoad } = this.props;
-    const { accessToken } = this.props;
-    onLoad(accessToken);
-  }
-  handleUserInput(e) {
-    this.setState({ usernameOrEmail: e.target.value });
-  }
+    handleUserInput(e) {
+        this.setState({ usernameOrEmail: e.target.value });
+    }
 
-  handlePassInput(e) {
-    this.setState({ password: e.target.value });
-  }
-  handleEmail(e) {
-    this.setState({ email: e.target.value });
-  }
+    handlePassInput(e) {
+        this.setState({ password: e.target.value });
+    }
 
-  handleRoles(e) {
-    this.setState({ rolesSelected: e.target.value });
-  }
+    handleEmail(e) {
+        this.setState({ email: e.target.value });
+    }
 
+    handleRoles(e) {
+        this.setState({ selectedRoles: e.target.value });
+    }
 
-  registerUser = () => {
-    const { usernameOrEmail, password, email, rolesSelected } = this.state;
-    const { register, accessToken } = this.props;
-    let roles = [];
-    roles.push(rolesSelected)
-    register(accessToken,usernameOrEmail, password, email, roles);
-  }
+    registerUser = () => {
+        const { usernameOrEmail, password, email, selectedRoles } = this.state;
+        const { register, accessToken } = this.props;
+        register(accessToken, usernameOrEmail, password, email, selectedRoles);
+    }
 
-  render() {
-    const { classes } = this.props;
-    const { role } = this.props;
-    const { roles } = this.props;
-    const { usernameOrEmail, password, email, rolesSelected } = this.state;
-    const emptyInputError = (field) => {
+    render() {
+        const { classes } = this.props;
+        const { role } = this.props;
+        const { roles } = this.props;
+        const { usernameOrEmail, password, email, selectedRoles } = this.state;
+        const emptyInputError = (field) => {
 
-      return "hej"
-    };
+            return "hej"
+        };
 
-    return(
-      <div>
-          {
-            role === "ROLE_ADMIN" ?
-            <Paper className={classes.root}>
-            <TextField
-                                label="Användarnamn"
-                                name="usernameOrEmail"
-                                onChange={this.handleUserInput}
-                                value={usernameOrEmail}
-                                helperText={emptyInputError("usernameOrEmail") ? "Ange ett användarnamn." : " "}
-                            />
-            <TextField
-                                label="Lösenord"
-                                name="password"
-                                onChange={this.handlePassInput}
-                                value={password}
-                                helperText={emptyInputError("password") ? "Ange ett lösenord." : " "}
-                            />
-            <TextField
-                                label="Email"
-                                name="email"
-                                onChange={this.handleEmail}
-                                value={email}
-                                helperText={emptyInputError("email") ? "Ange en email adress." : " "}
-                            />
+        return (
+            <div>
+                {
+                    role === "ROLE_ADMIN" ?
+                        <form className="admin-register-form">
+                            <FormControl className={classes.formControl}>
                                 <TextField
-                                label="Roles"
-                                name="roles"
-                                onChange={this.handleRoles}
-                                value={rolesSelected}
-                                helperText={emptyInputError("rolesSelected") ? "Ange roller." : " "}
-                            />
-                            <Button type="button" color="primary" variant="outlined"
-                                className="modal-submit-button"
-                                onClick={this.registerUser}
+                                    label="Användarnamn"
+                                    name="usernameOrEmail"
+                                    onChange={this.handleUserInput}
+                                    value={usernameOrEmail}
+                                    helperText={emptyInputError("usernameOrEmail") ? "Ange ett användarnamn." : " "}
+                                />
+                            </FormControl>
+                            <FormControl className={classes.formControl}>
+                                <TextField
+                                    label="Lösenord"
+                                    name="password"
+                                    onChange={this.handlePassInput}
+                                    value={password}
+                                    helperText={emptyInputError("password") ? "Ange ett lösenord." : " "}
+                                />
+                            </FormControl>
+                            <FormControl className={classes.formControl}>
+                                <TextField
+                                    label="Email"
+                                    name="email"
+                                    onChange={this.handleEmail}
+                                    value={email}
+                                    helperText={emptyInputError("email") ? "Ange en email adress." : " "}
+                                />
+                            </FormControl>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel htmlFor="select-roles">Roller</InputLabel>
+                                <Select
+                                    multiple
+                                    value={selectedRoles}
+                                    onChange={this.handleRoles}
+                                    input={<Input id="select-roles" />}
+                                    renderValue={selected => (
+                                        <div className={classes.chips}>
+                                            {selected.map(value => (
+                                                <Chip key={value} label={value} className={classes.chip} />
+                                            ))}
+                                        </div>
+                                    )}
+                                    MenuProps={MenuProps}
                                 >
+                                    {roles.map(role => (
+                                        <MenuItem key={role.name} value={role.name}>
+                                            <Checkbox className="app-theme-color" checked={selectedRoles.indexOf(role.name) > -1} />
+                                            <ListItemText primary={role.name} />
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                                <FormHelperText>{emptyInputError("selectedRoles") ? "Ange roller." : " "}</FormHelperText>
+                            </FormControl>
+                            <Button type="button" variant="outlined" className={`app-theme-color ${classes.button}`}
+                                id="admin-register-user-btn" onClick={this.registerUser}>
                                 <span>Registrera</span>
                             </Button>
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Tillgängliga roller</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {roles && roles.map(role => (
-                  <TableRow key={role.name}>
-                    <TableCell>{role.name}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </Paper> : 
-          null
-          }
-     
-     </div>
-    );
-  }
+                        </form> :
+                        null
+                }
+
+            </div>
+        );
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AdminUserControl));

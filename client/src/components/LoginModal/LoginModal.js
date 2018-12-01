@@ -105,14 +105,14 @@ class LoginModal extends Component {
           onClose={this.handleClose}
           onKeyPress={this.onKeyPress}
         >
-          <div className="modal-box center-modal">
+          <div className="modal-box">
             <Grid
               container
               direction="column"
               justify="flex-start"
               alignItems="center"
             >
-              <div className="modal-box center-modal">
+              <div className="modal-box">
                 <Grid
                   container
                   direction="column"
@@ -151,7 +151,7 @@ class LoginModal extends Component {
                       type="button"
                       color="primary"
                       variant="outlined"
-                      className="modal-submit-button"
+                      className="modal-submit-btn"
                       onClick={this.handleLogin}
                       disabled={!canBeSubmitted}
                     >
