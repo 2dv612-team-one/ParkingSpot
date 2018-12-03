@@ -142,7 +142,7 @@ class AdminUserControl extends Component {
                 {
                     role === "ROLE_ADMIN" ?
                         <Paper className="admin-register-form">
-                            <Typography variant="h6">Lägg till en ny användare</Typography>
+                            <Typography variant="subtitle">Lägg till en ny användare</Typography>
                             <FormControl className={classes.formControl}>
                                 <TextField
                                     label="Användarnamn"
