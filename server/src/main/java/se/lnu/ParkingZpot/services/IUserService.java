@@ -1,5 +1,6 @@
 package se.lnu.ParkingZpot.services;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import se.lnu.ParkingZpot.models.User;
 import se.lnu.ParkingZpot.models.VerificationToken;
@@ -25,4 +26,5 @@ public interface IUserService {
   Boolean existsByEmail(String email);
   User saveUser(User user);
   Optional<Role> getUserRole(User user);
+  boolean deleteUser(UserDetails userPrincipal);
 }

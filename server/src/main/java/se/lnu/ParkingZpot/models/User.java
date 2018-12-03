@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -31,13 +33,14 @@ public class User {
   private String email;
 
   private String password;
-  
+
   private boolean enabled;
 
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(name = "user_roles",
     joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "role_id"))
+  @OnDelete(action = OnDeleteAction.CASCADE)
   private Set<Role> userRoles = new HashSet<>();
 
   public User(String username, String email, String password) {

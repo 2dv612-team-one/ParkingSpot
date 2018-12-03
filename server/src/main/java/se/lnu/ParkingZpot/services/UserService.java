@@ -1,6 +1,7 @@
 package se.lnu.ParkingZpot.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import se.lnu.ParkingZpot.models.User;
 import se.lnu.ParkingZpot.models.Role;
@@ -48,7 +49,7 @@ public class UserService implements IUserService {
     user.setPassword(passwordEncoder.encode(user.getPassword()));
 
     Set<Role> userRoles = new HashSet<Role>();
-    
+
     if (roles.size() == 0) {
       userRoles.add(roleService.findByName("ROLE_USER").get());
     }
@@ -146,5 +147,12 @@ public class UserService implements IUserService {
     }
 
     return Optional.empty();
+  }
+
+  @Override
+  public boolean deleteUser(UserDetails userPrincipal) {
+    Optional<User> user = repository.findById(repository.deleteByUsername(userPrincipal.getUsername()));
+
+    return user.isPresent();
   }
 }

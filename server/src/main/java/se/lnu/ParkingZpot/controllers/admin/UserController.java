@@ -28,7 +28,7 @@ import java.net.URI;
 import java.util.*;
 
 @Secured({"ROLE_ADMIN"})
-@RestController
+@RestController("UserAdminController")
 @RequestMapping("/api/admin")
 public class UserController {
 

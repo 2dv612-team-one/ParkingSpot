@@ -17,11 +17,13 @@ public class Messages {
   public static final String REG_ERROR_EMAIL = "Mailadressen är redan registrerad.";
   public static final String REG_ERROR_EXISTS_ROLE = "Rollen finns inte i systemet: ";
   public static final String REG_ERROR_GIVEN_ROLE = "Ingen roll specificerad för användaren.";
+  public static final String USER_DEL_SUCCESS = "Användare borttagen";
+  public static final String USER_DEL_ERROR = "Ett fel uppstod, användaren kan inte tas bort";
 
 
   private static String added = " har lagts till i databasen.";
   private static String exists = " finns redan i databasen.";
-  
+
   public static String addSuccess(String entity) {
     return entity + Messages.added;
   }
