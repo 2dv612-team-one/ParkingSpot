@@ -48,12 +48,13 @@ public class UserService implements IUserService {
     user.setPassword(passwordEncoder.encode(user.getPassword()));
 
     Set<Role> userRoles = new HashSet<Role>();
-    if (userRoles.size() == 0) {
+    
+    if (roles.size() == 0) {
       userRoles.add(roleService.findByName("ROLE_USER").get());
     }
 
     for (Role role : roles) {
-      userRoles.add(roleService.findByName(role.getName()).orElseThrow(() -> new ApplicationException(Messages.REG_ERROR_ROLE + role.getName())));
+      userRoles.add(roleService.findByName(role.getName()).orElseThrow(() -> new ApplicationException(Messages.REG_ERROR_EXISTS_ROLE + role.getName())));
     }
 
     user.setUserRoles(userRoles);

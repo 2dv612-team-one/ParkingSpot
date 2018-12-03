@@ -72,9 +72,6 @@ public class AuthenticationController {
       boolean validToken = tokenProvider.validateToken(authToken);
 
       if (validToken) {
-        Optional<Role> userRole = roleService.findByName("ROLE_USER");
-        Optional<Role> adminRole = roleService.findByName("ROLE_ADMIN");
-
         User currentUser = userService.getUser(tokenProvider.getUserIdFromJWT(authToken)).get();
 
         return new ResponseEntity<JwtValidationResponse>(new JwtValidationResponse(true,
@@ -115,6 +112,10 @@ public class AuthenticationController {
                 for (Role role : registrationRequest.getRoles().get()) {
                     roles.add(role);
                   }
+            } else {
+                //TODO: Remove following line and uncomment the one below as soon as user-roles get sent from the client
+                roles.add(new Role("ROLE_USER"));
+                //return new ResponseEntity<ApiResponse>(new ApiResponse(false, Messages.REG_ERROR_GIVEN_ROLE), HttpStatus.BAD_REQUEST);
             }
 
             User savedUser = userService.registerNewUserAccount(registrationRequest.getUsername(), registrationRequest.getEmail(), registrationRequest.getPassword(), roles);

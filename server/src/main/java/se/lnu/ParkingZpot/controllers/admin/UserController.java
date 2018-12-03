@@ -54,6 +54,9 @@ public class UserController {
         for (Role role : registrationRequest.getRoles().get()) {
           userRoles.add(role);
         }
+      } else {
+        logger.error(Messages.REG_ERROR_GIVEN_ROLE);
+        return new ResponseEntity<ApiResponse>(new ApiResponse(false, Messages.REG_ERROR_GIVEN_ROLE), HttpStatus.BAD_REQUEST);
       }
 
       savedUser = userService.registerNewUserAccount(registrationRequest.getUsername(), registrationRequest.getEmail(), registrationRequest.getPassword(), userRoles);
@@ -69,8 +72,10 @@ public class UserController {
 
       return ResponseEntity.created(userLocation).body(new ApiResponse(true, Messages.REG_SUCCESS));
     } catch (EntityExistsException e) {
+        logger.error(e.getMessage());
         return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
     } catch (ApplicationException e) {
+        logger.error(e.getMessage());
         return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
     } catch (UnsupportedEncodingException e) {
         logger.error(e.getMessage());
