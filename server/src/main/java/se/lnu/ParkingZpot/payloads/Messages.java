@@ -13,15 +13,17 @@ public class Messages {
   public static final String REG_VERIFICATION_REDIRECT_ERROR = "Användaren kunde inte omdirigeras efter verifikationen.";
   public static final String VERIFY_FAIL = "<p>Din verifieringstoken kan inte hittas, eller har gått ut. Försök gärna att registrera dig igen, och kom ihåg att verifiera din mailaddress inom 24 timmar.</p>";
   public static final String VEHICLE = "Fordonet";
-  public static final String VEHICLE = "Parkeringsplatsen";
+  public static final String PSPOT = "Parkeringsplatsen";
   public static final String REG_ERROR_USERNAME = "Användarnamnet finns redan.";
   public static final String REG_ERROR_EMAIL = "Mailadressen är redan registrerad.";
   public static final String REG_ERROR_EXISTS_ROLE = "Rollen finns inte i systemet: ";
   public static final String REG_ERROR_GIVEN_ROLE = "Ingen roll specificerad för användaren.";
+  public static final String UNAUTH_CRUD = "Du är inte tillåten att utföra denna operation.";
 
 
   private static String added = " har lagts till i databasen.";
   private static String exists = " finns redan i databasen.";
+  private static String deleted = " har tagits bort ur databasen.";
   
   public static String addSuccess(String entity) {
     return entity + Messages.added;
@@ -29,5 +31,9 @@ public class Messages {
 
   public static String entityExists(String entity) {
     return entity + Messages.exists;
+  }
+
+  public static String entityDeleted(String entity) {
+    return entity + Messages.deleted;
   }
 }

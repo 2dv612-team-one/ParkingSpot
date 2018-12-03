@@ -14,5 +14,6 @@ public class InternalMessages {
   public static final String ERROR_JWT_EMPTY_CLAIMS = "JWT claims string is empty.";
   public static final String ERROR_MAILFAIL = "Email could not be sent.";
   public static final String ERROR_REG_VERIFICATION_REDIRECT= "Verification redirect went wrong.";
+  public static final String ERROR_DELETION_EMPTY = "The entity that attempted to be removed does not exist.";
 
 }

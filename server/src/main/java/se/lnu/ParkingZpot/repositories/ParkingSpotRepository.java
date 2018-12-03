@@ -10,8 +10,9 @@ import java.util.List;
 
 @CrossOrigin
 public interface ParkingSpotRepository extends JpaRepository<ParkingSpot, Long> {
-  List<Vehicle> findById(@Param("id") long id);
+  List<ParkingSpot> findById(@Param("id") long id);
   Boolean existsByName(String name);
+  ParkingSpot findByName(String name);
   @Transactional
   Long deleteByName(String name);
 }

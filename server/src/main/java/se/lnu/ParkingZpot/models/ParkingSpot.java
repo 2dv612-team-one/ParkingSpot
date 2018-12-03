@@ -18,9 +18,9 @@ public class ParkingSpot {
   private long id;
   private long user_Id;
   private String name;
-  private int coords;
+  private int[] coords;
 
-  public Vehicle(long user_Id, String name, int[] coords) {
+  public ParkingSpot(long user_Id, String name, int[] coords) {
     super();
     this.user_Id = user_Id;
     this.name = name;

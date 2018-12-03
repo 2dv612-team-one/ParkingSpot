@@ -1,4 +1,4 @@
-package se.lnu.ParkingZpot.controllers.crud;
+package se.lnu.ParkingZpot.controllers.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
