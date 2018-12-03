@@ -5,9 +5,9 @@ import {
   USER_REGISTRATION,
 } from '../constants/actionTypes';
 
-export default function register(username, email, password) {
+export default function register(username, email, password, role) {
   return {
     type: USER_REGISTRATION,
-    payload: axios.post(REGISTER_URI, { username, email, password }),
+    payload: axios.post(REGISTER_URI, { username, email, password, role }),
   };
 }

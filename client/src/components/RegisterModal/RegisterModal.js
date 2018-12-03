@@ -15,7 +15,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   closeModal: () => dispatch(closeModal()),
-  register: (username, email, password) => dispatch(register(username, email, password)),
+  register: (username, email, password, role) => dispatch(register(username, email, password, role)),
 });
 
 class RegisterModal extends Component {
@@ -26,11 +26,13 @@ class RegisterModal extends Component {
       email: '',
       password: '',
       matchingPassword: '',
+      role: '',
       clicked: {
         username: false,
         email: false,
         password: false,
         matchingPassword: false,
+        role: false,
       },
     };
 
@@ -39,6 +41,7 @@ class RegisterModal extends Component {
     this.handlePassInput = this.handlePassInput.bind(this);
     this.handleMatchingPassInput = this.handleMatchingPassInput.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
+    this.handleRoleInput = this.handleRoleInput.bind(this);
   }
 
   onKeyPress= (e) => {
@@ -86,6 +89,10 @@ class RegisterModal extends Component {
       this.setState({ matchingPassword: e.target.value });
     }
 
+    handleRoleInput(e) {
+      this.setState({ role: e.target.value });
+    }
+
     handleRegister() {
       const { username, email, password } = this.state;
       this.props.register(username, email, password);
@@ -118,7 +125,7 @@ class RegisterModal extends Component {
       const emptyInput = this.hasEmptyInput();
       const isValidInput = this.isValidInput();
       const canBeSubmitted = this.canBeSubmitted();
-      const { clicked, username, email, password, matchingPassword } = this.state;
+      const { clicked, username, email, password, matchingPassword, role } = this.state;
       const { showRegisterModal } = this.props;
 
       const emptyInputError = (field) => {
@@ -196,6 +203,16 @@ class RegisterModal extends Component {
                     onBlur={this.handleBlur('matchingPassword')}
                     error={emptyInputError('matchingPassword') ? true : !!('' || invalidInputError('matchingPassword'))}
                     helperText={invalidInputError('matchingPassword') ? 'Ange samma lösenord igen.' : ' '}
+                  />
+                  <TextField
+                    label="Roll"
+                    name="role"
+                    className="register-input"
+                    onChange={this.handleRoleInput}
+                    value={role}
+                    onBlur={this.handleBlur('role')}
+                    error={!!emptyInputError('role')}
+                    helperText={emptyInputError('role') ? 'Ange en roll.' : ' '}
                   />
                   <Grid item>
                     <Button
