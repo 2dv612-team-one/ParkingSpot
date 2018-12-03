@@ -28,7 +28,7 @@ public class ParkingSpotService implements IParkingSpotService {
   }
 
   @Override
-  public List<ParkingSpot> getParkingSpot(long id) {
+  public Optional<ParkingSpot> getParkingSpot(long id) {
     return parkingSpotRepository.findById(id);
   }
 
@@ -47,10 +47,8 @@ public class ParkingSpotService implements IParkingSpotService {
   }
 
   @Override
-  public Long deleteParkingSpot(String name) {
-    if (!parkingSpotRepository.existsByName(name)) {
-      throw new NoSuchEntityException(InternalMessages.ERROR_DELETION_EMPTY);
-    }
-    return parkingSpotRepository.deleteByName(name);
+  public boolean deleteParkingSpot(String name) {
+    Optional<ParkingSpot> deletedSpot = parkingSpotRepository.findById(parkingSpotRepository.deleteByName(name));
+    return deletedSpot.isPresent();
   }
 }

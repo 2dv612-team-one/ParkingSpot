@@ -9,8 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import se.lnu.ParkingZpot.authentication.CurrentUser;
+import se.lnu.ParkingZpot.authentication.UserDetailsImpl;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import se.lnu.ParkingZpot.authentication.JwtTokenProvider;
 import se.lnu.ParkingZpot.exceptions.EntityExistsException;
@@ -43,7 +48,6 @@ public class ParkingSpotController {
     return new ResponseEntity<>(parkingSpotService.getAllParkingSpots(), HttpStatus.OK);
   }
 
-  @PreAuthorize("hasRole('PARKING_OWNER') or hasRole('ADMIN')")
   @PostMapping
   public ResponseEntity<ApiResponse> addParkingSpot(@Valid @RequestBody AddParkingSpotRequest addParkingSpotRequest) {
     Long id = tokenProvider.getUserIdFromJWT(addParkingSpotRequest.accessToken);
@@ -63,16 +67,15 @@ public class ParkingSpotController {
     return ResponseEntity.created(pspotLocation).body(new ApiResponse(true, Messages.addSuccess(Messages.PSPOT)));
   }
 
-  @PreAuthorize("hasRole('PARKING_OWNER') or hasRole('ADMIN')")
   @DeleteMapping("/delete/{spot_name}")
-  public ResponseEntity<ApiResponse> deleteParkingSpot(@CurrentUser UserDetailsImpl principal, @PathVariable("spot_name") String spotName,) {
+  public ResponseEntity<ApiResponse> deleteParkingSpot(@CurrentUser UserDetailsImpl principal, @PathVariable("spot_name") String spotName) {
     //TODO: Check that no cars are parked in the area
-    String spot = principal.getId() + "-" + parkingSpotService.getParkingSpot(spotName);
+    String spot = (principal.getId() + "-" + spotName);
 
     if (parkingSpotService.deleteParkingSpot(spot)) {
       return new ResponseEntity<ApiResponse>(new ApiResponse(true, Messages.entityDeleted(Messages.PSPOT)), HttpStatus.OK);
     }
 
-    return new ResponseEntity<ApiResponse>(new ApiResponse(false, Messages.UNAUTH_CRUD), HttpStatus.UNAUNAUTHORIZED);
+    return new ResponseEntity<ApiResponse>(new ApiResponse(false, Messages.UNAUTH_CRUD), HttpStatus.UNAUTHORIZED);
   }
 }

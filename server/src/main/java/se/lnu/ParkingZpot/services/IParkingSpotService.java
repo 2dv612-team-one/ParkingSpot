@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public interface IParkingSpotService {
   List<ParkingSpot> getAllParkingSpots();
-  List<ParkingSpot> getParkingSpot(long id);
+  Optional<ParkingSpot> getParkingSpot(long id);
   ParkingSpot getParkingSpot(String name);
   ParkingSpot addParkingSpot(long userId, String name, int[] coords);
   boolean deleteParkingSpot(String name);

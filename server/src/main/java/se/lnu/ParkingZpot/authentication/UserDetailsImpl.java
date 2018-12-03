@@ -1,5 +1,8 @@
 package se.lnu.ParkingZpot.authentication;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,6 +15,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class UserDetailsImpl implements UserDetails {
+
+    private static final Logger logger = LoggerFactory.getLogger(UserDetailsImpl.class);
 
     public static final long serialVersionUID = 1L;
 
@@ -51,6 +56,10 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        logger.info("checking roles");
+        for (GrantedAuthority role : authorities) {
+            logger.info(role.toString());
+        }
         return authorities;
     }
 
