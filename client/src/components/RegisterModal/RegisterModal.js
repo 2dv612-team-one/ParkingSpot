@@ -15,7 +15,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   closeModal: () => dispatch(closeModal()),
-  register: (username, email, password, role) => dispatch(register(username, email, password, role)),
+  register: (username, email, password, roles) => dispatch(register(username, email, password, roles)),
 });
 
 class RegisterModal extends Component {
@@ -26,13 +26,13 @@ class RegisterModal extends Component {
       email: '',
       password: '',
       matchingPassword: '',
-      role: '',
+      roles: '',
       clicked: {
         username: false,
         email: false,
         password: false,
         matchingPassword: false,
-        role: false,
+        roles: false,
       },
     };
 
@@ -41,7 +41,7 @@ class RegisterModal extends Component {
     this.handlePassInput = this.handlePassInput.bind(this);
     this.handleMatchingPassInput = this.handleMatchingPassInput.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
-    this.handleRoleInput = this.handleRoleInput.bind(this);
+    this.handleRolesInput = this.handleRolesInput.bind(this);
   }
 
   onKeyPress= (e) => {
@@ -89,13 +89,13 @@ class RegisterModal extends Component {
       this.setState({ matchingPassword: e.target.value });
     }
 
-    handleRoleInput(e) {
-      this.setState({ role: e.target.value });
+    handleRolesInput(e) {
+      this.setState({ roles: e.target.value });
     }
 
     handleRegister() {
-      const { username, email, password } = this.state;
-      this.props.register(username, email, password);
+      const { username, email, password , roles} = this.state;
+      this.props.register(username, email, password, roles);
     }
 
     handleBlur = field => () => {
@@ -125,7 +125,7 @@ class RegisterModal extends Component {
       const emptyInput = this.hasEmptyInput();
       const isValidInput = this.isValidInput();
       const canBeSubmitted = this.canBeSubmitted();
-      const { clicked, username, email, password, matchingPassword, role } = this.state;
+      const { clicked, username, email, password, matchingPassword, roles } = this.state;
       const { showRegisterModal } = this.props;
 
       const emptyInputError = (field) => {
@@ -206,13 +206,13 @@ class RegisterModal extends Component {
                   />
                   <TextField
                     label="Roll"
-                    name="role"
+                    name="roles"
                     className="register-input"
-                    onChange={this.handleRoleInput}
-                    value={role}
-                    onBlur={this.handleBlur('role')}
-                    error={!!emptyInputError('role')}
-                    helperText={emptyInputError('role') ? 'Ange en roll.' : ' '}
+                    onChange={this.handleRolesInput}
+                    value={roles}
+                    onBlur={this.handleBlur('roles')}
+                    error={!!emptyInputError('roles')}
+                    helperText={emptyInputError('roles') ? 'Ange en roll.' : ' '}
                   />
                   <Grid item>
                     <Button
