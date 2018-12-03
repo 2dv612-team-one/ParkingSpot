@@ -68,7 +68,7 @@ public class ParkingSpotController {
     return ResponseEntity.created(pspotLocation).body(new ApiResponse(true, Messages.addSuccess(Messages.PSPOT)));
   }
 
-  @DeleteMapping("/delete/{spot_name}")
+  @DeleteMapping("/{spot_name}")
   @PreAuthorize("hasAnyRole('PARKING_OWNER', 'ADMIN')")
   public ResponseEntity<ApiResponse> deleteParkingSpot(@CurrentUser UserDetailsImpl principal, @PathVariable("spot_name") String spotName) {
     //TODO: Check that no cars are parked in the area
