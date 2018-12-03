@@ -1,6 +1,7 @@
 /* eslint import/no-webpack-loader-syntax: off */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Grid, Typography } from '@material-ui/core';
 import SockJS from 'sockjs-client';
 
 import MenuBar from './components/MenuBar/MenuBar';
@@ -53,18 +54,23 @@ class App extends Component {
         <LoginModal />
         <RegisterModal />
 
-        <div className="App-header">
-          <h2>Welcome to ParkingZpot</h2>
-        </div>
+        <Typography className="app-header-message" variant="title" align="center">Välkommen till ParkingZpot</Typography>
 
         <ErrorHandling />
 
         {accessToken
         && (
         <div>
-          <VehicleForm />
-          <VehicleList />
-          <AdminUserControl />
+            <Grid container
+                direction="column"
+                alignItems="stretch"
+                spacing={16}
+                justify="space-around"
+                >
+                <Grid item><VehicleForm /></Grid>
+                <Grid item><VehicleList /></Grid>
+                <Grid item><AdminUserControl /></Grid>
+            </Grid>
         </div>
         )
           }

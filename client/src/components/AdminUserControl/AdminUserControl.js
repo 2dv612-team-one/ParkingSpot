@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 /* eslint import/no-webpack-loader-syntax: off */
-import { Button, Checkbox, Chip, FormControl, FormHelperText, Input, InputLabel, ListItemText, MenuItem, Select, TextField, withStyles } from '@material-ui/core';
+import { Button, Checkbox, Chip, FormControl, FormHelperText, Input, InputLabel, ListItemText, MenuItem, Select, TextField, withStyles, Paper, Typography } from '@material-ui/core';
 import { getRoles, register } from '../../actions/userControl';
 
 const mapStateToProps = state => ({
@@ -13,7 +13,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     onLoad: (accessToken) => dispatch(getRoles(accessToken)),
-    register: (accessToken, usernameOrEmail, password, email, selectedRoles) => dispatch(register(accessToken, usernameOrEmail, password, email, selectedRoles))
+    register: (accessToken, username, password, email, selectedRoles) => dispatch(register(accessToken, username, password, email, selectedRoles))
 });
 
 const styles = theme => ({
@@ -26,25 +26,20 @@ const styles = theme => ({
     },
 });
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-    PaperProps: {
-        style: {
-            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-            width: 250,
-        },
-    },
-};
-
 class AdminUserControl extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            usernameOrEmail: '',
+            username: '',
             password: '',
             email: '',
-            selectedRoles: []
+            selectedRoles: [],
+            clicked: {
+                username: false,
+                email: false,
+                password: false,
+                selectedRoles: false,
+            },
         }
 
         this.handleUserInput = this.handleUserInput.bind(this);
@@ -61,7 +56,7 @@ class AdminUserControl extends Component {
     }
 
     handleUserInput(e) {
-        this.setState({ usernameOrEmail: e.target.value });
+        this.setState({ username: e.target.value });
     }
 
     handlePassInput(e) {
@@ -77,42 +72,86 @@ class AdminUserControl extends Component {
     }
 
     registerUser = () => {
-        const { usernameOrEmail, password, email, selectedRoles } = this.state;
+        const { username, password, email, selectedRoles } = this.state;
         const { register, accessToken } = this.props;
-        register(accessToken, usernameOrEmail, password, email, selectedRoles);
+        register(accessToken, username, password, email, selectedRoles);
+    }
+
+    isValidInput() {
+        const { email } = this.state;
+        return {
+            email: email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i),
+        };
+    }
+
+    handleBlur = field => () => {
+        const { clicked } = this.state;
+        this.setState({
+            clicked: { ...clicked, [field]: true },
+        });
+    }
+
+    hasEmptyInput() {
+        const { username, email, password, selectedRoles } = this.state;
+        return {
+            username: username.length === 0,
+            email: email.length === 0,
+            password: password.length === 0,
+            selectedRoles: selectedRoles.length === 0,
+        };
+    }
+
+    canBeSubmitted() {
+        const emptyInputErrors = this.hasEmptyInput();
+        const invalidInputErrors = this.isValidInput();
+        const emptyInput = Object.keys(emptyInputErrors).some(x => emptyInputErrors[x]);
+        const isValidEmail = invalidInputErrors.email;
+
+        if (emptyInput) {
+            return false;
+        }
+        if (isValidEmail) {
+            return true;
+        }
+        return false;
     }
 
     render() {
         const { classes } = this.props;
         const { role } = this.props;
         const { roles } = this.props;
-        const { usernameOrEmail, password, email, selectedRoles } = this.state;
-        const emptyInputError = (field) => {
+        const { username, password, email, selectedRoles, clicked } = this.state;
+        const emptyInput = this.hasEmptyInput();
+        const isValidInput = this.isValidInput();
+        const canBeSubmitted = this.canBeSubmitted();
 
-            return "hej"
+        const emptyInputError = (field) => {
+            const hasEmptyInput = emptyInput[field];
+            const shouldShow = clicked[field];
+            return hasEmptyInput ? shouldShow : false;
+        };
+
+        const invalidInputError = (field) => {
+            const hasValidInput = isValidInput[field];
+            const shouldShow = clicked[field];
+            return hasValidInput ? false : shouldShow;
         };
 
         return (
             <div>
                 {
                     role === "ROLE_ADMIN" ?
-                        <form className="admin-register-form">
+                        <Paper className="admin-register-form">
+                            <Typography variant="h6">Lägg till en ny användare</Typography>
                             <FormControl className={classes.formControl}>
                                 <TextField
                                     label="Användarnamn"
-                                    name="usernameOrEmail"
+                                    name="username"
                                     onChange={this.handleUserInput}
-                                    value={usernameOrEmail}
-                                    helperText={emptyInputError("usernameOrEmail") ? "Ange ett användarnamn." : " "}
-                                />
-                            </FormControl>
-                            <FormControl className={classes.formControl}>
-                                <TextField
-                                    label="Lösenord"
-                                    name="password"
-                                    onChange={this.handlePassInput}
-                                    value={password}
-                                    helperText={emptyInputError("password") ? "Ange ett lösenord." : " "}
+                                    value={username}
+                                    onBlur={this.handleBlur('username')}
+                                    error={!!emptyInputError('username')}
+                                    helperText={emptyInputError('username') ? 'Ange ett användarnamn.' : ' '}
                                 />
                             </FormControl>
                             <FormControl className={classes.formControl}>
@@ -121,7 +160,20 @@ class AdminUserControl extends Component {
                                     name="email"
                                     onChange={this.handleEmail}
                                     value={email}
-                                    helperText={emptyInputError("email") ? "Ange en email adress." : " "}
+                                    onBlur={this.handleBlur('email')}
+                                    error={!!invalidInputError('email')}
+                                    helperText={invalidInputError('email') ? 'Ange en korrekt mailadress.' : ' '}
+                                />
+                            </FormControl>
+                            <FormControl className={classes.formControl}>
+                                <TextField
+                                    label="Lösenord"
+                                    name="password"
+                                    value={password}
+                                    onChange={this.handlePassInput}
+                                    onBlur={this.handleBlur('password')}
+                                    error={!!emptyInputError('password')}
+                                    helperText={emptyInputError('password') ? 'Ange ett lösenord.' : ' '}
                                 />
                             </FormControl>
                             <FormControl className={classes.formControl}>
@@ -138,7 +190,9 @@ class AdminUserControl extends Component {
                                             ))}
                                         </div>
                                     )}
-                                    MenuProps={MenuProps}
+                                    onBlur={this.handleBlur('selectedRoles')}
+                                    error={!!emptyInputError('selectedRoles')}
+                                    helperText={emptyInputError('selectedRoles') ? 'Ange roller.' : ' '}
                                 >
                                     {roles.map(role => (
                                         <MenuItem key={role.name} value={role.name}>
@@ -149,14 +203,18 @@ class AdminUserControl extends Component {
                                 </Select>
                                 <FormHelperText>{emptyInputError("selectedRoles") ? "Ange roller." : " "}</FormHelperText>
                             </FormControl>
-                            <Button type="button" variant="outlined" className={`app-theme-color ${classes.button}`}
-                                id="admin-register-user-btn" onClick={this.registerUser}>
-                                <span>Registrera</span>
+                            <Button type="button" variant="outlined"
+                                className={classes.button}
+                                id="admin-register-user-btn"
+                                onClick={this.registerUser}
+                                disabled={!canBeSubmitted}
+                                >
+                                <span>Lägg till</span>
                             </Button>
-                        </form> :
+                        </Paper>
+                        :
                         null
                 }
-
             </div>
         );
     }
