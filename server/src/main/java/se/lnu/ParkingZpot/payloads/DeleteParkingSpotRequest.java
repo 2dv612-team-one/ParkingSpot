@@ -5,9 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AddVehicleRequest {
+public class DeleteParkingSpotRequest {
 
   public String accessToken;
-  private String registrationNumber;
-
+  private String name;
+  
 }

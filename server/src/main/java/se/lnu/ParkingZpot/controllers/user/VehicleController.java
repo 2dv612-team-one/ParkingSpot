@@ -1,4 +1,4 @@
-package se.lnu.ParkingZpot.controllers.crud;
+package se.lnu.ParkingZpot.controllers.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import se.lnu.ParkingZpot.authentication.CurrentUser;
+import se.lnu.ParkingZpot.authentication.UserDetailsImpl;
 
 import se.lnu.ParkingZpot.authentication.JwtTokenProvider;
 import se.lnu.ParkingZpot.exceptions.EntityExistsException;
@@ -26,14 +30,13 @@ import java.net.URI;
 @RequestMapping("/api/vehicles")
 public class VehicleController {
 
-  @Autowired
-  private JwtTokenProvider tokenProvider;
-
+  private final JwtTokenProvider tokenProvider;
   private final VehicleService vehicleService;
 
   @Autowired
-  public VehicleController(VehicleService vehicleService) {
+  public VehicleController(VehicleService vehicleService, JwtTokenProvider tokenProvider) {
     this.vehicleService = vehicleService;
+    this.tokenProvider = tokenProvider;
   }
 
   @GetMapping
@@ -42,12 +45,13 @@ public class VehicleController {
   }
 
   @PostMapping
-  public ResponseEntity<ApiResponse> addVehicles(@Valid @RequestBody AddVehicleRequest addVehicleRequest) {
+  @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+  public ResponseEntity<ApiResponse> addVehicle(@Valid @RequestBody AddVehicleRequest addVehicleRequest) {
     Long id = tokenProvider.getUserIdFromJWT(addVehicleRequest.accessToken);
     String registrationNumber = addVehicleRequest.getRegistrationNumber();
     
     try {
-      vehicleService.addVehicles(id, registrationNumber);
+      vehicleService.addVehicle(id, registrationNumber);
     } catch (EntityExistsException e) {
       return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
     }

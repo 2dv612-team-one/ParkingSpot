@@ -1,4 +1,4 @@
-package se.lnu.ParkingZpot.controllers.crud;
+package se.lnu.ParkingZpot.controllers.user;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class UserController {
   @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
   public ResponseEntity<ApiResponse> deleteUser(@CurrentUser UserDetailsImpl principal) {
 
-    if(!userService.deleteUser(principal)) {
+    if(userService.deleteUser(principal)) {
       return new ResponseEntity<>(new ApiResponse(true, Messages.USER_DEL_SUCCESS), HttpStatus.OK);
     }
 

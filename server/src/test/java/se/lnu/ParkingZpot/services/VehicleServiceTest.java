@@ -34,7 +34,7 @@ public class VehicleServiceTest {
     public void testGetAllVehicles() {
         int startCount = vehicleService.getAllVehicles().size();
 
-        vehicleService.addVehicles(user_id, firstReg);
+        vehicleService.addVehicle(user_id, firstReg);
         assertTrue(vehicleService.getAllVehicles().size() == (startCount + 1));
 
         vehicleRepository.deleteByRegistrationNumber(firstReg);
@@ -42,7 +42,7 @@ public class VehicleServiceTest {
 
     @Test 
     public void testAddVehicle() {
-        vehicleService.addVehicles(user_id, secondReg);
+        vehicleService.addVehicle(user_id, secondReg);
 
         List<Vehicle> result = vehicleService.getAllVehicles()
                       .stream()

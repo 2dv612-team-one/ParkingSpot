@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Typography } from '@material-ui/core';
+import SockJS from 'sockjs-client';
 
 import MenuBar from './components/MenuBar/MenuBar';
 import LoginModal from './components/LoginModal/LoginModal';
@@ -36,6 +37,12 @@ class App extends Component {
   componentDidMount() {
     const { loadAccessToken } = this.props;
     loadAccessToken();
+
+    const sock = new SockJS('http://localhost:8080/ws');
+    sock.onopen = () => {
+      console.log('open');
+      sock.send('test');
+    };
   }
 
   render() {

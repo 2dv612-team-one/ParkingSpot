@@ -136,12 +136,15 @@ public class UserService implements IUserService {
   public Optional<Role> getUserRole(User user) {
     Optional<Role> userRole = roleService.findByName("ROLE_USER");
     Optional<Role> adminRole = roleService.findByName("ROLE_ADMIN");
+    Optional<Role> pownerRole = roleService.findByName("ROLE_PARKING_OWNER");
 
-    if (userRole.isPresent() && adminRole.isPresent()) {
+    if (userRole.isPresent() && adminRole.isPresent() && pownerRole.isPresent()) {
       if (user.getUserRoles().contains(adminRole.get())) {
         return adminRole;
       } else if (user.getUserRoles().contains(userRole.get())) {
         return userRole;
+      } else if (user.getUserRoles().contains(pownerRole.get())) {
+        return pownerRole;
       }
     } else {
       // TODO: Exception, roles not initialized

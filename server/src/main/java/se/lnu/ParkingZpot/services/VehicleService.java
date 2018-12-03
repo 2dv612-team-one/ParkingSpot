@@ -26,7 +26,7 @@ public class VehicleService implements IVehicleService {
 
 
   @Override
-  public Vehicle addVehicles(long userId, String registrationNumber) throws EntityExistsException {
+  public Vehicle addVehicle(long userId, String registrationNumber) throws EntityExistsException {
     if (vehicleRepository.existsByRegistrationNumber(registrationNumber)) {
       throw new EntityExistsException(Messages.entityExists(Messages.VEHICLE));
     }

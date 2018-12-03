@@ -67,7 +67,7 @@ public class AuthenticationController {
     this.emailService = emailService;
   }
 
-  @GetMapping("/validate")
+    @GetMapping("/validate")
     public ResponseEntity<JwtValidationResponse> validateToken(@RequestParam("token") String authToken) {
       boolean validToken = tokenProvider.validateToken(authToken);
 
@@ -93,7 +93,7 @@ public class AuthenticationController {
 
         String jwt = tokenProvider.generateToken(authentication);
         User user = userService.getUser(tokenProvider.getUserIdFromJWT(jwt)).get();
-
+        
         if (user.isEnabled() == true) {
             return ResponseEntity.ok(new JwtAuthenticationResponse(jwt, userService.getUserRole(user).get().getName()));
         } else {

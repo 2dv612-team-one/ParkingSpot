@@ -7,9 +7,13 @@ import {
 } from '../constants/actionTypes';
 
 export function addCar(accessToken, registrationNumber) {
+  let config = {
+    headers: {'Authorization': "Bearer " + accessToken}
+  }
+
   return {
     type: ADD_CAR,
-    payload: axios.post(VEHICLE_URI, { accessToken, registrationNumber }),
+    payload: axios.post(VEHICLE_URI, { accessToken, registrationNumber }, config),
   };
 }
 

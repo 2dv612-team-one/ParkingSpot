@@ -8,5 +8,5 @@ import java.util.List;
 @Service
 public interface IVehicleService {
   List<Vehicle> getAllVehicles();
-  Vehicle addVehicles(long userId, String registrationNumber);
+  Vehicle addVehicle(long userId, String registrationNumber);
 }

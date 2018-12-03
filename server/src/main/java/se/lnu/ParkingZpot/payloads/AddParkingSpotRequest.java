@@ -5,9 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AddVehicleRequest {
+public class AddParkingSpotRequest {
 
   public String accessToken;
-  private String registrationNumber;
+  private String name;
+  private int[] coords;
 
 }
