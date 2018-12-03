@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.security.access.annotation.Secured;
 
 import se.lnu.ParkingZpot.authentication.JwtTokenProvider;
 import se.lnu.ParkingZpot.exceptions.EntityExistsException;
@@ -22,6 +23,7 @@ import java.util.List;
 import javax.validation.Valid;
 import java.net.URI;
 
+@Secured({"ROLE_USER"})
 @RestController
 @RequestMapping("/api/vehicles")
 public class VehicleController {

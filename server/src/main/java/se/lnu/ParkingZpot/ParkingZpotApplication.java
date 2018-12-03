@@ -44,6 +44,7 @@ class DataLoader {
 
     Role userRole = roleRepository.findByName("ROLE_USER").orElseThrow(() -> new ApplicationException("No user role exists"));
     Role adminRole = roleRepository.findByName("ROLE_ADMIN").orElseThrow(() -> new ApplicationException("No admin role exists"));
+    Role pownerRole = roleRepository.findByName("ROLE_PARKING_OWNER").orElseThrow(() -> new ApplicationException("No parking owner role exists"));
 
 
     if (!userRepository.existsByUsername("User")) {
@@ -67,6 +68,17 @@ class DataLoader {
 
       userRepository.save(user2);
     }
+
+    if (!userRepository.existsByUsername("Powner")) {
+
+      User user = new User("Powner", "Powner@Powner.com", "123");
+
+      user.setPassword(passwordEncoder.encode(user.getPassword()));
+      user.setUserRoles(Collections.singleton(pownerRole));
+      user.setEnabled(true);
+
+      userRepository.save(user);
+    }
   }
 
 
@@ -76,6 +88,9 @@ class DataLoader {
     }
     if (!roleRepository.existsByName("ROLE_ADMIN")) {
       roleRepository.save(new Role("ROLE_ADMIN"));
+    }
+    if (!roleRepository.existsByName("ROLE_PARKING_OWNER")) {
+      roleRepository.save(new Role("ROLE_PARKING_OWNER"));
     }
   }
 }
