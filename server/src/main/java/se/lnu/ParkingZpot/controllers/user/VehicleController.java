@@ -45,6 +45,7 @@ public class VehicleController {
   }
 
   @PostMapping
+  @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
   public ResponseEntity<ApiResponse> addVehicle(@Valid @RequestBody AddVehicleRequest addVehicleRequest) {
     Long id = tokenProvider.getUserIdFromJWT(addVehicleRequest.accessToken);
     String registrationNumber = addVehicleRequest.getRegistrationNumber();

@@ -56,10 +56,6 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        logger.info("checking roles");
-        for (GrantedAuthority role : authorities) {
-            logger.info(role.toString());
-        }
         return authorities;
     }
 

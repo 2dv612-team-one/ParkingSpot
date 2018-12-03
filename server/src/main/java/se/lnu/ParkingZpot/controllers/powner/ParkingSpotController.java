@@ -49,6 +49,7 @@ public class ParkingSpotController {
   }
 
   @PostMapping
+  @PreAuthorize("hasAnyRole('PARKING_OWNER', 'ADMIN')")
   public ResponseEntity<ApiResponse> addParkingSpot(@Valid @RequestBody AddParkingSpotRequest addParkingSpotRequest) {
     Long id = tokenProvider.getUserIdFromJWT(addParkingSpotRequest.accessToken);
     int[] coords = addParkingSpotRequest.getCoords();
@@ -68,6 +69,7 @@ public class ParkingSpotController {
   }
 
   @DeleteMapping("/delete/{spot_name}")
+  @PreAuthorize("hasAnyRole('PARKING_OWNER', 'ADMIN')")
   public ResponseEntity<ApiResponse> deleteParkingSpot(@CurrentUser UserDetailsImpl principal, @PathVariable("spot_name") String spotName) {
     //TODO: Check that no cars are parked in the area
     String spot = (principal.getId() + "-" + spotName);
