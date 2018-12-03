@@ -67,7 +67,7 @@ public class AuthenticationController {
     this.emailService = emailService;
   }
 
-  @GetMapping("/validate")
+    @GetMapping("/validate")
     public ResponseEntity<JwtValidationResponse> validateToken(@RequestParam("token") String authToken) {
       boolean validToken = tokenProvider.validateToken(authToken);
 
