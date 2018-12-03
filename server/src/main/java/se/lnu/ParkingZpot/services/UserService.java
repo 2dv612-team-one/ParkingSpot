@@ -3,6 +3,7 @@ package se.lnu.ParkingZpot.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import se.lnu.ParkingZpot.models.User;
 import se.lnu.ParkingZpot.models.Role;
 import se.lnu.ParkingZpot.models.VerificationToken;
@@ -150,9 +151,18 @@ public class UserService implements IUserService {
   }
 
   @Override
+  @Transactional
   public boolean deleteUser(UserDetails userPrincipal) {
-    Optional<User> user = repository.findById(repository.deleteByUsername(userPrincipal.getUsername()));
+    Optional<User> user = repository.findByUsernameOrEmail(userPrincipal.getUsername(), userPrincipal.getUsername());
 
-    return user.isPresent();
+    if (user.isPresent()) {
+      tokenRepository.deleteAllByUser(user.get());
+
+      Optional<User> deletedUser = repository.findById(repository.deleteByUsername(userPrincipal.getUsername()));
+
+      return deletedUser.isPresent();
+    }
+
+    return false;
   }
 }
