@@ -36,8 +36,8 @@ class DataLoader {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
 
-    loadRoles();
-    saveUser();
+    // loadRoles();
+    // saveUser();
   }
 
   private void saveUser() {
