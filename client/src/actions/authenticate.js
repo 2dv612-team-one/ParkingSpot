@@ -21,7 +21,7 @@ export function logout() {
 }
 
 function accessTokenLoaded(accessToken) {
-  // TODO: Check against the server if the token is valid
+  // TODO: Fix Uncaught promise request
   return {
     type: USER_AUTHENTICATION_TOKEN,
     payload: axios.get(`${VALIDATE_TOKEN_URI}?token=${accessToken}`), // TODO: Use this one instead
