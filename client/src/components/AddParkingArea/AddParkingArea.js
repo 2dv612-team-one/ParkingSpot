@@ -27,24 +27,20 @@ const styles = theme => ({
 class AddParkingArea extends Component {
     constructor(props) {
         super(props);
-        // this.state = {
-        //     username: '',
-        //     password: '',
-        //     email: '',
-        //     selectedRoles: [],
-        //     clicked: {
-        //         username: false,
-        //         email: false,
-        //         password: false,
-        //         selectedRoles: false,
-        //     },
-        // }
+        this.state = {
+            name: '',
+            coord1: '',
+            coord2: '',
+            coord3: '',
+            coord4: ''      
+        }
 
-        // this.handleUserInput = this.handleUserInput.bind(this);
-        // this.handlePassInput = this.handlePassInput.bind(this);
-        // this.handleEmail = this.handleEmail.bind(this);
-        // this.handleRoles = this.handleRoles.bind(this);
-        // this.registerUser = this.registerUser.bind(this);
+        this.handleAreaName = this.handleAreaName.bind(this);
+        this.handleCoord1 = this.handleCoord1.bind(this);
+        this.handleCoord2 = this.handleCoord2.bind(this);
+        this.handleCoord3 = this.handleCoord3.bind(this);
+        this.handleCoord4 = this.handleCoord4.bind(this);
+       
     }
 
     componentWillMount() {
@@ -53,27 +49,36 @@ class AddParkingArea extends Component {
         // onLoad(accessToken);
     }
 
-    // handleUserInput(e) {
-    //     this.setState({ username: e.target.value });
-    // }
+    handleAreaName(e) {
+        this.setState({ name: e.target.value });
+    }
 
-    // handlePassInput(e) {
-    //     this.setState({ password: e.target.value });
-    // }
+    handleCoord1(e) {
+        this.setState({ coord1: e.target.value });
+    }
 
-    // handleEmail(e) {
-    //     this.setState({ email: e.target.value });
-    // }
-
-    // handleRoles(e) {
-    //     this.setState({ selectedRoles: e.target.value });
-    // }
+    handleCoord2(e) {
+        this.setState({ coord2: e.target.value });
+    }
+    handleCoord3(e) {
+        this.setState({ coord3: e.target.value });
+    }
+    handleCoord4(e) {
+        this.setState({ coord4: e.target.value });
+    }
 
     // registerUser = () => {
     //     const { username, password, email, selectedRoles } = this.state;
     //     const { register, accessToken } = this.props;
     //     register(accessToken, username, password, email, selectedRoles);
     // }
+
+    addArea = () => {
+        const {name, coord1, coord2, coord3, coord4} = this.state;
+        const {accessToken} = this.props;
+        let coords = [coord1, coord2, coord3, coord4];
+        addArea(accessToken, name , coords);
+    }
 
 
     // handleBlur = field => () => {
@@ -112,7 +117,7 @@ class AddParkingArea extends Component {
         //const { classes } = this.props;
         const { role } = this.props;
         // const { roles } = this.props;
-        // const { username, password, email, selectedRoles, clicked } = this.state;
+        const { areaName, coord1, coord2, coord3, coord4 } = this.state;
         // const emptyInput = this.hasEmptyInput();
         // const isValidInput = this.isValidInput();
         // const canBeSubmitted = this.canBeSubmitted();
@@ -133,7 +138,69 @@ class AddParkingArea extends Component {
             <div>
                 {
                     role === "ROLE_PARKING_OWNER" ?
-                        <span>{role}</span>
+                    <Paper>
+                    <Typography variant="subtitle">Lägg till en ny parkeringsplats</Typography>
+                    <FormControl >
+                        <TextField
+                            label="Namn"
+                            name="name"
+                            onChange={this.handleAreaName}
+                            value={areaName}
+                            // onBlur={this.handleBlur('username')}
+                            // error={!!emptyInputError('username')}
+                            // helperText={emptyInputError('username') ? 'Ange ett användarnamn.' : ' '}
+                        />
+                    </FormControl>
+                    <FormControl >
+                        <TextField
+                            label="Coord1"
+                            name="coord1"
+                            onChange={this.handleCoord1}
+                            value={coord1}
+                            // onBlur={this.handleBlur('email')}
+                            // error={!!invalidInputError('email')}
+                            // helperText={invalidInputError('email') ? 'Ange en korrekt mailadress.' : ' '}
+                        />
+                    </FormControl>
+                    <FormControl >
+                        <TextField
+                            label="Coord2"
+                            name="coord2"
+                            value={coord2}
+                            onChange={this.handleCoord2}
+                            // onBlur={this.handleBlur('password')}
+                            // error={!!emptyInputError('password')}
+                            // helperText={emptyInputError('password') ? 'Ange ett lösenord.' : ' '}
+                        />
+                    </FormControl>
+                    <FormControl >
+                    <TextField
+                            label="Coord3"
+                            name="coord3"
+                            value={coord3}
+                            onChange={this.handleCoord3}
+                            // onBlur={this.handleBlur('password')}
+                            // error={!!emptyInputError('password')}
+                            // helperText={emptyInputError('password') ? 'Ange ett lösenord.' : ' '}
+                        />
+                    </FormControl>
+                    <TextField
+                            label="Coord4"
+                            name="coord4"
+                            value={coord4}
+                            onChange={this.handleCoord4}
+                            // onBlur={this.handleBlur('password')}
+                            // error={!!emptyInputError('password')}
+                            // helperText={emptyInputError('password') ? 'Ange ett lösenord.' : ' '}
+                        />
+                    <Button type="button" variant="outlined"
+                        id="add-parking-area"
+                        onClick={this.addArea}
+                        // disabled={!canBeSubmitted}
+                        >
+                        <span>Lägg till</span>
+                    </Button>
+                </Paper>
                         :
                         null
                 }
