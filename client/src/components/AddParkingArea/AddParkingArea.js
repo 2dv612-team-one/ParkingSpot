@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 /* eslint import/no-webpack-loader-syntax: off */
-import { Button, Checkbox, Chip, FormControl, FormHelperText, Input, InputLabel, ListItemText, MenuItem, Select, TextField, withStyles, Paper, Typography } from '@material-ui/core';
+import { Button, FormControl, TextField, withStyles, Paper, Typography } from '@material-ui/core';
 import { addArea } from '../../actions/parkingArea';
 
 const mapStateToProps = state => ({
@@ -43,11 +43,6 @@ class AddParkingArea extends Component {
        
     }
 
-    componentWillMount() {
-        // const { onLoad } = this.props;
-        // const { accessToken } = this.props;
-        // onLoad(accessToken);
-    }
 
     handleAreaName(e) {
         this.setState({ name: e.target.value });
@@ -67,11 +62,6 @@ class AddParkingArea extends Component {
         this.setState({ coord4: e.target.value });
     }
 
-    // registerUser = () => {
-    //     const { username, password, email, selectedRoles } = this.state;
-    //     const { register, accessToken } = this.props;
-    //     register(accessToken, username, password, email, selectedRoles);
-    // }
 
     addArea = () => {
         const {name, coord1, coord2, coord3, coord4} = this.state;
@@ -81,58 +71,10 @@ class AddParkingArea extends Component {
     }
 
 
-    // handleBlur = field => () => {
-    //     const { clicked } = this.state;
-    //     this.setState({
-    //         clicked: { ...clicked, [field]: true },
-    //     });
-    // }
-
-    // hasEmptyInput() {
-    //     const { username, email, password, selectedRoles } = this.state;
-    //     return {
-    //         username: username.length === 0,
-    //         email: email.length === 0,
-    //         password: password.length === 0,
-    //         selectedRoles: selectedRoles.length === 0,
-    //     };
-    // }
-
-    // canBeSubmitted() {
-    //     const emptyInputErrors = this.hasEmptyInput();
-    //     const invalidInputErrors = this.isValidInput();
-    //     const emptyInput = Object.keys(emptyInputErrors).some(x => emptyInputErrors[x]);
-    //     const isValidEmail = invalidInputErrors.email;
-
-    //     if (emptyInput) {
-    //         return false;
-    //     }
-    //     if (isValidEmail) {
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
     render() {
-        //const { classes } = this.props;
         const { role } = this.props;
-        // const { roles } = this.props;
         const { areaName, coord1, coord2, coord3, coord4 } = this.state;
-        // const emptyInput = this.hasEmptyInput();
-        // const isValidInput = this.isValidInput();
-        // const canBeSubmitted = this.canBeSubmitted();
 
-        // const emptyInputError = (field) => {
-        //     const hasEmptyInput = emptyInput[field];
-        //     const shouldShow = clicked[field];
-        //     return hasEmptyInput ? shouldShow : false;
-        // };
-
-        // const invalidInputError = (field) => {
-        //     const hasValidInput = isValidInput[field];
-        //     const shouldShow = clicked[field];
-        //     return hasValidInput ? false : shouldShow;
-        // };
 
         return (
             <div>

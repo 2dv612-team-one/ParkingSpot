@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Snackbar from '@material-ui/core/Snackbar';
 import { connect } from 'react-redux';
-import { Button } from '@material-ui/core';
 
 import ErrorMessageSnackbar from './ErrorMessage';
 
