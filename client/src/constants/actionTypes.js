@@ -20,3 +20,6 @@ export const REGISTER_USER = 'REGISTER_USER';
 // Error Snackbar
 export const VERIFICATION_ERROR = 'VERIFICATION_ERROR';
 export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
+
+// ParkingArea
+export const ADD_PARKING_AREA = 'ADD_PARKING_AREA';

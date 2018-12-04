@@ -11,6 +11,7 @@ import VehicleForm from './components/VehicleForm/VehicleForm';
 import VehicleList from './components/VehicleList/VehicleList';
 import AdminUserControl from './components/AdminUserControl/AdminUserControl';
 import ErrorHandling from './components/ErrorHandling/ErrorHandling';
+import AddParkingArea from './components/AddParkingArea/AddParkingArea';
 
 import { fetchAccessTokenFromLocalStorage } from './actions/authenticate';
 import { emailVerificationError } from './actions/snackbar';
@@ -70,6 +71,7 @@ class App extends Component {
                 <Grid item><VehicleForm /></Grid>
                 <Grid item><VehicleList /></Grid>
                 <Grid item><AdminUserControl /></Grid>
+                <Grid item><AddParkingArea/> </Grid>
             </Grid>
         </div>
         )

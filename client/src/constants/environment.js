@@ -6,6 +6,7 @@ export const VEHICLE_URI = `${API_ROOT}/vehicles`;
 export const VALIDATE_TOKEN_URI = `${API_ROOT}/auth/validate`;
 export const GET_ROLES_URI = `${API_ROOT}/roles`;
 export const REGISTER_USER_URI = `${API_ROOT}/admin/user/register`;
+export const ADD_PARKING_AREA_URI = `${API_ROOT}/parkingspots`;
 
 
 // Modals
