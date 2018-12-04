@@ -22,7 +22,6 @@ import se.lnu.ParkingZpot.exceptions.EntityExistsException;
 import se.lnu.ParkingZpot.models.ParkingSpot;
 import se.lnu.ParkingZpot.services.ParkingSpotService;
 import se.lnu.ParkingZpot.payloads.AddParkingSpotRequest;
-import se.lnu.ParkingZpot.payloads.DeleteParkingSpotRequest;
 import se.lnu.ParkingZpot.payloads.ApiResponse;
 import se.lnu.ParkingZpot.payloads.Messages;
 
