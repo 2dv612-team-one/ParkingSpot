@@ -15,7 +15,7 @@ import ErrorHandling from './components/ErrorHandling/ErrorHandling';
 import AddParkingArea from './components/AddParkingArea/AddParkingArea';
 
 import { fetchAccessTokenFromLocalStorage } from './actions/authenticate';
-import { emailVerificationError } from './actions/snackbar';
+import { emailVerificationError, showMessage } from './actions/snackbar';
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
@@ -24,6 +24,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   loadAccessToken: () => dispatch(fetchAccessTokenFromLocalStorage()),
   emailVerificationError: () => dispatch(emailVerificationError()),
+  showMessage: message => dispatch(showMessage(message)),
 });
 
 class App extends Component {
@@ -37,13 +38,13 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const { loadAccessToken } = this.props;
+    const { loadAccessToken, showMessage } = this.props;
     loadAccessToken();
 
-    const socket = SockJS('/api/ws');
+    const socket = SockJS('/ws');
     const stompClient = Stomp.over(socket);
-    stompClient.connect({}, (connection) => {
-      console.log(connection);
+    stompClient.connect({}, () => {
+      stompClient.subscribe('/topic/message', showMessage);
     });
   }
 

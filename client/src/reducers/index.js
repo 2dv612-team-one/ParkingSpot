@@ -5,10 +5,12 @@ import authentication from './authentication';
 import registration from './registration';
 import modal from './modal';
 import vehicle from './vehicle';
+import message from './message';
 
 export default combineReducers({
   authentication,
   registration,
   modal,
   vehicle,
+  message,
 });

@@ -9,6 +9,7 @@ import vehicle from './reducers/vehicle';
 import userController from './reducers/userController';
 import error from './reducers/error';
 import parkingArea from './reducers/parkingArea';
+import message from './reducers/message';
 
 export default combineReducers({
   authentication,
@@ -17,5 +18,6 @@ export default combineReducers({
   vehicle,
   userController,
   error,
-  parkingArea
+  parkingArea,
+  message,
 });
