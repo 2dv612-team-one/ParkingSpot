@@ -29,7 +29,7 @@ class RegisterModal extends Component {
       email: '',
       password: '',
       matchingPassword: '',
-      roles: '',
+      roles: 'ROLE_USER',
       clicked: {
         username: false,
         email: false,
@@ -210,7 +210,7 @@ class RegisterModal extends Component {
                   />
                   <label>User</label>
                   <Radio
-                    checked={this.state.roles === 'ROLE_USER'}
+                    checked={roles === 'ROLE_USER'}
                     onChange={this.handleRolesInput}
                     value={'ROLE_USER'}
                     name="roles"
@@ -219,7 +219,7 @@ class RegisterModal extends Component {
                   />
                   <label>Admin</label>
                   <Radio
-                    checked={this.state.roles === 'ROLE_ADMIN'}
+                    checked={roles === 'ROLE_ADMIN'}
                     onChange={this.handleRolesInput}
                     value={'ROLE_ADMIN'}
                     name="roles"
