@@ -47,7 +47,7 @@ public class VehicleController {
   @PostMapping
   @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
   public ResponseEntity<ApiResponse> addVehicle(@CurrentUser UserDetailsImpl principal, @Valid @RequestBody AddVehicleRequest addVehicleRequest) {
-    Long id = addVehicleRequest.getId().isPresent() ? addVehicleRequest.getId().get() : principal.getId();
+    Long id = addVehicleRequest.getId().isPresent() ? Long.parseLong(addVehicleRequest.getId().get()) : principal.getId();
     String registrationNumber = addVehicleRequest.getRegistrationNumber();
     
     try {
