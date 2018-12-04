@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Grid, Typography } from '@material-ui/core';
 import SockJS from 'sockjs-client';
+import Stomp from 'stomp-websocket';
 
 import MenuBar from './components/MenuBar/MenuBar';
 import LoginModal from './components/LoginModal/LoginModal';
@@ -39,11 +40,11 @@ class App extends Component {
     const { loadAccessToken } = this.props;
     loadAccessToken();
 
-    const sock = new SockJS('http://localhost:8080/ws');
-    sock.onopen = () => {
-      console.log('open');
-      sock.send('test');
-    };
+    const socket = SockJS('/api/ws');
+    const stompClient = Stomp.over(socket);
+    stompClient.connect({}, (connection) => {
+      console.log(connection);
+    });
   }
 
   render() {
@@ -62,17 +63,21 @@ class App extends Component {
         {accessToken
         && (
         <div>
-            <Grid container
-                direction="column"
-                alignItems="stretch"
-                spacing={16}
-                justify="space-around"
-                >
-                <Grid item><VehicleForm /></Grid>
-                <Grid item><VehicleList /></Grid>
-                <Grid item><AdminUserControl /></Grid>
-                <Grid item><AddParkingArea/> </Grid>
+          <Grid
+            container
+            direction="column"
+            alignItems="stretch"
+            spacing={16}
+            justify="space-around"
+          >
+            <Grid item><VehicleForm /></Grid>
+            <Grid item><VehicleList /></Grid>
+            <Grid item><AdminUserControl /></Grid>
+            <Grid item>
+              <AddParkingArea />
+              {' '}
             </Grid>
+          </Grid>
         </div>
         )
           }
