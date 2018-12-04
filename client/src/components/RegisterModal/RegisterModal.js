@@ -3,10 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Button, Grid, Modal, TextField } from '@material-ui/core';
-import Radio from '@material-ui/core/Radio';
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
-import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
+import { Button, Grid, Modal, TextField, Radio } from '@material-ui/core';
 
 import register from '../../actions/register';
 import { closeModal } from '../../actions/modal';
