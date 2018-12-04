@@ -4,6 +4,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { Button, Grid, Modal, TextField } from '@material-ui/core';
+import Radio from '@material-ui/core/Radio';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 
 import register from '../../actions/register';
 import { closeModal } from '../../actions/modal';
@@ -92,6 +95,7 @@ class RegisterModal extends Component {
     handleRolesInput(e) {
       this.setState({ roles: e.target.value });
     }
+
 
     handleRegister() {
       const { username, email, password , roles} = this.state;
@@ -204,15 +208,23 @@ class RegisterModal extends Component {
                     error={emptyInputError('matchingPassword') ? true : !!('' || invalidInputError('matchingPassword'))}
                     helperText={invalidInputError('matchingPassword') ? 'Ange samma lösenord igen.' : ' '}
                   />
-                  <TextField
-                    label="Roll"
+                  <label>User</label>
+                  <Radio
+                    checked={this.state.roles === 'ROLE_USER'}
+                    onChange={this.handleRolesInput}
+                    value={'ROLE_USER'}
                     name="roles"
                     className="register-input"
+                    label="User"
+                  />
+                  <label>Admin</label>
+                  <Radio
+                    checked={this.state.roles === 'ROLE_ADMIN'}
                     onChange={this.handleRolesInput}
-                    value={roles}
-                    onBlur={this.handleBlur('roles')}
-                    error={!!emptyInputError('roles')}
-                    helperText={emptyInputError('roles') ? 'Ange en roll.' : ' '}
+                    value={'ROLE_ADMIN'}
+                    name="roles"
+                    className="register-input"
+                    label="Admin"
                   />
                   <Grid item>
                     <Button
