@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Button, Grid, Modal, TextField } from '@material-ui/core';
+import { Button, Grid, Modal, TextField, Radio } from '@material-ui/core';
 
 import register from '../../actions/register';
 import { closeModal } from '../../actions/modal';
@@ -15,7 +15,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   closeModal: () => dispatch(closeModal()),
-  register: (username, email, password) => dispatch(register(username, email, password)),
+  register: (username, email, password, roles) => dispatch(register(username, email, password, roles)),
 });
 
 class RegisterModal extends Component {
@@ -26,11 +26,13 @@ class RegisterModal extends Component {
       email: '',
       password: '',
       matchingPassword: '',
+      roles: 'ROLE_USER',
       clicked: {
         username: false,
         email: false,
         password: false,
         matchingPassword: false,
+        roles: false,
       },
     };
 
@@ -39,6 +41,7 @@ class RegisterModal extends Component {
     this.handlePassInput = this.handlePassInput.bind(this);
     this.handleMatchingPassInput = this.handleMatchingPassInput.bind(this);
     this.handleRegister = this.handleRegister.bind(this);
+    this.handleRolesInput = this.handleRolesInput.bind(this);
   }
 
   onKeyPress= (e) => {
@@ -86,9 +89,14 @@ class RegisterModal extends Component {
       this.setState({ matchingPassword: e.target.value });
     }
 
+    handleRolesInput(e) {
+      this.setState({ roles: e.target.value });
+    }
+
+
     handleRegister() {
-      const { username, email, password } = this.state;
-      this.props.register(username, email, password);
+      const { username, email, password , roles} = this.state;
+      this.props.register(username, email, password, roles);
     }
 
     handleBlur = field => () => {
@@ -118,7 +126,7 @@ class RegisterModal extends Component {
       const emptyInput = this.hasEmptyInput();
       const isValidInput = this.isValidInput();
       const canBeSubmitted = this.canBeSubmitted();
-      const { clicked, username, email, password, matchingPassword } = this.state;
+      const { clicked, username, email, password, matchingPassword, roles } = this.state;
       const { showRegisterModal } = this.props;
 
       const emptyInputError = (field) => {
@@ -196,6 +204,24 @@ class RegisterModal extends Component {
                     onBlur={this.handleBlur('matchingPassword')}
                     error={emptyInputError('matchingPassword') ? true : !!('' || invalidInputError('matchingPassword'))}
                     helperText={invalidInputError('matchingPassword') ? 'Ange samma lösenord igen.' : ' '}
+                  />
+                  <label>User</label>
+                  <Radio
+                    checked={roles === 'ROLE_USER'}
+                    onChange={this.handleRolesInput}
+                    value={'ROLE_USER'}
+                    name="roles"
+                    className="register-input"
+                    label="User"
+                  />
+                  <label>Admin</label>
+                  <Radio
+                    checked={roles === 'ROLE_ADMIN'}
+                    onChange={this.handleRolesInput}
+                    value={'ROLE_ADMIN'}
+                    name="roles"
+                    className="register-input"
+                    label="Admin"
                   />
                   <Grid item>
                     <Button
