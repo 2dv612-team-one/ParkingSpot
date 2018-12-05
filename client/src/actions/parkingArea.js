@@ -5,7 +5,7 @@ import {
   ADD_PARKING_AREA,
 } from '../constants/actionTypes';
 
-export function addArea(name, coords) {
+export function addArea(accessToken, name, coords) {
 
     let config = {
         headers: {'Authorization': "Bearer " + accessToken}
