@@ -5,7 +5,7 @@ import {
   ADD_PARKING_AREA,
 } from '../constants/actionTypes';
 
-export function addArea(accessToken, name, coords) {
+export function addArea(name, coords) {
 
     let config = {
         headers: {'Authorization': "Bearer " + accessToken}
@@ -13,6 +13,6 @@ export function addArea(accessToken, name, coords) {
 
   return {
     type: ADD_PARKING_AREA,
-    payload: axios.post(ADD_PARKING_AREA_URI, { accessToken, name, coords }, config),
+    payload: axios.post(ADD_PARKING_AREA_URI, {name, coords }, config),
   };
 }
