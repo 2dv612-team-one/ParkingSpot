@@ -51,12 +51,13 @@ public class UserService implements IUserService {
 
     Set<Role> userRoles = new HashSet<Role>();
 
-    if (roles.size() == 0) {
-      userRoles.add(roleService.findByName("ROLE_USER").get());
-    }
-
     for (Role role : roles) {
       userRoles.add(roleService.findByName(role.getName()).orElseThrow(() -> new ApplicationException(Messages.REG_ERROR_EXISTS_ROLE + role.getName())));
+    }
+
+    Role userRole = roleService.findByName("ROLE_USER").orElseThrow(() -> new ApplicationException(Messages.REG_ERROR_EXISTS_ROLE + "ROLE_USER"));
+    if (!(userRoles.contains(userRole))) {
+     userRoles.add(userRole);
     }
 
     user.setUserRoles(userRoles);
@@ -141,10 +142,14 @@ public class UserService implements IUserService {
     if (userRole.isPresent() && adminRole.isPresent() && pownerRole.isPresent()) {
       if (user.getUserRoles().contains(adminRole.get())) {
         return adminRole;
-      } else if (user.getUserRoles().contains(userRole.get())) {
-        return userRole;
-      } else if (user.getUserRoles().contains(pownerRole.get())) {
-        return pownerRole;
+      } else if (user.getUserRoles().size() > 1) {
+          for (Role role : user.getUserRoles()) {
+            if (!(role.getName().equals(userRole.get().getName()))) {
+              return roleService.findByName(role.getName());
+            }
+          }
+      } else if (user.getUserRoles().contains(userRole.get())){
+          return userRole;
       }
     } else {
       // TODO: Exception, roles not initialized

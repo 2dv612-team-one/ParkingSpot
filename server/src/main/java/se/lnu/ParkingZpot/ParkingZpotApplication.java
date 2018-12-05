@@ -1,5 +1,6 @@
 package se.lnu.ParkingZpot;
 
+import com.google.common.collect.Sets;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,7 +13,9 @@ import se.lnu.ParkingZpot.models.User;
 import se.lnu.ParkingZpot.repositories.RoleRepository;
 import se.lnu.ParkingZpot.repositories.UserRepository;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 @EnableEmailTools
 @SpringBootApplication
@@ -63,7 +66,7 @@ class DataLoader {
       User user2 = new User("Admin", "Admin@Admin.com", "123");
 
       user2.setPassword(passwordEncoder.encode(user2.getPassword()));
-      user2.setUserRoles(Collections.singleton(adminRole));
+      user2.setUserRoles(Sets.newHashSet(adminRole, userRole));
       user2.setEnabled(true);
 
       userRepository.save(user2);
@@ -74,7 +77,7 @@ class DataLoader {
       User user = new User("Powner", "Powner@Powner.com", "123");
 
       user.setPassword(passwordEncoder.encode(user.getPassword()));
-      user.setUserRoles(Collections.singleton(pownerRole));
+      user.setUserRoles(Sets.newHashSet(userRole, pownerRole));
       user.setEnabled(true);
 
       userRepository.save(user);
