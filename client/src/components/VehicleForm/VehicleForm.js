@@ -18,9 +18,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const styles = theme => ({
-  button: {
-    margin: theme.spacing.unit,
-  },
   extendedIcon: {
     marginRight: theme.spacing.unit,
   },
@@ -65,39 +62,38 @@ class VehicleForm extends Component {
     const { classes } = this.props;
     const { showForm, registrationNumber } = this.state;
 
-        return (
-			<div className='add-vehicle-btn'>
-				<Button
-                    variant="extendedFab"
-                    aria-label="Add"
-                    className={`app-theme-bgcolor has-white-text ${classes.button}`}
-                    onClick={this.handleShowForm}
-                >
-                    {!this.state.showForm ?
-                    <AddIcon className={classes.extendedIcon} />
-                    :
-                    <HideIcon className={classes.extendedIcon} />}
-                    Lägg till en bil
-
+    return (
+      <div className='add-vehicle-btn'>
+        <Button
+          variant="extendedFab"
+          aria-label="Add"
+          className="btn app-bgcolor has-white-text"
+          onClick={this.handleShowForm}
+        >
+          {!this.state.showForm ?
+            <AddIcon className="btn-icon" />
+            :
+            <HideIcon className="btn-icon" />}
+          Lägg till en bil
         </Button>
         {showForm
-                && (
-                <Paper>
-                  <TextField
-                    label="Registreringsnummer"
-                    name="matchingPassword"
-                    className={classes.textField}
-                    margin="normal"
-                    onChange={this.handleRegistrationNumberInput}
-                    value={registrationNumber}
-                  />
-                  <Button variant="contained" size="small" className={classes.button} onClick={this.handleSave}>
-                    <SaveIcon className={classes.extendedIcon} />
-                        Spara
+          && (
+            <Paper>
+              <TextField
+                label="Registreringsnummer"
+                name="matchingPassword"
+                className={classes.textField}
+                margin="normal"
+                onChange={this.handleRegistrationNumberInput}
+                value={registrationNumber}
+              />
+              <Button variant="contained" size="small" className={classes.button} onClick={this.handleSave}>
+                <SaveIcon className="btn-icon" />
+                Spara
                   </Button>
-                </Paper>
-                )
-                }
+            </Paper>
+          )
+        }
       </div>
     );
   }

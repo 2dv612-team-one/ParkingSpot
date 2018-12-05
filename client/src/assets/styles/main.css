@@ -36,10 +36,11 @@ code {
     margin-top: 20px !important;
 }
 
-.app-theme-color { color: #427DF2 !important; }
-.app-theme-bgcolor { background-color: #427DF2 !important; }
+.app-color { color: #427DF2 !important; }
+.app-bgcolor { background-color: #427DF2 !important; }
 
 .has-white-text {color: #fff !important}
+.is-danger { background-color: #f50057 !important; }
 
 .modal-submit-btn { margin-top: 25px !important; }
 
@@ -60,4 +61,12 @@ code {
 
 #admin-register-user-btn {
     margin-top: 20px !important;
+}
+
+.btn {
+  margin: 8px !important;
+}
+
+.btn-icon {
+  margin-right: 8px !important;
 }

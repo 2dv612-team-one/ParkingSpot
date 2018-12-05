@@ -74,8 +74,8 @@ class App extends Component {
           >
             <Grid item><VehicleForm /></Grid>
             <Grid item><VehicleList /></Grid>
-            <Grid item><DeleteUser /></Grid>
             <Grid item><AdminUserControl /></Grid>
+            <Grid item><DeleteUser /></Grid>
             <Grid item>
               <AddParkingArea />
               {' '}

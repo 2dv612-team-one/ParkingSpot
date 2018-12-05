@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 /* eslint import/no-webpack-loader-syntax: off */
-import { Paper, Button, TextField, withStyles } from '@material-ui/core';
+import { Button } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { deleteUser } from '../../actions/userControl';
 
 const mapStateToProps = state => ({
@@ -30,12 +31,13 @@ class DeleteUser extends Component {
     return (
       <div className='delete-user'>
         <Button
-          variant="extendedFab"
-          aria-label="test2"
-          className="delete-user"
+          variant="contained"
+          aria-label="Delete"
+          className="btn delete-user is-danger has-white-text"
           onClick={this.handleDelete}
         >
-          Delete user
+          <DeleteIcon className="btn-icon" />
+          Ta bort konto
         </Button>
       </div>
     );

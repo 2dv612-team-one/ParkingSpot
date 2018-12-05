@@ -212,7 +212,7 @@ class AdminUserControl extends Component {
                   >
                     {roles.map(role => (
                       <MenuItem key={role.name} value={role.name}>
-                        <Checkbox className="app-theme-color" checked={selectedRoles.indexOf(role.name) > -1} />
+                        <Checkbox className="app-color" checked={selectedRoles.indexOf(role.name) > -1} />
                         <ListItemText primary={role.name} />
                       </MenuItem>
                     ))}
