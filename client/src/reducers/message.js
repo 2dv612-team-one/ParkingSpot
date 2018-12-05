@@ -13,20 +13,15 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case SHOW_MESSAGE:
       return { ...state, message: action.payload.body, showError: true };
-    default:
-      return state;
-  }
-};
-
-export default (state = initialState, action) => {
-  switch (action.type) {
     case `${SEND_MESSAGE}_FULFILLED`:
       return { ...state, message: action.payload.body, showError: true };
     case `${SEND_MESSAGE}_REJECTED`:
-      return { ...state, message: action.payload.body, showError: true };    
+      return { ...state};    
     case `${SEND_MESSAGE}_PENDING`:
       return { ...state};
     default:
       return state;
   }
 };
+
+

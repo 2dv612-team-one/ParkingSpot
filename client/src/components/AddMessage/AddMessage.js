@@ -11,8 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { sendMessage } from '../../actions/userControl';
 
 const mapStateToProps = state => ({
-    accessToken: state.authentication.accessToken,
-   
+    accessToken: state.authentication.accessToken,  
   });
   
   const mapDispatchToProps = dispatch => ({
@@ -20,9 +19,16 @@ const mapStateToProps = state => ({
   });
 
 class AddMessage extends Component {
-  state = {
-    open: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      open: false,
+      message: ''
+    };
+
+    this.handleMessage = this.handleMessage.bind(this);   
+  }
+ 
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -32,12 +38,20 @@ class AddMessage extends Component {
     this.setState({ open: false });
   };
 
+  handleMessage = (e) => {
+    this.setState({ message: e.target.value });
+  };
+
   sendMessage = () => {
-    this.sendMessage(message);
+    const {message} = this.state;
+    const {accessToken} = this.props;
+    debugger;
+    sendMessage(accessToken, message);
     this.setState({ open: false });
   }
 
   render() {
+    const {message} = this.state;
     return (
       <div>
         <Button onClick={this.handleClickOpen}>Open form dialog</Button>
@@ -49,16 +63,17 @@ class AddMessage extends Component {
           <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              To subscribe to this website, please enter your email address here. We will send
-              updates occasionally.
+              Enter the message that should be broadcasted
             </DialogContentText>
             <TextField
               autoFocus
               margin="dense"
               id="name"
-              label="Email Address"
-              type="email"
+              label="Message"
+              type="text"
               fullWidth
+              value={message}
+              onChange={this.handleMessage}
             />
           </DialogContent>
           <DialogActions>
@@ -75,4 +90,4 @@ class AddMessage extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AddMessage));
+export default connect(mapStateToProps, mapDispatchToProps)(AddMessage);

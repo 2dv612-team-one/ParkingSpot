@@ -18,6 +18,7 @@ import {
   Paper,
   Typography,
 } from '@material-ui/core';
+
 import { getRoles, register } from '../../actions/userControl';
 
 const mapStateToProps = state => ({
@@ -229,6 +230,7 @@ class AdminUserControl extends Component {
                 >
                   <span>Lägg till</span>
                 </Button>
+                
               </Paper>
             )
             : null

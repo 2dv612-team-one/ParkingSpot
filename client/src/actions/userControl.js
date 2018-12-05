@@ -16,14 +16,14 @@ export function getRoles() {
   };
 }
 
-export function sendMessage(accessToken, message){
+export function sendMessage(accessToken, msg){
   let config = {
     headers: {'Authorization': "Bearer " + accessToken}
   };
-
+  debugger;
   return {
     type: SEND_MESSAGE,
-    payload: axois.post(SEND_MESSAGE_URL, {message}, config)
+    payload: axios.post(SEND_MESSAGE_URL, {msg}, config)
   }
 };
 
