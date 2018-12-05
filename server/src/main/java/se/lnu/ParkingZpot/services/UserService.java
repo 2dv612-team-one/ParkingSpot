@@ -163,7 +163,7 @@ public class UserService implements IUserService {
 
       Optional<User> deletedUser = repository.findById(repository.deleteByUsername(userPrincipal.getUsername()));
 
-      return deletedUser.isPresent();
+      return !deletedUser.isPresent();
     }
 
     return false;
