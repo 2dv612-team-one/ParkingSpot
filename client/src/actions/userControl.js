@@ -20,7 +20,6 @@ export function sendMessage(accessToken, msg){
   let config = {
     headers: {'Authorization': "Bearer " + accessToken}
   };
-  debugger;
   return {
     type: SEND_MESSAGE,
     payload: axios.post(SEND_MESSAGE_URL, {msg}, config)

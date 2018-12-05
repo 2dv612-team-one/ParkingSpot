@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -12,6 +13,7 @@ import { sendMessage } from '../../actions/userControl';
 
 const mapStateToProps = state => ({
     accessToken: state.authentication.accessToken,  
+    role: state.authentication.role,
   });
   
   const mapDispatchToProps = dispatch => ({
@@ -45,46 +47,55 @@ class AddMessage extends Component {
   sendMessage = () => {
     const {message} = this.state;
     const {accessToken} = this.props;
-    debugger;
     sendMessage(accessToken, message);
     this.setState({ open: false });
   }
 
   render() {
     const {message} = this.state;
+    const { role } = this.props;
     return (
       <div>
-        <Button onClick={this.handleClickOpen}>Open form dialog</Button>
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              Enter the message that should be broadcasted
-            </DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Message"
-              type="text"
-              fullWidth
-              value={message}
-              onChange={this.handleMessage}
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button onClick={this.sendMessage} color="primary">
-              Send
-            </Button>
-          </DialogActions>
-        </Dialog>
+        {
+          role === 'ROLE_ADMIN'
+                ? (
+                  <Paper>
+            <Button onClick={this.handleClickOpen}>Open form dialog</Button>
+            <Dialog
+              open={this.state.open}
+              onClose={this.handleClose}
+              aria-labelledby="form-dialog-title"
+            >
+              <DialogTitle id="form-dialog-title">Broadcast</DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  Enter the message that should be broadcasted
+                </DialogContentText>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="name"
+                  label="Message"
+                  type="text"
+                  fullWidth
+                  value={message}
+                  onChange={this.handleMessage}
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={this.handleClose} color="primary">
+                  Cancel
+                </Button>
+                <Button onClick={this.sendMessage} color="primary">
+                  Send
+                </Button>
+              </DialogActions>
+            </Dialog>
+                  </Paper>
+             
+              )       
+            : null
+          }       
       </div>
     );
   }
