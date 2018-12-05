@@ -152,7 +152,6 @@ class RegisterModal extends Component {
             justify="flex-start"
             alignItems="center"
           >
-            <Form >
               <FormControl>
                 <TextField
                   label="Användarnamn"
@@ -243,7 +242,6 @@ class RegisterModal extends Component {
                   <span>Registrera</span>
                 </Button>
               </Grid>
-            </Form>
           </Grid>
         </div>
       </Modal >
