@@ -1,9 +1,10 @@
 import axios from 'axios';
 
-import { GET_ROLES_URI, REGISTER_USER_URI } from '../constants/environment';
+import { GET_ROLES_URI, REGISTER_USER_URI, DELETE_USER_URI } from '../constants/environment';
 import {
   GET_ROLES,
-  REGISTER_USER
+  REGISTER_USER,
+  USER_DELETE
 } from '../constants/actionTypes';
 
 
@@ -18,10 +19,22 @@ export function register(accessToken, username, password, email, roles) {
 
     let config = {
         headers: {'Authorization': "Bearer " + accessToken}
-    }
+    };
 
     return {
       type: REGISTER_USER,
       payload: axios.post(REGISTER_USER_URI, {username, password, email, roles}, config),
     };
-  }
+}
+
+export function deleteUser(accessToken) {
+
+  let config = {
+    headers: {'Authorization': "Bearer " + accessToken}
+  };
+
+  return {
+    type: USER_DELETE,
+    payload: axios.delete(DELETE_USER_URI, config),
+  };
+}

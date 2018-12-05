@@ -13,6 +13,7 @@ import VehicleList from './components/VehicleList/VehicleList';
 import AdminUserControl from './components/AdminUserControl/AdminUserControl';
 import ErrorHandling from './components/ErrorHandling/ErrorHandling';
 import AddParkingArea from './components/AddParkingArea/AddParkingArea';
+import DeleteUser from './components/DeleteUser/DeleteUser';
 
 import { fetchAccessTokenFromLocalStorage } from './actions/authenticate';
 import { emailVerificationError, showMessage } from './actions/snackbar';
@@ -73,6 +74,7 @@ class App extends Component {
           >
             <Grid item><VehicleForm /></Grid>
             <Grid item><VehicleList /></Grid>
+            <Grid item><DeleteUser /></Grid>
             <Grid item><AdminUserControl /></Grid>
             <Grid item>
               <AddParkingArea />

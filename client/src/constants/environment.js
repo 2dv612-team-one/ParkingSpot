@@ -7,7 +7,7 @@ export const VALIDATE_TOKEN_URI = `${API_ROOT}/auth/validate`;
 export const GET_ROLES_URI = `${API_ROOT}/roles`;
 export const REGISTER_USER_URI = `${API_ROOT}/admin/user/register`;
 export const ADD_PARKING_AREA_URI = `${API_ROOT}/parkingspots`;
-
+export const DELETE_USER_URI = `${API_ROOT}/users/delete`;
 
 // Modals
 export const LOGIN_MODAL = 'showLoginModal';
