@@ -3,6 +3,7 @@ import {
   USER_AUTHENTICATION,
   USER_AUTHENTICATION_TOKEN,
   USER_REGISTRATION,
+  REGISTER_USER,
   CLOSE_SNACKBAR,
   ADD_CAR,
   GET_CARS,
@@ -18,6 +19,7 @@ const initialState = {
 
 const isServerError = p => p.response.status >= 500;
 const isInvalidCredentials = p => p.response.status >= 400;
+
 const getError = (state, message) => ({ ...state, message, showError: true });
 
 export default (state = initialState, action) => {
@@ -41,6 +43,15 @@ export default (state = initialState, action) => {
       }
       if (isInvalidCredentials(action.payload)) {
         return getError(state, 'Användarnamnet eller mailadressen finns redan');
+      }
+      return initialState;
+    case `${REGISTER_USER}_REJECTED`:
+      if (isServerError(action.payload)) {
+        return getError(state, 'Fel uppstod vid registrering. Försök igen');
+      }
+      if (isInvalidCredentials(action.payload)) {
+        let errorMessage = action.payload.response.data.message;
+        return getError(state, errorMessage);
       }
       return initialState;
     case `${USER_AUTHENTICATION_TOKEN}_REJECTED`:
