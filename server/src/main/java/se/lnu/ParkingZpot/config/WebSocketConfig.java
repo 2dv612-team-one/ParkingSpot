@@ -75,13 +75,4 @@ class TopicSubscriptionInterceptor extends ChannelInterceptorAdapter {
     }
     return message;
   }
-
-  private boolean validateSubscription(Principal principal, String topicDestination) {
-    if (principal == null) {
-      // unauthenticated user
-      return false;
-    }
-    // Additional validation logic coming here
-    return true;
-  }
 }
