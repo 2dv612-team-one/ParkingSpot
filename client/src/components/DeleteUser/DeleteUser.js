@@ -36,11 +36,10 @@ class DeleteUser extends Component {
       <div className='delete-user'>
         <Button
           variant="extendedFab"
-          aria-label="test2"
           className="delete-user"
-          onClick={this.handleDelete}
+          onClick={() => { if (window.confirm('Är du säker på att du villa ta bort ditt konto?')) this.handleDelete()} }
         >
-          Delete user
+          Ta bort konto
         </Button>
       </div>
     );
