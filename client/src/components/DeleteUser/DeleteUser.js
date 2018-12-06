@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 /* eslint import/no-webpack-loader-syntax: off */
-import { Paper, Button, TextField, withStyles } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { deleteUser } from '../../actions/userControl';
 
 const mapStateToProps = state => ({

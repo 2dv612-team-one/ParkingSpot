@@ -8,7 +8,6 @@ import {
 import {
   ACCESS_TOKEN_STORAGE,
 } from '../constants/environment';
-import error from './error';
 
 const initialState = {
   accessToken: null,
