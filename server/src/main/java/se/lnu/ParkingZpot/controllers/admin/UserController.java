@@ -48,12 +48,10 @@ public class UserController {
     User savedUser;
 
     try {
-      Set<Role> userRoles = new HashSet<Role>();
+      Set<Role> userRoles;
 
       if (registrationRequest.getRoles() != null && registrationRequest.getRoles().isPresent()) {
-        for (Role role : registrationRequest.getRoles().get()) {
-          userRoles.add(role);
-        }
+        userRoles = new HashSet<>(registrationRequest.getRoles().get());
       } else {
         logger.error(Messages.REG_ERROR_GIVEN_ROLE);
         return new ResponseEntity<ApiResponse>(new ApiResponse(false, Messages.REG_ERROR_GIVEN_ROLE), HttpStatus.BAD_REQUEST);

@@ -12,8 +12,9 @@ import VehicleForm from './components/VehicleForm/VehicleForm';
 import VehicleList from './components/VehicleList/VehicleList';
 import AdminUserControl from './components/AdminUserControl/AdminUserControl';
 import ErrorHandling from './components/ErrorHandling/ErrorHandling';
+import InfoHandling from './components/InfoHandling/InfoHandling';
 import AddParkingArea from './components/AddParkingArea/AddParkingArea';
-import DeleteUser from './components/DeleteUser/DeleteUser';
+import AddMessage from './components/AddMessage/AddMessage';
 
 import { fetchAccessTokenFromLocalStorage } from './actions/authenticate';
 import { emailVerificationError, showMessage } from './actions/snackbar';
@@ -61,29 +62,30 @@ class App extends Component {
         <Typography className="app-header-message" variant="title" align="center">Välkommen till ParkingZpot</Typography>
 
         <ErrorHandling />
+        <InfoHandling />
 
         {accessToken
-        && (
-        <div>
-          <Grid
-            container
-            direction="column"
-            alignItems="stretch"
-            spacing={16}
-            justify="space-around"
-          >
-            <Grid item><VehicleForm /></Grid>
-            <Grid item><VehicleList /></Grid>
-            <Grid item><AdminUserControl /></Grid>
-            <Grid item><DeleteUser /></Grid>
-            <Grid item>
-              <AddParkingArea />
-              {' '}
-            </Grid>
-          </Grid>
-        </div>
-        )
-          }
+          && (
+            <div>
+              <Grid
+                container
+                direction="column"
+                alignItems="stretch"
+                spacing={16}
+                justify="space-around"
+              >
+                <Grid item><VehicleForm /></Grid>
+                <Grid item><VehicleList /></Grid>
+                <Grid item><AdminUserControl /></Grid>
+                <Grid item>
+                  <AddParkingArea />
+                  {' '}
+                </Grid>
+                <Grid><AddMessage /></Grid>
+              </Grid>
+            </div>
+          )
+        }
       </div>
     );
   }
