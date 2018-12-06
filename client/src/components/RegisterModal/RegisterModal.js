@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Button, Grid, Modal, TextField, Radio, Form, FormControl, FormHelperText } from '@material-ui/core';
+import { Button, Grid, Modal, TextField, Radio, FormControl, FormHelperText } from '@material-ui/core';
 
 import register from '../../actions/register';
 import { closeModal } from '../../actions/modal';

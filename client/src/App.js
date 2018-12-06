@@ -14,7 +14,6 @@ import AdminUserControl from './components/AdminUserControl/AdminUserControl';
 import ErrorHandling from './components/ErrorHandling/ErrorHandling';
 import InfoHandling from './components/InfoHandling/InfoHandling';
 import AddParkingArea from './components/AddParkingArea/AddParkingArea';
-import DeleteUser from './components/DeleteUser/DeleteUser';
 import AddMessage from './components/AddMessage/AddMessage';
 
 import { fetchAccessTokenFromLocalStorage } from './actions/authenticate';
