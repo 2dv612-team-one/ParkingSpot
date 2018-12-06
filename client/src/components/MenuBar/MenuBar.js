@@ -12,6 +12,7 @@ import logo from '../../assets/images/parkingzpot_white.svg';
 import { logout } from '../../actions/authenticate';
 import { openModal } from '../../actions/modal';
 import { LOGIN_MODAL, REGISTER_MODAL } from '../../constants/environment';
+import {deleteUser} from "../../actions/userControl";
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
@@ -21,10 +22,20 @@ const mapDispatchToProps = dispatch => ({
   openLoginModal: () => dispatch(openModal(LOGIN_MODAL)),
   openRegisterModal: () => dispatch(openModal(REGISTER_MODAL)),
   logout: () => dispatch(logout()),
+  deleteUser: (accessToken) => dispatch(deleteUser(accessToken)),
 });
 
 class MenuBar extends Component {
   handleLogout() {
+    const { logout } = this.props;
+    logout();
+  }
+
+  handleDelete() {
+
+    const { accessToken } = this.props;
+    deleteUser(accessToken);
+
     const { logout } = this.props;
     logout();
   }
@@ -57,9 +68,17 @@ class MenuBar extends Component {
                 </div>
               )
               : (
-                <Button color="inherit" onClick={logout}>
-                  <span>Logga ut</span>
-                </Button>
+                <div>
+                  <Button
+                    color="inherit"
+                    onClick={() => { if (window.confirm('Är du säker på att du vill ta bort ditt konto?')) this.handleDelete()} }
+                  >
+                    <span>Ta bort konto</span>
+                  </Button>
+                  <Button color="inherit" onClick={logout}>
+                    <span>Logga ut</span>
+                  </Button>
+                </div>
               )
                         }
           </Toolbar>
