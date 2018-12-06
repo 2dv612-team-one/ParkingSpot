@@ -9,7 +9,6 @@ import {
   GET_CARS,
   GET_ROLES,
   VERIFICATION_ERROR,
-  SHOW_MESSAGE,
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -24,11 +23,6 @@ const getError = (state, message) => ({ ...state, message, showError: true });
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    // TODO: move this to message.js
-    case SHOW_MESSAGE:
-      return { ...state, message: action.payload.body, showError: true };
-
-
     case `${USER_AUTHENTICATION}_REJECTED`:
       if (isServerError(action.payload)) {
         return getError(state, 'Fel uppstod vid inloggning. Försök igen');
