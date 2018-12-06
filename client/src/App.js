@@ -40,14 +40,24 @@ class App extends Component {
   }
 
   componentDidMount() {
-    const { loadAccessToken, showMessage } = this.props;
+    const { loadAccessToken } = this.props;
     loadAccessToken();
+  }
 
-    const socket = SockJS('/ws');
-    const stompClient = Stomp.over(socket);
-    stompClient.connect({}, () => {
-      stompClient.subscribe('/topic/message', showMessage);
-    });
+  componentDidUpdate(prevProps) {
+    const { accessToken, showMessage } = this.props;
+
+    // Wait until accesstoken is loaded
+    if (accessToken !== prevProps) {
+      const headers ={
+        'Authorization': accessToken
+      };
+      const socket = SockJS('/ws');
+      const stompClient = Stomp.over(socket);
+      stompClient.connect(headers, () => {
+        stompClient.subscribe('/topic/message', showMessage, headers);
+      });
+    }
   }
 
   render() {

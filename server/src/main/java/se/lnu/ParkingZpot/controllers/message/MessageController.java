@@ -34,7 +34,6 @@ public class MessageController {
   @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<ApiResponse> addMessage(@CurrentUser UserDetailsImpl principal, @Valid @RequestBody AddMessageRequest addMessageRequest) {
 
-    System.out.print("\n" + "\n" + addMessageRequest.getMsg() + "\n" + "\n");
     try {
         this.messageService.addMessage(addMessageRequest.getMsg());
         return new ResponseEntity<>(new ApiResponse(true, "Message sent"), HttpStatus.OK);
