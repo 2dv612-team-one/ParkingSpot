@@ -20,6 +20,7 @@ import {
 } from '@material-ui/core';
 
 import { getRoles, register } from '../../actions/userControl';
+import styles from '../../assets/styles/admin-user-control';
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
@@ -30,16 +31,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   onLoad: accessToken => dispatch(getRoles(accessToken)),
   register: (accessToken, username, password, email, selectedRoles) => dispatch(register(accessToken, username, password, email, selectedRoles)),
-});
-
-const styles = theme => ({
-  button: {
-    margin: theme.spacing.unit,
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120,
-  },
 });
 
 class AdminUserControl extends Component {

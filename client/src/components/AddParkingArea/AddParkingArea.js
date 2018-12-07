@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 /* eslint import/no-webpack-loader-syntax: off */
 import { Button, FormControl, TextField, withStyles, Paper, Typography } from '@material-ui/core';
 import { addArea } from '../../actions/parkingArea';
+import styles from '../../assets/styles/add-parking-area';
 
 const mapStateToProps = state => ({
     accessToken: state.authentication.accessToken,
@@ -12,16 +13,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     addArea: ( name, coords) => dispatch(addArea( name, coords))
-});
-
-const styles = theme => ({
-    button: {
-        margin: theme.spacing.unit,
-    },
-    formControl: {
-        margin: theme.spacing.unit,
-        minWidth: 120,
-    },
 });
 
 class AddParkingArea extends Component {

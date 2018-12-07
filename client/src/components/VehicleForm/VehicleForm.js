@@ -8,6 +8,7 @@ import HideIcon from '@material-ui/icons/Remove';
 import SaveIcon from '@material-ui/icons/Save';
 
 import { addCar } from '../../actions/vehicle';
+import styles from '../../assets/styles/vehicle-form';
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
@@ -15,17 +16,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   addCar: (accessToken, registrationNumber) => dispatch(addCar(accessToken, registrationNumber)),
-});
-
-const styles = theme => ({
-  extendedIcon: {
-    marginRight: theme.spacing.unit,
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit,
-    width: 200,
-  },
 });
 
 class VehicleForm extends Component {

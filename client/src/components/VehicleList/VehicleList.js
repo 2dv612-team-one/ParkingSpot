@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Paper, Table, TableHead, TableBody, TableRow, TableCell, withStyles } from '@material-ui/core';
 
 import { getCars } from '../../actions/vehicle';
+import styles from '../../assets/styles/vehicle-list';
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
@@ -14,16 +15,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   // TODO: only load vehicles accessible to the user
   onLoad: () => dispatch(getCars()),
-});
-
-const styles = theme => ({
-  root: {
-    width: '100%',
-    overflowX: 'auto',
-  },
-  table: {
-    minWidth: 700,
-  },
 });
 
 // TODO: Make vehicle list update after adding or removing a car
