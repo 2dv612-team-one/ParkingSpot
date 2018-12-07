@@ -31,6 +31,7 @@ class AddParkingArea extends Component {
         this.handleCoord2 = this.handleCoord2.bind(this);
         this.handleCoord3 = this.handleCoord3.bind(this);
         this.handleCoord4 = this.handleCoord4.bind(this);
+        this.submitArea = this.submitArea.bind(this);
        
     }
 
@@ -53,13 +54,13 @@ class AddParkingArea extends Component {
         this.setState({ coord4: e.target.value });
     }
 
-
-    addArea = () => {
+    submitArea() {
         const {name, coord1, coord2, coord3, coord4} = this.state;
-        let coords = [coord1, coord2, coord3, coord4];
-        addArea(name , coords);
-    }
+        const { accessToken, addArea } = this.props;
 
+        let coords = [coord1, coord2, coord3, coord4];
+        addArea(accessToken, name, coords);
+    }
 
     render() {
         const { role } = this.props;
@@ -127,7 +128,7 @@ class AddParkingArea extends Component {
                         />
                     <Button type="button" variant="outlined"
                         id="add-parking-area"
-                        onClick={this.addArea}
+                        onClick={this.submitArea}
                         // disabled={!canBeSubmitted}
                         >
                         <span>Lägg till</span>
