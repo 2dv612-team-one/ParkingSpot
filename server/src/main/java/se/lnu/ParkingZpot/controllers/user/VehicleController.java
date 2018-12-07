@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -61,5 +63,15 @@ public class VehicleController {
       .buildAndExpand(registrationNumber).toUri();
 
     return ResponseEntity.created(vehicleLocation).body(new ApiResponse(true, Messages.addSuccess(Messages.VEHICLE)));
+  }
+
+  @DeleteMapping("/{reg_num}")
+  @PreAuthorize("hasAnyRole('PARKING_OWNER', 'ADMIN')")
+  public ResponseEntity<ApiResponse> deleteVehicle(@CurrentUser UserDetailsImpl principal, @PathVariable("reg_num") String regNum) {
+    if (vehicleService.deleteVehicle(regNum, principal.getId())) {
+      return new ResponseEntity<ApiResponse>(new ApiResponse(true, Messages.entityDeleted(Messages.VEHICLE)), HttpStatus.OK);
+    }
+
+    return new ResponseEntity<ApiResponse>(new ApiResponse(false, Messages.UNAUTH_CRUD), HttpStatus.UNAUTHORIZED);
   }
 }

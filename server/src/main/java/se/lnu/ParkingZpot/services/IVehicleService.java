@@ -9,4 +9,5 @@ import java.util.List;
 public interface IVehicleService {
   List<Vehicle> getAllVehicles();
   Vehicle addVehicle(long userId, String registrationNumber);
+  boolean deleteVehicle(String regNum, Long userId);
 }
