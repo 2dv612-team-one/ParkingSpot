@@ -1,21 +1,20 @@
 import React, { Component } from 'react';
-import Snackbar from '@material-ui/core/Snackbar';
 import { connect } from 'react-redux';
-
-import ErrorMessageSnackbar from './ErrorMessage';
-
+import Snackbar from '@material-ui/core/Snackbar';
 import { closeSnackBar } from '../../actions/snackbar';
+import SuccessMessageSnackbar from './SnackbarMessage';
+import CloseIcon from '@material-ui/icons/Close';
 
 const mapStateToProps = state => ({
-  showError: state.error.showError,
-  errorMessage: state.error.message,
+  showSuccess: state.success.showSuccess,
+  successMessage: state.success.message,
 });
 
 const mapDispatchToProps = dispatch => ({
   closeSnackBar: () => dispatch(closeSnackBar()),
 });
 
-class ErrorHandling extends Component {
+class SuccessHandling extends Component {
   handleClose = (event, reason) => {
     const { closeSnackBar } = this.props;
     if (reason === 'clickaway') {
@@ -26,7 +25,7 @@ class ErrorHandling extends Component {
   };
 
   render() {
-    const { errorMessage, showError } = this.props;
+    const { successMessage, showSuccess } = this.props;
 
     return (
       <div>
@@ -35,14 +34,15 @@ class ErrorHandling extends Component {
             vertical: 'bottom',
             horizontal: 'left',
           }}
-          open={showError}
+          open={showSuccess}
           autoHideDuration={6000}
           onClose={this.handleClose}
         >
-          <ErrorMessageSnackbar
+          <SuccessMessageSnackbar
             onClose={this.handleClose}
-            variant="error"
-            message={errorMessage}
+            variant="success"
+            message={successMessage}
+            IconStyle={CloseIcon}
           />
         </Snackbar>
       </div>
@@ -50,4 +50,4 @@ class ErrorHandling extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ErrorHandling);
+export default connect(mapStateToProps, mapDispatchToProps)(SuccessHandling);
