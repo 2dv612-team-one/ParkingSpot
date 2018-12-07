@@ -50,7 +50,7 @@ public class ParkingSpotController {
   @PostMapping
   @PreAuthorize("hasAnyRole('PARKING_OWNER', 'ADMIN')")
   public ResponseEntity<ApiResponse> addParkingSpot(@CurrentUser UserDetailsImpl principal, @Valid @RequestBody AddParkingSpotRequest addParkingSpotRequest) {
-    Long id = addParkingSpotRequest.getId().isPresent() ? Long.parseLong(addParkingSpotRequest.getId().get()) : principal.getId();
+    Long id = ( addParkingSpotRequest.getId() != null && addParkingSpotRequest.getId().isPresent()) ? Long.parseLong(addParkingSpotRequest.getId().get()) : principal.getId();
     int[] coords = addParkingSpotRequest.getCoords();
     String name = id + "-" + addParkingSpotRequest.getName();
     
