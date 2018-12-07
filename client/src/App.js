@@ -11,8 +11,9 @@ import RegisterModal from './components/RegisterModal/RegisterModal';
 import VehicleForm from './components/VehicleForm/VehicleForm';
 import VehicleList from './components/VehicleList/VehicleList';
 import AdminUserControl from './components/AdminUserControl/AdminUserControl';
-import ErrorHandling from './components/ErrorHandling/ErrorHandling';
-import InfoHandling from './components/InfoHandling/InfoHandling';
+import ErrorHandling from './components/SnackbarHandling/ErrorHandling';
+import InfoHandling from './components/SnackbarHandling/InfoHandling';
+import SuccessHandling from './components/SnackbarHandling/SuccessHandling';
 import AddParkingArea from './components/AddParkingArea/AddParkingArea';
 import AddMessage from './components/AddMessage/AddMessage';
 
@@ -49,7 +50,7 @@ class App extends Component {
 
     // Wait until accesstoken is loaded
     if (accessToken !== prevProps) {
-      const headers ={
+      const headers = {
         'Authorization': accessToken
       };
       const socket = SockJS('/ws');
@@ -71,8 +72,9 @@ class App extends Component {
 
         <Typography className="app-header-message" variant="title" align="center">Välkommen till ParkingZpot</Typography>
 
-        <ErrorHandling />
         <InfoHandling />
+        <ErrorHandling />
+        <SuccessHandling />
 
         {accessToken
           && (

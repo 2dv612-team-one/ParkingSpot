@@ -1,29 +1,31 @@
 import React, { Component } from 'react';
-import Snackbar from '@material-ui/core/Snackbar';
 import { connect } from 'react-redux';
-import InfoMessageSnackbar from './InfoMessage';
+import Snackbar from '@material-ui/core/Snackbar';
 import { closeSnackBar } from '../../actions/snackbar';
+import ErrorMessageSnackbar from './SnackbarMessage';
+import CloseIcon from '@material-ui/icons/Close';
 
 const mapStateToProps = state => ({
-  showInfo: state.message.showInfo,
-  infoMessage: state.message.message,
+  showError: state.error.showError,
+  errorMessage: state.error.message,
 });
 
 const mapDispatchToProps = dispatch => ({
   closeSnackBar: () => dispatch(closeSnackBar()),
 });
 
-class InfoHandling extends Component {
+class ErrorHandling extends Component {
   handleClose = (event, reason) => {
     const { closeSnackBar } = this.props;
     if (reason === 'clickaway') {
       return;
     }
+
     closeSnackBar();
   };
 
   render() {
-    const { infoMessage, showInfo } = this.props;
+    const { errorMessage, showError } = this.props;
 
     return (
       <div>
@@ -32,13 +34,15 @@ class InfoHandling extends Component {
             vertical: 'bottom',
             horizontal: 'left',
           }}
-          open={showInfo}
+          open={showError}
+          autoHideDuration={6000}
           onClose={this.handleClose}
         >
-          <InfoMessageSnackbar
+          <ErrorMessageSnackbar
             onClose={this.handleClose}
-            variant="info"
-            message={infoMessage}
+            variant="error"
+            message={errorMessage}
+            IconStyle={CloseIcon}
           />
         </Snackbar>
       </div>
@@ -46,4 +50,4 @@ class InfoHandling extends Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(InfoHandling);
+export default connect(mapStateToProps, mapDispatchToProps)(ErrorHandling);

@@ -7,8 +7,9 @@ import registration from './reducers/registration';
 import modal from './reducers/modal';
 import vehicle from './reducers/vehicle';
 import userController from './reducers/userController';
-import error from './reducers/error';
 import parkingArea from './reducers/parkingArea';
+import error from './reducers/error';
+import success from './reducers/success';
 import message from './reducers/message';
 
 export default combineReducers({
@@ -18,6 +19,7 @@ export default combineReducers({
   vehicle,
   userController,
   error,
+  success,
   parkingArea,
   message,
 });

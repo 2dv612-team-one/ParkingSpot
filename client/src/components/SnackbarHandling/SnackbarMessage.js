@@ -1,7 +1,5 @@
-
 import * as React from 'react';
 import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -12,7 +10,6 @@ import amber from '@material-ui/core/colors/amber';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
 
-
 const variantIcon = {
   success: CheckCircleIcon,
   warning: WarningIcon,
@@ -20,7 +17,7 @@ const variantIcon = {
   info: InfoIcon,
 };
 
-const styles1 = theme => ({
+const styles = theme => ({
   success: {
     backgroundColor: green[600],
   },
@@ -47,7 +44,7 @@ const styles1 = theme => ({
 });
 
 function MySnackbarContent(props) {
-  const { classes, className, message, onClose, variant, ...other } = props;
+  const { classes, className, message, onClose, variant, IconStyle, ...other } = props;
   const Icon = variantIcon[variant];
 
   return (
@@ -68,7 +65,7 @@ function MySnackbarContent(props) {
           className={classes.close}
           onClick={onClose}
         >
-          <CloseIcon className={classes.icon} />
+          <IconStyle className={classes.icon} />
         </IconButton>,
       ]}
       {...other}
@@ -76,4 +73,4 @@ function MySnackbarContent(props) {
   );
 }
 
-export default withStyles(styles1)(MySnackbarContent);
+export default withStyles(styles)(MySnackbarContent);
