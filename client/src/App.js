@@ -16,6 +16,7 @@ import InfoHandling from './components/SnackbarHandling/InfoHandling';
 import SuccessHandling from './components/SnackbarHandling/SuccessHandling';
 import AddParkingArea from './components/AddParkingArea/AddParkingArea';
 import AddMessage from './components/AddMessage/AddMessage';
+import SelectParkingArea from './components/SelectParkingArea/SelectParkingArea';
 
 import { fetchAccessTokenFromLocalStorage } from './actions/authenticate';
 import { emailVerificationError, showMessage } from './actions/snackbar';
@@ -93,6 +94,7 @@ class App extends Component {
                   <AddParkingArea />
                   {' '}
                 </Grid>
+                <Grid><SelectParkingArea /></Grid>
                 <Grid><AddMessage /></Grid>
               </Grid>
             </div>

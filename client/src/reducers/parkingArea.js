@@ -1,6 +1,7 @@
 /* eslint import/no-webpack-loader-syntax: off */
 import {
-    ADD_PARKING_AREA
+    ADD_PARKING_AREA,
+    GET_PARKING_AREAS
   } from '../constants/actionTypes';
   
   const initialState = {
@@ -10,6 +11,9 @@ import {
   
   export default (state = initialState, action) => {
     switch (action.type) {
+      case `${GET_PARKING_AREAS}_FULFILLED`:
+        return { ...state, data: action.payload.data };
+
       case `${ADD_PARKING_AREA}_FULFILLED`:
         return { ...state, data: action.payload.data }; 
       case `${ADD_PARKING_AREA}_PENDING`:
@@ -20,4 +24,3 @@ import {
         return state;
     }
   };
-  
