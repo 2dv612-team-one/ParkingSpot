@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import se.lnu.ParkingZpot.authentication.CurrentUser;
@@ -53,12 +54,11 @@ public class UserController {
     Optional<User> user = userService.getUser(principal.getId());
 
     if (user.isPresent()) {
-
-      if (encoder.matches(updateUserRequest.getPassword(), principal.getPassword())) {
+      if (encoder.matches(updateUserRequest.getPassword(), user.get().getPassword())) {
         return new ResponseEntity<>(new ApiResponse(false, USER_PASSWORD_UPDATE_FAIL_SAME), HttpStatus.BAD_REQUEST);
       }
 
-      user.get().setPassword(encoder.encode(principal.getPassword()));
+      user.get().setPassword(encoder.encode(updateUserRequest.getPassword()));
       userService.updateUser(user.get());
 
       return new ResponseEntity<>(new ApiResponse(true, USER_UPDATE_SUCCESS), HttpStatus.OK);
