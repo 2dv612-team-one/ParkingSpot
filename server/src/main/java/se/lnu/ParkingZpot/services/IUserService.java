@@ -25,6 +25,7 @@ public interface IUserService {
   Boolean existsByUsername(String username);
   Boolean existsByEmail(String email);
   User saveUser(User user);
+  User updateUser(User user);
   Optional<Role> getUserRole(User user);
   boolean deleteUser(UserDetails userPrincipal);
 }

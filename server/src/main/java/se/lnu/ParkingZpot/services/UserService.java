@@ -2,6 +2,7 @@ package se.lnu.ParkingZpot.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import se.lnu.ParkingZpot.models.User;
@@ -18,6 +19,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Optional;
+
+import static se.lnu.ParkingZpot.payloads.Messages.USER_NOT_FOUND;
 
 @Component
 public class UserService implements IUserService {
@@ -130,6 +133,11 @@ public class UserService implements IUserService {
 
   @Override
   public User saveUser(User user) {
+    return repository.save(user);
+  }
+
+  @Override
+  public User updateUser(User user) {
     return repository.save(user);
   }
 

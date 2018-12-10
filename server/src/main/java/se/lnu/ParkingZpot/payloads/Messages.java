@@ -21,12 +21,15 @@ public class Messages {
   public static final String USER_DEL_SUCCESS = "Användare borttagen";
   public static final String USER_DEL_ERROR = "Ett fel uppstod, användaren kan inte tas bort";
   public static final String UNAUTH_CRUD = "Du är inte tillåten att utföra denna operation.";
+  public static final String USER_NOT_FOUND = "Det finns ingen användare med detta namn";
+  public static final String USER_UPDATE_SUCCESS = "Användaren har blivit uppdaterad";
+  public static final String USER_PASSWORD_UPDATE_FAIL_SAME = "Nya lösenordet kan inte vara samma som det gamla";
 
 
   private static String added = " har lagts till i databasen.";
   private static String exists = " finns redan i databasen.";
   private static String deleted = " har tagits bort ur databasen.";
-  
+
   public static String addSuccess(String entity) {
     return entity + Messages.added;
   }
