@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 /* eslint import/no-webpack-loader-syntax: off */
-import { Paper, Table, TableHead, TableBody, TableRow, TableCell, withStyles } from '@material-ui/core';
-import { Menu, MenuItem, Button } from '@material-ui/core';
+import { Menu, MenuItem, Button , withStyles} from '@material-ui/core';
 
 import { getAreas, deleteArea } from '../../actions/parkingArea';
 import styles from '../../assets/styles/vehicle-list';
@@ -46,7 +45,7 @@ class SelectParkingArea extends Component {
   };
 
   render() {
-    const { classes, areas } = this.props;
+    const { areas } = this.props;
     const { showMenu } = this.state;
 
     return (
