@@ -64,7 +64,7 @@ class SelectParkingArea extends Component {
           open={Boolean(showMenu)}
           onClose={this.handleClose}
         >
-          {areas && areas.map(area => (
+          {areas && Array.from(areas).map(area => (
             <MenuItem onClick={this.handleDelete}>{area.name}</MenuItem>
           ))}
         </Menu>
