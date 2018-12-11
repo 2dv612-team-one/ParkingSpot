@@ -17,7 +17,7 @@ public class ParkingSpot {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
 
-  @Column(name = "userId", nullable = false)
+  @Column(name = "user_Id", nullable = false)
   private long userId;
   private String name;
   private int[] coords;
