@@ -5,15 +5,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import se.lnu.ParkingZpot.authentication.CurrentUser;
 import se.lnu.ParkingZpot.authentication.UserDetailsImpl;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 import se.lnu.ParkingZpot.authentication.JwtTokenProvider;
 import se.lnu.ParkingZpot.exceptions.EntityExistsException;
-import se.lnu.ParkingZpot.models.Message;
 import se.lnu.ParkingZpot.models.ParkingSpot;
 import se.lnu.ParkingZpot.payloads.UpdateParkingSpotRequest;
 import se.lnu.ParkingZpot.services.ParkingSpotService;
@@ -42,6 +39,12 @@ public class ParkingSpotController {
   @GetMapping
   public ResponseEntity<List<ParkingSpot>> getAllParkingSpots() {
     return new ResponseEntity<>(parkingSpotService.getAllParkingSpots(), HttpStatus.OK);
+  }
+
+  @GetMapping("/owned")
+  @PreAuthorize("hasAnyRole('PARKING_OWNER', 'ADMIN')")
+  public ResponseEntity<List<ParkingSpot>> getAllParkingSpotsBelongingToUser(@CurrentUser UserDetailsImpl principal) {
+    return new ResponseEntity<>(parkingSpotService.getAllParkingSpotsBelongingToUser(principal.getId()), HttpStatus.OK);
   }
 
   @PostMapping
@@ -87,7 +90,7 @@ public class ParkingSpotController {
       return new ResponseEntity<>(new ApiResponse(false, Messages.entityNotFound(updateParkingSpotRequest.getName())), HttpStatus.BAD_REQUEST);
     }
 
-    if (parkingSpot.get().getUser_Id() != principal.getId()) {
+    if (parkingSpot.get().getUserId() != principal.getId()) {
       return new ResponseEntity<>(new ApiResponse(false, Messages.ACCESS_DENIED), HttpStatus.FORBIDDEN);
     }
 

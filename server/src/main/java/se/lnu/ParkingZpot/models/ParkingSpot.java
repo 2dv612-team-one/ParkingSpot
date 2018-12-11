@@ -12,17 +12,19 @@ import javax.persistence.*;
 @Entity
 @Table(name = "parking_spots")
 public class ParkingSpot {
-    
+
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
-  private long user_Id;
+
+  @Column(name = "userId", nullable = false)
+  private long userId;
   private String name;
   private int[] coords;
 
   public ParkingSpot(long user_Id, String name, int[] coords) {
     super();
-    this.user_Id = user_Id;
+    this.userId = user_Id;
     this.name = name;
     this.coords = coords;
   }

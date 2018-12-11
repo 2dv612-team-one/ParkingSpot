@@ -12,8 +12,14 @@ import java.util.Optional;
 @CrossOrigin
 public interface ParkingSpotRepository extends JpaRepository<ParkingSpot, Long> {
   Optional<ParkingSpot> findById(@Param("id") long id);
+
+  List<ParkingSpot> findAllByUserId(Long userId);
+
   Boolean existsByName(String name);
+
   ParkingSpot findByName(String name);
+
   @Transactional
   Long deleteByName(String name);
 }
+

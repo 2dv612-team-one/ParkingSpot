@@ -31,6 +31,11 @@ public class ParkingSpotService implements IParkingSpotService {
   }
 
   @Override
+  public List<ParkingSpot> getAllParkingSpotsBelongingToUser(Long userId) {
+    return parkingSpotRepository.findAllByUserId(userId);
+  }
+
+  @Override
   public Optional<ParkingSpot> getParkingSpot(long id) {
     return parkingSpotRepository.findById(id);
   }
