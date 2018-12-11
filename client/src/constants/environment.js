@@ -9,6 +9,7 @@ export const REGISTER_USER_URI = `${API_ROOT}/admin/user/register`;
 export const ADD_PARKING_AREA_URI = `${API_ROOT}/parkingspots`;
 export const DELETE_USER_URI = `${API_ROOT}/users/delete`;
 export const SEND_MESSAGE_URL =`${API_ROOT}/message/send`;
+export const CONFIRM_MESSAGE_URL =`${API_ROOT}/message/confirm`;
 
 // Modals
 export const LOGIN_MODAL = 'showLoginModal';
@@ -17,5 +18,4 @@ export const ERRORHANDLING_MODAL = 'showErrorHandlingModal';
 
 // Local Storage
 export const ACCESS_TOKEN_STORAGE = 'ACCESS_TOKEN_STORAGE';
-
 

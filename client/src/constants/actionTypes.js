@@ -19,6 +19,7 @@ export const REGISTER_USER = 'REGISTER_USER';
 
 // Snackbar
 export const SHOW_MESSAGE = 'SHOW_MESSAGE';
+export const MARK_MESSAGE_VIEWED = 'MARK_MESSAGE_VIEWED'
 
 // Error Snackbar
 export const VERIFICATION_ERROR = 'VERIFICATION_ERROR';

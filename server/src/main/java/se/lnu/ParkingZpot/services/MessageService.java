@@ -29,8 +29,9 @@ public class MessageService {
     
     public Message addMessage(String message) {
         Message msg = new Message(message);
-        this.websocket.convertAndSend("/topic/message", message);
-        return repository.save(msg);
+        Message savedMessage = repository.save(msg);
+        this.websocket.convertAndSend("/topic/message", savedMessage);
+        return savedMessage;
     }
 
     public Message updateMessage(Message message) {

@@ -18,7 +18,6 @@ public class Message {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  @JsonIgnore
   private Long id;
 
   private String message;
