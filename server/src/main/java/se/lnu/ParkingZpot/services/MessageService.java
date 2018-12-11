@@ -1,5 +1,7 @@
 package se.lnu.ParkingZpot.services;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.annotation.HandleAfterCreate;
 import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
@@ -26,10 +28,17 @@ public class MessageService {
     }
     
     public Message addMessage(String message) {
-        // TODO add some kind of message prechecks / exception handling
         Message msg = new Message(message);
         this.websocket.convertAndSend("/topic/message", message);
         return repository.save(msg);
+    }
+
+    public Message updateMessage(Message message) {
+        return repository.save(message);
+      }
+
+    public Optional<Message> findById(Long id) {
+        return repository.findById(id);
     }
 
 }
