@@ -24,14 +24,21 @@ public class Messages {
   public static final String USER_NOT_FOUND = "Det finns ingen användare med detta namn";
   public static final String USER_UPDATE_SUCCESS = "Användaren har blivit uppdaterad";
   public static final String USER_PASSWORD_UPDATE_FAIL_SAME = "Nya lösenordet kan inte vara samma som det gamla";
+  public static final String ACCESS_DENIED = "Du har inte tillgång till detta objekt";
 
 
   private static String added = " har lagts till i databasen.";
+  private static String updated = " har uppdaterats.";
   private static String exists = " finns redan i databasen.";
   private static String deleted = " har tagits bort ur databasen.";
+  private static String doesNotExist = " existerar inte i databasen.";
 
   public static String addSuccess(String entity) {
     return entity + Messages.added;
+  }
+
+  public static String updateSuccess(String entity) {
+    return entity + Messages.updated;
   }
 
   public static String entityExists(String entity) {
@@ -40,5 +47,9 @@ public class Messages {
 
   public static String entityDeleted(String entity) {
     return entity + Messages.deleted;
+  }
+
+  public static String entityNotFound(String entity) {
+    return entity + Messages.doesNotExist;
   }
 }

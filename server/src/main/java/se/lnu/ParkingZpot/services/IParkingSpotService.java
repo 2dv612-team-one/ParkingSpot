@@ -12,5 +12,6 @@ public interface IParkingSpotService {
   Optional<ParkingSpot> getParkingSpot(long id);
   ParkingSpot getParkingSpot(String name);
   ParkingSpot addParkingSpot(long userId, String name, int[] coords);
+  ParkingSpot updateParkingSpot(ParkingSpot parkingSpot);
   boolean deleteParkingSpot(String name);
 }

@@ -2,6 +2,7 @@ package se.lnu.ParkingZpot.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import se.lnu.ParkingZpot.models.Message;
 import se.lnu.ParkingZpot.models.ParkingSpot;
 import se.lnu.ParkingZpot.repositories.ParkingSpotRepository;
 import se.lnu.ParkingZpot.exceptions.EntityExistsException;
@@ -9,6 +10,8 @@ import se.lnu.ParkingZpot.exceptions.NoSuchEntityException;
 import se.lnu.ParkingZpot.payloads.Messages;
 import se.lnu.ParkingZpot.payloads.InternalMessages;
 
+import javax.persistence.EntityNotFoundException;
+import javax.swing.text.html.Option;
 import java.util.Optional;
 import java.util.List;
 
@@ -43,6 +46,11 @@ public class ParkingSpotService implements IParkingSpotService {
       throw new EntityExistsException(Messages.entityExists(Messages.PSPOT));
     }
     ParkingSpot parkingSpot = new ParkingSpot(userId, name, coords);
+    return parkingSpotRepository.save(parkingSpot);
+  }
+
+  @Override
+  public ParkingSpot updateParkingSpot(ParkingSpot parkingSpot) throws EntityNotFoundException {
     return parkingSpotRepository.save(parkingSpot);
   }
 
