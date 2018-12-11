@@ -27,6 +27,7 @@ export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
 // ParkingArea
 export const ADD_PARKING_AREA = 'ADD_PARKING_AREA';
 export const GET_PARKING_AREAS = 'GET_PARKING_AREAS';
+export const DELETE_PARKING_AREA = 'DELETE_PARKING_AREA';
 
 // Messages
 export const SEND_MESSAGE = 'SEND_MESSAGE';
