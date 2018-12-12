@@ -25,7 +25,7 @@ import {
         return { ...state, message: action.payload };
 
       case `${DELETE_PARKING_AREA}_FULFILLED`:
-        return { ...state, data: action.payload.data };
+        return { ...state, message: action.payload, update: true };
       case `${DELETE_PARKING_AREA}_PENDING`:
         return { ...state };
       case `${DELETE_PARKING_AREA}_REJECTED`:
