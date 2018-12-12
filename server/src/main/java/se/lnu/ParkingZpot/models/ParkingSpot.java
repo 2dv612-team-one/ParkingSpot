@@ -20,12 +20,26 @@ public class ParkingSpot {
   @Column(name = "user_Id", nullable = false)
   private long userId;
   private String name;
-  private int[] coords;
+  private double coord1;
+  private double coord2;
+  private double coord3;
+  private double coord4;
 
-  public ParkingSpot(long user_Id, String name, int[] coords) {
+  
+  public void setCoords(double[] coords){
+    this.coord1 = coords[0];
+    this.coord2 = coords[1];
+    this.coord3 = coords[2];
+    this.coord4 = coords[3];
+  }
+
+  public ParkingSpot(long user_Id, String name, double[] coords) {
     super();
     this.userId = user_Id;
     this.name = name;
-    this.coords = coords;
+    this.coord1 = coords[0];
+    this.coord2 = coords[1];
+    this.coord3 = coords[2];
+    this.coord4 = coords[3];
   }
 }

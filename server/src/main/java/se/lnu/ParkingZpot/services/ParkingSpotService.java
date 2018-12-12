@@ -46,7 +46,7 @@ public class ParkingSpotService implements IParkingSpotService {
   }
 
   @Override
-  public ParkingSpot addParkingSpot(long userId, String name, int[] coords) throws EntityExistsException {
+  public ParkingSpot addParkingSpot(long userId, String name, double[] coords) throws EntityExistsException {
     if (parkingSpotRepository.existsByName(name)) {
       throw new EntityExistsException(Messages.entityExists(Messages.PSPOT));
     }

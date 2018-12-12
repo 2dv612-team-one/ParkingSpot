@@ -12,7 +12,7 @@ public interface IParkingSpotService {
   List<ParkingSpot> getAllParkingSpotsBelongingToUser(Long userId);
   Optional<ParkingSpot> getParkingSpot(long id);
   ParkingSpot getParkingSpot(String name);
-  ParkingSpot addParkingSpot(long userId, String name, int[] coords);
+  ParkingSpot addParkingSpot(long userId, String name, double[] coords);
   ParkingSpot updateParkingSpot(ParkingSpot parkingSpot);
   boolean deleteParkingSpot(String name);
 }

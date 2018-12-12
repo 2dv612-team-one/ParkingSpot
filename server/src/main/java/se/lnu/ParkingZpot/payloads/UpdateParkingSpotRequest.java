@@ -9,6 +9,6 @@ public class UpdateParkingSpotRequest {
 
   private long id;
   private String name;
-  private int[] coords;
+  private double[] coords;
 
 }

@@ -11,7 +11,7 @@ public class AddParkingSpotRequest {
   
   private String name;
 
-  private int[] coords;
+  private double[] coords;
 
   private Optional<String> id;
 
