@@ -16,7 +16,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   onLoad: () => dispatch(getAreas()),
-  deleteArea: (accessToken, name) => dispatch(deleteArea(accessToken, name)),
 });
 
 class HourlyRate extends Component {
@@ -58,7 +57,7 @@ class HourlyRate extends Component {
     this.handleRateFrom = this.handleRateFrom.bind(this);
     this.handleRateTo = this.handleRateTo.bind(this);
     this.handleRate = this.handleRate.bind(this);
-
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   componentWillMount() {
@@ -104,6 +103,7 @@ class HourlyRate extends Component {
 
     this.setState(prevState => ({
       rates: [...prevState.rates, {
+        id: "f=" + rate_from + ";t=" + rate_to + ";r=" + rate,
         from: rate_from,
         to: rate_to,
         rate: rate,
@@ -112,16 +112,33 @@ class HourlyRate extends Component {
 
   };
 
-  handleClick = (e) => {
-    // do something
+  handleDelete = (e) => {
+    const { rates, hours} = this.state;
+    let value = JSON.parse(e.currentTarget.value);
+
+    for (let i = 0; i < rates.length; i++) {
+
+      if (rates[i].id === value.id) {
+        for (let j = parseInt(value.from); j <= parseInt(value.to); j++) {
+
+          hours[j] = -1;
+          this.setState({hours});
+        }
+
+        rates.splice(i,1);
+        this.setState({ rates});
+      }
+    }
+  };
+
+  handleSave = (e) => {
+    // send parking rates to server
+    const { rates, hours} = this.state;
   };
 
 
   allHoursCovered() {
     const { hours } = this.state;
-
-    // Checks if total amount of hours is equal to or more then 24
-    // TODO make it check for duplicate hours
     for (let i = 1; i <= 24; i++) {
 
       if (hours[i] === -1) {
@@ -143,6 +160,7 @@ class HourlyRate extends Component {
 
     return (areas && Array.from(areas).map(area => (
           <div>
+            <hi>Timtaxa</hi>
             {!allHoursCovered && (
             <Paper>
               <Typography variant="subtitle">Skapa timtaxa för {area.name}</Typography>
@@ -183,14 +201,18 @@ class HourlyRate extends Component {
               </TableHead>
               <TableBody>
                 {rates && rates.map(nrate => (
-                  <TableRow>
+                  <TableRow key={nrate}>
                     <TableCell>{nrate.from}:00-{nrate.to}:00 = {nrate.rate}kr</TableCell>
-                    <Button onClick={this.handleClick} value={nrate}>TA BORT</Button>
+                    <Button
+                      onClick={this.handleDelete}
+                      value={JSON.stringify(nrate)}
+                    >TA BORT
+                    </Button>
                   </TableRow>
                 ))}
               </TableBody>
               <Button
-                onClick={this.handleClick}
+                onClick={this.handleSave}
                 disabled={!allHoursCovered}
               >SPARA
               </Button>
