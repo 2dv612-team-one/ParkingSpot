@@ -11,6 +11,7 @@ import parkingArea from './reducers/parkingArea';
 import error from './reducers/error';
 import success from './reducers/success';
 import message from './reducers/message';
+import updateInformation from './reducers/updateInformation';
 
 export default combineReducers({
   authentication,
@@ -22,4 +23,5 @@ export default combineReducers({
   success,
   parkingArea,
   message,
+  updateInformation,
 });

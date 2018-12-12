@@ -32,3 +32,6 @@ export const DELETE_PARKING_AREA = 'DELETE_PARKING_AREA';
 
 // Messages
 export const SEND_MESSAGE = 'SEND_MESSAGE';
+
+// Update Information
+export const UPDATE_USER_PASSWORD = 'UPDATE_USER_PASSWORD';

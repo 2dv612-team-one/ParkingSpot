@@ -10,6 +10,7 @@ export const ADD_PARKING_AREA_URI = `${API_ROOT}/parkingspots`;
 export const DELETE_USER_URI = `${API_ROOT}/users/delete`;
 export const SEND_MESSAGE_URL =`${API_ROOT}/message/send`;
 export const CONFIRM_MESSAGE_URL =`${API_ROOT}/message/confirm`;
+export const UPDATE_USER_PASSWORD_URL = `${API_ROOT}/users/update`;
 
 // Modals
 export const LOGIN_MODAL = 'showLoginModal';

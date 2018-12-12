@@ -63,8 +63,8 @@ class MenuBar extends Component {
 
             {!accessToken
               ? (
-                <div style={displayFlex}>
-                  <ChangePassword/>
+                <div>
+                 
                   <Button color="inherit" onClick={openLoginModal}>
                     <span>Logga in</span>
                   </Button>
@@ -74,7 +74,8 @@ class MenuBar extends Component {
                 </div>
               )
               : (
-                <div>
+                <div style={displayFlex}>
+                   <ChangePassword/>
                   <Button
                     color="inherit"
                     onClick={() => { if (window.confirm('Är du säker på att du vill ta bort ditt konto?')) this.handleDelete()} }
