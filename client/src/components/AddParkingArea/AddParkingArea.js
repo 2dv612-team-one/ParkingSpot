@@ -58,7 +58,6 @@ class AddParkingArea extends Component {
         const {name, coord1, coord2, coord3, coord4} = this.state;
         const { accessToken, addArea } = this.props;
         let coords = [coord1, coord2, coord3, coord4];
-        debugger;
         addArea(accessToken, name, coords);
     }
 
