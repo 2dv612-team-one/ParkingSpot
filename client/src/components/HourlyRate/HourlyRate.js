@@ -25,7 +25,34 @@ class HourlyRate extends Component {
     this.state = {
       rate_from: '',
       rate_to: '',
-      rate: ''
+      rate: '',
+      hours: {
+        1: -1,
+        2: -1,
+        3: -1,
+        4: -1,
+        5: -1,
+        6: -1,
+        7: -1,
+        8: -1,
+        9: -1,
+        10: -1,
+        11: -1,
+        12: -1,
+        13: -1,
+        14: -1,
+        15: -1,
+        16: -1,
+        17: -1,
+        18: -1,
+        19: -1,
+        20: -1,
+        21: -1,
+        22: -1,
+        23: -1,
+        24: -1,
+      },
+      rates: [],
     };
 
     this.handleRateFrom = this.handleRateFrom.bind(this);
@@ -66,16 +93,62 @@ class HourlyRate extends Component {
     return Object.keys(emptyInputErrors).some(x => emptyInputErrors[x]);
   }
 
+  handleSubmit = () => {
+    const { rate_from, rate_to, rate, hours, rates} = this.state;
+
+    console.log('rate_from:' + rate_from);
+    console.log('rate_to:' + rate_to);
+    for (let i = rate_from; i <= rate_to; i++) {
+      this.setState(prevState => ({
+        hours: {
+          ...prevState.hours,
+          [i]: rate
+        }
+      }));
+    }
+
+    this.setState(prevState => ({
+      rates: [...prevState.rates, {
+        from: rate_from,
+        to: rate_to,
+        rate: rate,
+      }]
+    }))
+
+  };
+
   handleClick = (e) => {
     // do something
   };
 
+
+  allHoursCovered() {
+    const { hours } = this.state;
+
+    // Checks if total amount of hours is equal to or more then 24
+    // TODO make it check for duplicate hours
+
+
+    for (let i = 1; i <= 24; i++) {
+
+      if (hours[i] === -1) {
+        console.log('false');
+        console.log(hours);
+        return false;
+      }
+    }
+
+    console.log('true');
+    return true;
+  }
+
   render() {
     const { classes, areas } = this.props;
 
-    const { rate_from, rate_to, rate } = this.state;
+    const { rate_from, rate_to, rate , hours, rates} = this.state;
 
     const canBeSubmitted = this.canBeSubmitted();
+    const allHoursCovered = this.allHoursCovered();
 
     return (areas && Array.from(areas).map(area => (
           <Paper className={classes.main}>
@@ -106,30 +179,26 @@ class HourlyRate extends Component {
                 />
               </FormControl>
               <Button
-                onClick={this.handleClick}
+                onClick={this.handleSubmit}
                 disabled={canBeSubmitted}
               >LÄGG TILL
               </Button>
             </div>
             <div>
               <TableHead>
-                <TableRow>
-                  <TableCell>Timtaxa</TableCell>
-                </TableRow>
+
               </TableHead>
               <TableBody>
-                <TableRow>
-                  <TableCell>08:00-16:00 = 50kr</TableCell>
-                  <Button onClick={this.handleClick}>TA BORT</Button>
-                </TableRow>
-                <TableRow>
-                  <TableCell>16:00-24:00 = 30kr</TableCell>
-                  <Button onClick={this.handleClick}>TA BORT</Button>
-                </TableRow>
+                {rates && rates.map(nrate => (
+                  <TableRow>
+                    <TableCell>{nrate.from}:00-{nrate.to}:00 = {nrate.rate}kr</TableCell>
+                    <Button onClick={this.handleClick}>TA BORT</Button>
+                  </TableRow>
+                ))}
               </TableBody>
               <Button
                 onClick={this.handleClick}
-                disabled={canBeSubmitted}
+                disabled={!allHoursCovered}
               >SPARA
               </Button>
             </div>
