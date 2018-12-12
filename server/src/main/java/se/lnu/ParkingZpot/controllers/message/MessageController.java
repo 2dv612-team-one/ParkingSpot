@@ -65,6 +65,7 @@ public class MessageController {
   }
 
   @GetMapping("/unseen")
+  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
   public ResponseEntity<List<Message>> getUnseenMessages(@CurrentUser UserDetailsImpl principal) {
     return new ResponseEntity<>(messageService.getAllUnseenMessages(principal.getId()), HttpStatus.OK);
   }
