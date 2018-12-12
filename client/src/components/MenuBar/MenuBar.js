@@ -13,6 +13,7 @@ import { logout } from '../../actions/authenticate';
 import { openModal } from '../../actions/modal';
 import { LOGIN_MODAL, REGISTER_MODAL } from '../../constants/environment';
 import {deleteUser} from "../../actions/userControl";
+import ChangePassword from '../../components/ChangePassword/ChangePassword';
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
@@ -24,6 +25,10 @@ const mapDispatchToProps = dispatch => ({
   logout: () => dispatch(logout()),
   deleteUser: (accessToken) => dispatch(deleteUser(accessToken)),
 });
+
+var displayFlex = {
+  display: 'flex'
+}
 
 class MenuBar extends Component {
   handleLogout() {
@@ -58,7 +63,8 @@ class MenuBar extends Component {
 
             {!accessToken
               ? (
-                <div>
+                <div style={displayFlex}>
+                  <ChangePassword/>
                   <Button color="inherit" onClick={openLoginModal}>
                     <span>Logga in</span>
                   </Button>
