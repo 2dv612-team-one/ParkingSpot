@@ -96,8 +96,8 @@ class App extends Component {
                   <AddParkingArea />
                   {' '}
                 </Grid>
-                <Grid><SelectParkingArea /></Grid>
-                <Grid><HourlyRate /></Grid>
+                <Grid item><SelectParkingArea /></Grid>
+                <Grid item><HourlyRate /></Grid>
                 <Grid><AddMessage /></Grid>
               </Grid>
             </div>

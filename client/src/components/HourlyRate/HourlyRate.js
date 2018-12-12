@@ -151,8 +151,8 @@ class HourlyRate extends Component {
     const allHoursCovered = this.allHoursCovered();
 
     return (areas && Array.from(areas).map(area => (
-          <Paper className={classes.main}>
-            <div>
+          <div>
+            <Paper>
               <Typography variant="subtitle">Skapa timtaxa för {area.name}</Typography>
               <FormControl >
                 <TextField
@@ -183,8 +183,8 @@ class HourlyRate extends Component {
                 disabled={canBeSubmitted}
               >LÄGG TILL
               </Button>
-            </div>
-            <div>
+            </Paper>
+            <Paper>
               <TableHead>
 
               </TableHead>
@@ -201,8 +201,8 @@ class HourlyRate extends Component {
                 disabled={!allHoursCovered}
               >SPARA
               </Button>
-            </div>
-          </Paper>
+            </Paper>
+          </div>
         ))
     );
   }
