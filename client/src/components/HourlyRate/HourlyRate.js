@@ -51,6 +51,20 @@ class HourlyRate extends Component {
     this.setState({ rate: e.target.value });
   }
 
+  hasEmptyInput() {
+    const { rate_from, rate_to, rate} = this.state;
+    return {
+      rate_from: rate_from.length === 0,
+      rate_to: rate_to.length === 0,
+      rate: rate.length === 0,
+    };
+  }
+
+  canBeSubmitted() {
+    const emptyInputErrors = this.hasEmptyInput();
+
+    return Object.keys(emptyInputErrors).some(x => emptyInputErrors[x]);
+  }
 
   handleClick = (e) => {
     // do something
@@ -58,7 +72,10 @@ class HourlyRate extends Component {
 
   render() {
     const { classes, areas } = this.props;
+
     const { rate_from, rate_to, rate } = this.state;
+
+    const canBeSubmitted = this.canBeSubmitted();
 
     return (areas && Array.from(areas).map(area => (
           <Paper className={classes.main}>
@@ -88,7 +105,11 @@ class HourlyRate extends Component {
                   value={rate}
                 />
               </FormControl>
-              <Button onClick={this.handleClick}>LÄGG TILL</Button>
+              <Button
+                onClick={this.handleClick}
+                disabled={canBeSubmitted}
+              >LÄGG TILL
+              </Button>
             </div>
             <div>
               <TableHead>
@@ -106,6 +127,11 @@ class HourlyRate extends Component {
                   <Button onClick={this.handleClick}>TA BORT</Button>
                 </TableRow>
               </TableBody>
+              <Button
+                onClick={this.handleClick}
+                disabled={canBeSubmitted}
+              >SPARA
+              </Button>
             </div>
           </Paper>
         ))
