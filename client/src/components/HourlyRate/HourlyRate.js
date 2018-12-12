@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 /* eslint import/no-webpack-loader-syntax: off */
-import { Menu, MenuItem, Button , withStyles} from '@material-ui/core';
+import { Button , withStyles} from '@material-ui/core';
 import { FormControl, TextField, Paper, Typography } from '@material-ui/core';
-import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
+import { TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 
 import { getAreas, deleteArea } from '../../actions/parkingArea';
 import styles from '../../assets/styles/hourly-rate';
@@ -94,17 +94,12 @@ class HourlyRate extends Component {
   }
 
   handleSubmit = () => {
-    const { rate_from, rate_to, rate, hours, rates} = this.state;
+    const { rate_from, rate_to, rate, hours} = this.state;
 
-    console.log('rate_from:' + rate_from);
-    console.log('rate_to:' + rate_to);
-    for (let i = rate_from; i <= rate_to; i++) {
-      this.setState(prevState => ({
-        hours: {
-          ...prevState.hours,
-          [i]: rate
-        }
-      }));
+    for (let i = parseInt(rate_from); i <= parseInt(rate_to); i++) {
+
+      hours[i] = rate;
+      this.setState({hours});
     }
 
     this.setState(prevState => ({
@@ -127,25 +122,21 @@ class HourlyRate extends Component {
 
     // Checks if total amount of hours is equal to or more then 24
     // TODO make it check for duplicate hours
-
-
     for (let i = 1; i <= 24; i++) {
 
       if (hours[i] === -1) {
-        console.log('false');
-        console.log(hours);
+
         return false;
       }
     }
 
-    console.log('true');
     return true;
   }
 
   render() {
-    const { classes, areas } = this.props;
+    const { areas } = this.props;
 
-    const { rate_from, rate_to, rate , hours, rates} = this.state;
+    const { rate_from, rate_to, rate , rates} = this.state;
 
     const canBeSubmitted = this.canBeSubmitted();
     const allHoursCovered = this.allHoursCovered();
@@ -191,8 +182,7 @@ class HourlyRate extends Component {
               <TableBody>
                 {rates && rates.map(nrate => (
                   <TableRow>
-                    <TableCell>{nrate.from}:00-{nrate.to}:00 = {nrate.rate}kr</TableCell>
-                    <Button onClick={this.handleClick}>TA BORT</Button>
+                    <TableCell onClick={this.handleClick} value={nrate}>{nrate.from}:00-{nrate.to}:00 = {nrate.rate}kr</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
