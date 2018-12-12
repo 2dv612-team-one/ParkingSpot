@@ -143,6 +143,7 @@ class HourlyRate extends Component {
 
     return (areas && Array.from(areas).map(area => (
           <div>
+            {!allHoursCovered && (
             <Paper>
               <Typography variant="subtitle">Skapa timtaxa för {area.name}</Typography>
               <FormControl >
@@ -175,6 +176,7 @@ class HourlyRate extends Component {
               >LÄGG TILL
               </Button>
             </Paper>
+            )}
             <Paper>
               <TableHead>
 
@@ -182,7 +184,8 @@ class HourlyRate extends Component {
               <TableBody>
                 {rates && rates.map(nrate => (
                   <TableRow>
-                    <TableCell onClick={this.handleClick} value={nrate}>{nrate.from}:00-{nrate.to}:00 = {nrate.rate}kr</TableCell>
+                    <TableCell>{nrate.from}:00-{nrate.to}:00 = {nrate.rate}kr</TableCell>
+                    <Button onClick={this.handleClick} value={nrate}>TA BORT</Button>
                   </TableRow>
                 ))}
               </TableBody>
