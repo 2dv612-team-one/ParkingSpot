@@ -50,6 +50,7 @@ export function showMessage(message) {
     return {
       type: SHOW_MESSAGE,
       payload: message,
+      id: new Date().getTime() + Math.random(),
     };
   }
 }

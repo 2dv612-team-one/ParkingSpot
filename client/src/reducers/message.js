@@ -13,16 +13,16 @@ const initialState = {
 };
 
 const addMessage = (state, action) => ({ ...state, messages: [...state.messages, { ...action.payload, },], });
-const addSocketMessage = (state, message) => ({ ...state, messages: [...state.messages, { message, },], });
+const addSocketMessage = (state, message, id) => ({ ...state, messages: [...state.messages, { message, id, },], });
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case SHOW_MESSAGE:
       let isSocketMessage = action.payload.id === undefined;
-
       if (isSocketMessage) {
         let message = action.payload.body;
-        return addSocketMessage(state, message);
+        let id = action.id;
+        return addSocketMessage(state, message, id);
       } else {
         return addMessage(state, action);
       }
@@ -47,9 +47,6 @@ export default (state = initialState, action) => {
           message => message.id !== action.id,
         ),
       };
-
-    case CLOSE_SNACKBAR:
-      return { ...state, message: initialState.message, showInfo: false };
     default:
       return state;
   }

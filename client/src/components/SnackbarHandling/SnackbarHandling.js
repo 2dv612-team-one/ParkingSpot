@@ -8,16 +8,21 @@ import CheckIcon from '@material-ui/icons/Check';
 
 class SnackbarHandling extends Component {
   state = {
-    displayed: [],
+    viewed: [],
   };
 
   storeDisplayed = (id) => {
-    this.setState(({ displayed }) => ({
-      displayed: [...displayed, id],
+    this.setState(({ viewed }) => ({
+      viewed: [...viewed, id],
     }));
   };
 
   handleClose = (event, reason) => {
+    const { closeSnackBar } = this.props;
+    closeSnackBar();
+  };
+
+  handleViewed = (event, reason) => {
     const { markMessageViewed, closeSnackBar } = this.props;
     markMessageViewed();
     closeSnackBar();
@@ -25,25 +30,44 @@ class SnackbarHandling extends Component {
 
   render() {
     const { infoMessages, errorMessages, enqueueSnackbar } = this.props;
-    const { displayed } = this.state;
+    const { viewed } = this.state;
 
-    let allMessages = infoMessages.concat(errorMessages);
-    console.log(allMessages);
-
-    allMessages.forEach((message) => {
+    infoMessages.forEach((message) => {
       if (message === undefined) {
         return;
       }
-
       const timeInSeconds = 600 * 1000;
       const options = {
         variant: 'info',
         autoHideDuration: timeInSeconds,
+        action: <IconButton key="close" aria-label="Close" color="inherit" onClick={this.handleViewed}><CheckIcon /></IconButton>,
+      };
+      setTimeout(() => {
+        let messageAlreadyViewed = viewed.indexOf(message.id) > -1;
+        if (messageAlreadyViewed) return;
+
+        // Display message using notistack
+        enqueueSnackbar(message.message, options);
+
+        // Add message's id to the local state
+        this.storeDisplayed(message.id);
+        // closeSnackBar(message.id);
+      }, 1);
+    })
+
+    errorMessages.forEach((message) => {
+      if (message === undefined) {
+        return;
+      }
+      const timeInSeconds = 6 * 1000;
+      const options = {
+        variant: 'error',
+        autoHideDuration: timeInSeconds,
         action: <IconButton key="close" aria-label="Close" color="inherit" onClick={this.handleClose}><CheckIcon /></IconButton>,
       };
       setTimeout(() => {
-        // If message already displayed, abort
-        if (displayed.indexOf(message.id) > -1) return;
+        let messageAlreadyViewed = viewed.indexOf(message.id) > -1;
+        if (messageAlreadyViewed) return;
 
         // Display message using notistack
         enqueueSnackbar(message.message, options);

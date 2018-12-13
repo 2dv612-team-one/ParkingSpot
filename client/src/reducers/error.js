@@ -21,7 +21,7 @@ const isServerError = p => p.response.status >= 500;
 const isInvalidCredentials = p => p.response.status >= 400;
 
 const getError = (state, message) => ({ ...state, message, showError: true });
-const addMessage = (state, message) => ({ ...state, messages: [...state.messages, { message, },], });
+const addMessage = (state, message, id) => ({ ...state, messages: [...state.messages, { message, id, },], });
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -47,7 +47,8 @@ export default (state = initialState, action) => {
       }
       if (isInvalidCredentials(action.payload)) {
         let errorMessage = action.payload.response.data.message;
-        return addMessage(state, errorMessage);
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
         // return getError(state, errorMessage);
       }
       return initialState;
