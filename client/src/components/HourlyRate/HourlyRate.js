@@ -12,6 +12,7 @@ import styles from '../../assets/styles/hourly-rate';
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
   areas: state.parkingArea.data,
+  role: state.authentication.role
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -113,7 +114,7 @@ class HourlyRate extends Component {
   };
 
   handleDelete = (e) => {
-    const { rates, hours} = this.state;
+    const { rates, hours } = this.state;
     let value = JSON.parse(e.currentTarget.value);
 
     for (let i = 0; i < rates.length; i++) {
@@ -151,14 +152,17 @@ class HourlyRate extends Component {
   }
 
   render() {
-    const { areas } = this.props;
+    const { areas, role } = this.props;
 
     const { rate_from, rate_to, rate , rates} = this.state;
 
     const canBeSubmitted = this.canBeSubmitted();
     const allHoursCovered = this.allHoursCovered();
 
-    return (areas && Array.from(areas).map(area => (
+    return (
+      <div>
+        { role === "ROLE_PARKING_OWNER" ?
+      areas && Array.from(areas).map(area => (
           <div>
             <hi>Timtaxa</hi>
             {!allHoursCovered && (
@@ -218,7 +222,8 @@ class HourlyRate extends Component {
               </Button>
             </Paper>
           </div>
-        ))
+        )) : null }
+        </div>
     );
   }
 }
