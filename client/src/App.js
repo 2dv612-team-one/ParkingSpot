@@ -17,9 +17,11 @@ import SuccessHandling from './components/SnackbarHandling/SuccessHandling';
 import AddParkingArea from './components/AddParkingArea/AddParkingArea';
 import AddMessage from './components/AddMessage/AddMessage';
 import SelectParkingArea from './components/SelectParkingArea/SelectParkingArea';
+import HourlyRate from "./components/HourlyRate/HourlyRate";
 
 import { fetchAccessTokenFromLocalStorage } from './actions/authenticate';
 import { emailVerificationError, showMessage } from './actions/snackbar';
+
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
@@ -94,7 +96,8 @@ class App extends Component {
                   <AddParkingArea />
                   {' '}
                 </Grid>
-                <Grid><SelectParkingArea /></Grid>
+                <Grid item><SelectParkingArea /></Grid>
+                <Grid item><HourlyRate /></Grid>
                 <Grid><AddMessage /></Grid>
               </Grid>
             </div>
