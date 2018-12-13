@@ -8,7 +8,6 @@ import {
 } from '../constants/actionTypes';
 
 export function addArea(accessToken, name, coords) {
-
     let config = {
         headers: {'Authorization': "Bearer " + accessToken}
     };

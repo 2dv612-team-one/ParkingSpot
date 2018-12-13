@@ -10,10 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import se.lnu.ParkingZpot.authentication.CurrentUser;
 import se.lnu.ParkingZpot.authentication.UserDetailsImpl;
@@ -21,19 +18,19 @@ import se.lnu.ParkingZpot.models.Message;
 import se.lnu.ParkingZpot.payloads.AddMessageRequest;
 import se.lnu.ParkingZpot.payloads.ConfirmMessageRequest;
 import se.lnu.ParkingZpot.payloads.ApiResponse;
-import se.lnu.ParkingZpot.services.MessageService;
+import se.lnu.ParkingZpot.services.IMessageService;
 import se.lnu.ParkingZpot.services.UserService;
 
 @RestController
 @RequestMapping("/api/message")
 public class MessageController {
 
-  private final MessageService messageService;
+  private final IMessageService messageService;
   private final UserService userService;
   private final PasswordEncoder encoder;
 
   @Autowired
-  public MessageController(UserService userService, PasswordEncoder encoder, MessageService messageService) {
+  public MessageController(UserService userService, PasswordEncoder encoder, IMessageService messageService) {
     this.messageService = messageService;
     this.userService = userService;
     this.encoder = encoder;
@@ -65,6 +62,12 @@ public class MessageController {
     } catch (Exception e) {
         return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
     }
+  }
+
+  @GetMapping("/unseen")
+  @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+  public ResponseEntity<List<Message>> getUnseenMessages(@CurrentUser UserDetailsImpl principal) {
+    return new ResponseEntity<>(messageService.getAllUnseenMessages(principal.getId()), HttpStatus.OK);
   }
 
 }

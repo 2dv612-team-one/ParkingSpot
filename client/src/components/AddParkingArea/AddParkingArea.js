@@ -12,7 +12,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    addArea: (accessToken, name, coords) => dispatch(addArea(accessToken, name, coords))
+    addArea: (accessToken, name, coords) => dispatch(addArea(accessToken, name, coords)),
 });
 
 class AddParkingArea extends Component {

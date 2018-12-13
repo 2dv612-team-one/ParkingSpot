@@ -70,3 +70,7 @@ code {
 .btn-icon {
   margin-right: 8px !important;
 }
+
+.MuiAvatar-colorDefault-343 {
+    background-color: #427df2 !important;
+}
