@@ -5,14 +5,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.*;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import se.lnu.ParkingZpot.models.Rate;
 
@@ -36,7 +31,7 @@ public class ParkingSpot {
   private double coord4;
 
   @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="spot")
-  public List<Rate> rates;
+  public List<Rate> rates = new ArrayList<>();
 
   public void setCoords(double[] coords){
     this.coord1 = coords[0];
