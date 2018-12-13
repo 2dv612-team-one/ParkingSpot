@@ -5,31 +5,19 @@ import { Grid, Typography } from '@material-ui/core';
 import SockJS from 'sockjs-client';
 import Stomp from 'stomp-websocket';
 
-import MenuBar from './components/MenuBar/MenuBar';
+import AddMessage from './components/AddMessage/AddMessage';
+import AddParkingArea from './components/AddParkingArea/AddParkingArea';
+import AdminUserControl from './components/AdminUserControl/AdminUserControl';
 import LoginModal from './components/LoginModal/LoginModal';
+import MenuBar from './components/MenuBar/MenuBar';
 import RegisterModal from './components/RegisterModal/RegisterModal';
+import SelectParkingArea from './components/SelectParkingArea/SelectParkingArea';
+import SnackbarHandling from './components/SnackbarHandling/SnackbarHandling';
 import VehicleForm from './components/VehicleForm/VehicleForm';
 import VehicleList from './components/VehicleList/VehicleList';
-import AdminUserControl from './components/AdminUserControl/AdminUserControl';
-import ErrorHandling from './components/SnackbarHandling/ErrorHandling';
-import InfoHandling from './components/SnackbarHandling/InfoHandling';
-import SuccessHandling from './components/SnackbarHandling/SuccessHandling';
-import AddParkingArea from './components/AddParkingArea/AddParkingArea';
-import AddMessage from './components/AddMessage/AddMessage';
-import SelectParkingArea from './components/SelectParkingArea/SelectParkingArea';
 
 import { fetchAccessTokenFromLocalStorage } from './actions/authenticate';
 import { emailVerificationError, showMessage } from './actions/snackbar';
-
-const mapStateToProps = state => ({
-  accessToken: state.authentication.accessToken,
-});
-
-const mapDispatchToProps = dispatch => ({
-  loadAccessToken: () => dispatch(fetchAccessTokenFromLocalStorage()),
-  emailVerificationError: () => dispatch(emailVerificationError()),
-  showMessage: message => dispatch(showMessage(message)),
-});
 
 class App extends Component {
   componentWillMount() {
@@ -73,9 +61,7 @@ class App extends Component {
 
         <Typography className="app-header-message" variant="title" align="center">Välkommen till ParkingZpot</Typography>
 
-        <InfoHandling />
-        <ErrorHandling />
-        <SuccessHandling />
+        <SnackbarHandling />
 
         {accessToken
           && (
@@ -104,5 +90,15 @@ class App extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  accessToken: state.authentication.accessToken,
+});
+
+const mapDispatchToProps = dispatch => ({
+  loadAccessToken: () => dispatch(fetchAccessTokenFromLocalStorage()),
+  emailVerificationError: () => dispatch(emailVerificationError()),
+  showMessage: message => dispatch(showMessage(message)),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

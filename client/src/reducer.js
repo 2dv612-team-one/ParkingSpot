@@ -3,25 +3,27 @@
 import { combineReducers } from 'redux';
 
 import authentication from './reducers/authentication';
-import registration from './reducers/registration';
-import modal from './reducers/modal';
-import vehicle from './reducers/vehicle';
-import userController from './reducers/userController';
-import parkingArea from './reducers/parkingArea';
 import error from './reducers/error';
-import success from './reducers/success';
 import message from './reducers/message';
+import modal from './reducers/modal';
+import parkingArea from './reducers/parkingArea';
+import registration from './reducers/registration';
+import snackbar from './reducers/snackbar';
+import success from './reducers/success';
 import updateInformation from './reducers/updateInformation';
+import userController from './reducers/userController';
+import vehicle from './reducers/vehicle';
 
 export default combineReducers({
   authentication,
-  registration,
-  modal,
-  vehicle,
-  userController,
   error,
-  success,
-  parkingArea,
   message,
+  modal,
+  parkingArea,
+  registration,
+  snackbar,
+  success,
   updateInformation,
+  userController,
+  vehicle,
 });
