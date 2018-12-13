@@ -174,7 +174,7 @@ class HourlyRate extends Component {
               </FormControl>
               <FormControl >
                 <TextField
-                  label="Till timmar"
+                  label="Till timmar:"
                   name="rate_to"
                   onChange={this.handleRateTo}
                   value={rate_to}
@@ -182,7 +182,7 @@ class HourlyRate extends Component {
               </FormControl>
               <FormControl >
                 <TextField
-                  label="Taxa"
+                  label="Taxa:"
                   name="rate"
                   onChange={this.handleRate}
                   value={rate}
@@ -201,7 +201,7 @@ class HourlyRate extends Component {
               </TableHead>
               <TableBody>
                 {rates && rates.map(nrate => (
-                  <TableRow key={nrate}>
+                  <TableRow key={nrate.id}>
                     <TableCell>{nrate.from}:00-{nrate.to}:00 = {nrate.rate}kr</TableCell>
                     <Button
                       onClick={this.handleDelete}
