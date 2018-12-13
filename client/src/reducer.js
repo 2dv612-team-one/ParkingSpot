@@ -8,7 +8,6 @@ import message from './reducers/message';
 import modal from './reducers/modal';
 import parkingArea from './reducers/parkingArea';
 import registration from './reducers/registration';
-import snackbar from './reducers/snackbar';
 import success from './reducers/success';
 import updateInformation from './reducers/updateInformation';
 import userController from './reducers/userController';
@@ -21,7 +20,6 @@ export default combineReducers({
   modal,
   parkingArea,
   registration,
-  snackbar,
   success,
   updateInformation,
   userController,

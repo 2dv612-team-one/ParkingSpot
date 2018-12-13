@@ -37,10 +37,21 @@ export function markMessageViewed(id, accessToken) {
 }
 
 export function showMessage(message) {
-  return {
-    type: SHOW_MESSAGE,
-    payload: message,
-  };
+  let msg = '';
+  try {
+    msg = JSON.parse(message.body);
+    return {
+      type: SHOW_MESSAGE,
+      payload: {
+        ...msg,
+      },
+    };
+  } catch {
+    return {
+      type: SHOW_MESSAGE,
+      payload: message,
+    };
+  }
 }
 
 export function emailVerificationError() {

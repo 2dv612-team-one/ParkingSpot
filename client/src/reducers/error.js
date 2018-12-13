@@ -14,12 +14,14 @@ import {
 const initialState = {
   message: null,
   showError: null,
+  messages: [],
 };
 
 const isServerError = p => p.response.status >= 500;
 const isInvalidCredentials = p => p.response.status >= 400;
 
 const getError = (state, message) => ({ ...state, message, showError: true });
+const addMessage = (state, message) => ({ ...state, messages: [...state.messages, { message, },], });
 
 export default (state = initialState, action) => {
   switch (action.type) {
@@ -45,7 +47,8 @@ export default (state = initialState, action) => {
       }
       if (isInvalidCredentials(action.payload)) {
         let errorMessage = action.payload.response.data.message;
-        return getError(state, errorMessage);
+        return addMessage(state, errorMessage);
+        // return getError(state, errorMessage);
       }
       return initialState;
     case `${USER_AUTHENTICATION_TOKEN}_REJECTED`:
