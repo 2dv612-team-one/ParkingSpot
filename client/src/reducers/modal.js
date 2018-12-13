@@ -28,7 +28,7 @@ export default (state = initialState, action) => {
     case `${USER_AUTHENTICATION}_FULFILLED`:
       return { ...state, [LOGIN_MODAL]: { show: false, props: {} } };
     case `${USER_REGISTRATION}_FULFILLED`:
-      return { ...state, [REGISTER_MODAL]: {show: false, props: {}} };
+      return { ...state, [REGISTER_MODAL]: {show: false, props: {} } };
     default:
       return state;
   }
