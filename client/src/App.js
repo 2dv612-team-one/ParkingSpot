@@ -16,9 +16,11 @@ import ErrorHandling from './components/SnackbarHandling/ErrorHandling';
 import InfoHandling from './components/SnackbarHandling/InfoHandling';
 import SuccessHandling from './components/SnackbarHandling/SuccessHandling';
 import AddMessage from './components/AddMessage/AddMessage';
+import HourlyRate from "./components/HourlyRate/HourlyRate";
 
 import { fetchAccessTokenFromLocalStorage } from './actions/authenticate';
 import { emailVerificationError, showMessage } from './actions/snackbar';
+
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
@@ -90,6 +92,7 @@ class App extends Component {
                 <Grid item><VehicleList /></Grid>
                 <Grid><ParkingAreaList /></Grid>
                 <Grid item><AdminUserControl /></Grid>
+                <Grid item><HourlyRate /></Grid>
                 <Grid><AddMessage /></Grid>
               </Grid>
             </div>

@@ -62,7 +62,13 @@ class ParkingAreaList extends Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    if (!this.props.update && nextProps.update) {
+    if (!this.props.shouldUpdate && nextProps.shouldUpdate) {
+      this.props.onLoad();
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (!this.props.shouldUpdate && prevProps.shouldUpdate) {
       this.props.onLoad();
     }
   }
