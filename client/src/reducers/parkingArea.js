@@ -1,8 +1,8 @@
-/* eslint import/no-webpack-loader-syntax: off */
 import {
     ADD_PARKING_AREA,
     GET_PARKING_AREAS,
-    DELETE_PARKING_AREA
+    DELETE_PARKING_AREA,
+    EDIT_PARKING_AREA
   } from '../constants/actionTypes';
   
   const initialState = {
@@ -29,6 +29,13 @@ import {
       case `${DELETE_PARKING_AREA}_PENDING`:
         return { ...state };
       case `${DELETE_PARKING_AREA}_REJECTED`:
+        return { ...state, message: action.payload };
+
+      case `${EDIT_PARKING_AREA}_FULFILLED`:
+        return { ...state, message: action.payload, update: true };
+      case `${EDIT_PARKING_AREA}_PENDING`:
+        return { ...state };
+      case `${EDIT_PARKING_AREA}_REJECTED`:
         return { ...state, message: action.payload };
 
       default:

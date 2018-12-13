@@ -10,7 +10,7 @@ import { closeModal } from '../../actions/modal';
 import { LOGIN_MODAL } from '../../constants/environment';
 
 const mapStateToProps = state => ({
-  showLoginModal: state.modal[LOGIN_MODAL],
+  showLoginModal: state.modal[LOGIN_MODAL].show,
 });
 
 const mapDispatchToProps = dispatch => ({

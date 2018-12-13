@@ -6,19 +6,27 @@ import { Typography, List, ListItem, ListItemAvatar, ListItemText, ListItemSecon
 import IconButton from '@material-ui/core/IconButton';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
+import AddIcon from '@material-ui/icons/Add';
+import ParkingAreaModal from '../ParkingAreaModal/ParkingAreaModal';
+import { openModal } from '../../actions/modal';
+import { PARKING_AREA_MODAL } from '../../constants/environment';
 
-import { getAreas, deleteArea } from '../../actions/parkingArea';
-// import styles from '../../assets/styles/vehicle-list';
+import { getAreas, deleteArea, editArea, addArea } from '../../actions/parkingArea';
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
   areas: state.parkingArea.data,
   shouldUpdate: state.parkingArea.update,
+  role: state.authentication.role
 });
 
 const mapDispatchToProps = dispatch => ({
   onLoad: () => dispatch(getAreas()),
-  deleteArea: (accessToken, name) => dispatch(deleteArea(accessToken, name)),
+  openParkingAreaModal: (props) => dispatch(openModal(PARKING_AREA_MODAL, props)),
+  editArea: (accessToken, id, newProps) => dispatch(editArea(accessToken, id, newProps)),
+  deleteArea: (accessToken, id) => dispatch(deleteArea(accessToken, id)),
+  addArea: (accessToken, id, props) => dispatch(addArea(accessToken, props)),
 });
 
 const styles = theme => ({
@@ -42,13 +50,15 @@ function generate(element) {
   );
 }
 
-class SelectParkingArea extends Component {
+class ParkingAreaList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showMenu: null,
     };
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
   }
 
   componentWillReceiveProps (nextProps) {
@@ -70,22 +80,40 @@ class SelectParkingArea extends Component {
     this.setState({ showMenu: null });
   };
 
-  handleDelete = (name) => {
-    // e.target.value gives weird value
+  handleDelete = (id) => {
     const { accessToken, deleteArea } = this.props;
+    deleteArea(accessToken, id);
+    this.handleClose();
+  };
 
-    deleteArea(accessToken, name);
+  handleEdit = (id, name, coords) => {
+    const { editArea, openParkingAreaModal } = this.props;
+    let props = {id: id, name: name, coords: coords, onSubmit: editArea, submitPrompt: "Uppdatera"}
+    openParkingAreaModal(props)
+    this.handleClose();
+  };
+
+  handleAdd = () => {
+    const { addArea, openParkingAreaModal } = this.props;
+    let props = {onSubmit: addArea, submitPrompt: "Lägg till", name: 'Untitled', coords: [0, 0, 0, 0]}
+    openParkingAreaModal(props)
     this.handleClose();
   };
 
   render() {
-    const { areas, classes } = this.props;
+    const { areas, classes, role } = this.props;
     const { showMenu } = this.state;
 
     return (
+      <div>
+        { role === "ROLE_PARKING_OWNER" ?
       <Grid item xs={12} md={6}>
+            <Grid><ParkingAreaModal /></Grid>
             <Typography variant="h6" className={classes.title}>
               Parkeringsplatser
+              <IconButton aria-label="Add" onClick={() => this.handleAdd()}>
+                  <AddIcon />
+              </IconButton>
             </Typography>
             <div className={classes.demo}>
               <List>
@@ -101,17 +129,21 @@ class SelectParkingArea extends Component {
                       secondary={`20 kr/h 18:00-19:00`}
                     />
                     <ListItemSecondaryAction>
-                      <IconButton aria-label="Delete" onClick={() => this.handleDelete(area.name)}>
+                      <IconButton aria-label="Delete" onClick={() => this.handleDelete(area.id)}>
                         <DeleteIcon />
+                      </IconButton>
+                      <IconButton aria-label="Edit" onClick={() => this.handleEdit(area.id, area.name, [area.coord1, area.coord2, area.coord3, area.coord4])}>
+                        <EditIcon />
                       </IconButton>
                     </ListItemSecondaryAction>
                   </ListItem>
                 )}
               </List>
             </div>
-      </Grid>
+      </Grid> : null }
+      </div>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SelectParkingArea));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ParkingAreaList));

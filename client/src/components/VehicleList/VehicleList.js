@@ -10,6 +10,7 @@ import styles from '../../assets/styles/vehicle-list';
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
   vehicles: state.vehicle.data,
+  role: state.authentication.role
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -25,9 +26,11 @@ class VehicleList extends Component {
   }
 
   render() {
-    const { classes, vehicles } = this.props;
+    const { classes, vehicles, role } = this.props;
 
     return (
+      <div>
+      { role === "ROLE_USER" ?
       <Paper className={classes.root}>
         <Table className={classes.table}>
           <TableHead>
@@ -43,7 +46,9 @@ class VehicleList extends Component {
             ))}
           </TableBody>
         </Table>
-      </Paper>
+      </Paper> : null
+      }
+      </div>
     );
   }
 }
