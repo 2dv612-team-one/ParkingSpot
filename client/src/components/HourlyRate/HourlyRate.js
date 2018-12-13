@@ -6,7 +6,7 @@ import { Button , withStyles} from '@material-ui/core';
 import { FormControl, TextField, Paper, Typography } from '@material-ui/core';
 import { TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 
-import { getAreas, deleteArea } from '../../actions/parkingArea';
+import { getAreas } from '../../actions/parkingArea';
 import styles from '../../assets/styles/hourly-rate';
 
 const mapStateToProps = state => ({
@@ -133,7 +133,7 @@ class HourlyRate extends Component {
 
   handleSave = (e) => {
     // send parking rates to server
-    const { rates, hours} = this.state;
+    //const { rates, hours} = this.state;
   };
 
 
