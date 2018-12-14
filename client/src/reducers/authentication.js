@@ -35,7 +35,10 @@ export default (state = initialState, action) => {
     case USER_LOGOUT:
       window.localStorage[ACCESS_TOKEN_STORAGE] = '';
       window.location.reload(false);
-      return null;
+      return {
+        ...state,
+        accessToken: null
+      };
     default:
       return state;
   }

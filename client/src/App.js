@@ -46,9 +46,8 @@ class App extends Component {
 
   componentDidUpdate(prevProps) {
     const { accessToken, showMessage } = this.props;
-
     // Wait until accesstoken is loaded
-    if (accessToken !== prevProps) {
+    if (accessToken && accessToken !== prevProps.accessToken) {
       const headers = {
         'Authorization': accessToken
       };

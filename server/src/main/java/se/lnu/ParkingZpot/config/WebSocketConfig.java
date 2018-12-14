@@ -4,6 +4,9 @@ import java.security.Principal;
 import java.util.Map;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.ServerHttpRequest;
@@ -57,6 +60,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 }
 
 class TopicSubscriptionInterceptor extends ChannelInterceptorAdapter {
+  private static final Logger logger = LoggerFactory.getLogger(TopicSubscriptionInterceptor.class);
 
   private final JwtTokenProvider tokenProvider;
 
@@ -68,15 +72,19 @@ class TopicSubscriptionInterceptor extends ChannelInterceptorAdapter {
   @Override
   public Message<?> preSend(Message<?> message, MessageChannel channel) {
     StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(message);
-    List<String> authHeaders = headerAccessor.getNativeHeader("Authorization");
-    boolean validToken = false;
+    String type = headerAccessor.getHeader("stompCommand").toString();
 
-    if (authHeaders != null) {
-      validToken = tokenProvider.validateToken(authHeaders.get(0));
-    }
+    if (type != "DISCONNECT") {
+      List<String> authHeaders = headerAccessor.getNativeHeader("Authorization");
+      boolean validToken = false;
 
-    if (!validToken) {
-      throw new IllegalArgumentException("No permission for this topic");
+      if (authHeaders != null) {
+        validToken = tokenProvider.validateToken(authHeaders.get(0));
+      }
+
+      if (!validToken) {
+        throw new IllegalArgumentException("No permission for this topic");
+      }
     }
 
     return message;
