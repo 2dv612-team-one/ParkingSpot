@@ -67,7 +67,7 @@ class VehicleList extends Component {
 
 
   render() {
-    const { classes, vehicles } = this.props;
+    const { classes, vehicles, role } = this.props;
     const { showMenu } = this.state;
 
     return (
