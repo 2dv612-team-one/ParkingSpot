@@ -131,8 +131,13 @@ class ParkingAreaList extends Component {
                       </Avatar>
                     </ListItemAvatar>
                     <ListItemText
-                      primary={area.name}
-                      secondary={`20 kr/h 18:00-19:00`}
+                      primary={area.name + " (" + area.coord1 + ","+ area.coord2 + ","+ area.coord3 + ","+ area.coord4 + ")"}
+                      secondary={`${area.rates.map(rate => 
+                        rate.rate_from +
+                        ":00 - " +
+                        rate.rate_to +
+                        ":00 " +
+                        rate.rate + " kr/h")}`}
                     />
                     <ListItemSecondaryAction>
                       <IconButton aria-label="Delete" onClick={() => this.handleDelete(area.id)}>

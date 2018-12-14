@@ -2,7 +2,8 @@ import {
     ADD_PARKING_AREA,
     GET_PARKING_AREAS,
     DELETE_PARKING_AREA,
-    EDIT_PARKING_AREA
+    EDIT_PARKING_AREA,
+    ADD_PARKING_AREA_RATES,
   } from '../constants/actionTypes';
   
   const initialState = {
@@ -36,6 +37,13 @@ import {
       case `${EDIT_PARKING_AREA}_PENDING`:
         return { ...state };
       case `${EDIT_PARKING_AREA}_REJECTED`:
+        return { ...state, message: action.payload };
+
+      case `${ADD_PARKING_AREA_RATES}_FULFILLED`:
+        return { ...state, message: action.payload, update: true };
+      case `${ADD_PARKING_AREA_RATES}_PENDING`:
+        return { ...state };
+      case `${ADD_PARKING_AREA_RATES}_REJECTED`:
         return { ...state, message: action.payload };
 
       default:

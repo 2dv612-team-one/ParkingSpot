@@ -12,7 +12,9 @@ import se.lnu.ParkingZpot.authentication.UserDetailsImpl;
 import se.lnu.ParkingZpot.authentication.JwtTokenProvider;
 import se.lnu.ParkingZpot.exceptions.EntityExistsException;
 import se.lnu.ParkingZpot.models.ParkingSpot;
+import se.lnu.ParkingZpot.models.Rate;
 import se.lnu.ParkingZpot.payloads.UpdateParkingSpotRequest;
+import se.lnu.ParkingZpot.payloads.UpdateRatesRequest;
 import se.lnu.ParkingZpot.services.ParkingSpotService;
 import se.lnu.ParkingZpot.payloads.AddParkingSpotRequest;
 import se.lnu.ParkingZpot.payloads.ApiResponse;
@@ -110,5 +112,27 @@ public class ParkingSpotController {
     parkingSpotService.updateParkingSpot(parkingSpot.get());
 
     return new ResponseEntity<>(new ApiResponse(true, Messages.updateSuccess(updateParkingSpotRequest.getName())), HttpStatus.OK);
+  }
+
+  @PutMapping("/rates/{spot_id}")
+  @PreAuthorize("hasAnyRole('PARKING_OWNER', 'ADMIN')")
+  public ResponseEntity<ApiResponse> updateParkingSpot(@CurrentUser UserDetailsImpl principal,
+                                                       @Valid @RequestBody Rate[] rates,
+                                                       @PathVariable("spot_id") String spotID) {
+
+    Optional<ParkingSpot> parkingSpot = parkingSpotService.getParkingSpot(Long.parseLong(spotID));
+
+    if (!parkingSpot.isPresent()) {
+      return new ResponseEntity<>(new ApiResponse(false, Messages.entityNotFound("ParkingSpot")), HttpStatus.BAD_REQUEST);
+    }
+
+    if (parkingSpot.get().getUserId() != principal.getId()) {
+      return new ResponseEntity<>(new ApiResponse(false, Messages.ACCESS_DENIED), HttpStatus.FORBIDDEN);
+    }
+
+    parkingSpot.get().getRates().add(rates[0]);
+    parkingSpotService.updateParkingSpot(parkingSpot.get());
+
+    return new ResponseEntity<>(new ApiResponse(true, Messages.updateSuccess("ParkingSpot")), HttpStatus.OK);
   }
 }
