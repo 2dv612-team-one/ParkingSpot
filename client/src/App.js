@@ -5,16 +5,18 @@ import { Grid, Typography } from '@material-ui/core';
 import SockJS from 'sockjs-client';
 import Stomp from 'stomp-websocket';
 
-import MenuBar from './components/MenuBar/MenuBar';
+import AddMessage from './components/AddMessage/AddMessage';
+import AddParkingArea from './components/AddParkingArea/AddParkingArea';
+import AdminUserControl from './components/AdminUserControl/AdminUserControl';
 import LoginModal from './components/LoginModal/LoginModal';
+import MenuBar from './components/MenuBar/MenuBar';
 import RegisterModal from './components/RegisterModal/RegisterModal';
+import SelectParkingArea from './components/SelectParkingArea/SelectParkingArea';
+import SnackbarHandling from './components/SnackbarHandling/SnackbarHandling';
 import VehicleForm from './components/VehicleForm/VehicleForm';
 import VehicleList from './components/VehicleList/VehicleList';
 import ParkingAreaList from './components/ParkingAreaList/ParkingAreaList';
 import AdminUserControl from './components/AdminUserControl/AdminUserControl';
-import ErrorHandling from './components/SnackbarHandling/ErrorHandling';
-import InfoHandling from './components/SnackbarHandling/InfoHandling';
-import SuccessHandling from './components/SnackbarHandling/SuccessHandling';
 import AddMessage from './components/AddMessage/AddMessage';
 import HourlyRate from "./components/HourlyRate/HourlyRate";
 
@@ -74,9 +76,7 @@ class App extends Component {
 
         <Typography className="app-header-message" variant="title" align="center">Välkommen till ParkingZpot</Typography>
 
-        <InfoHandling />
-        <ErrorHandling />
-        <SuccessHandling />
+        <SnackbarHandling />
 
         {accessToken
           && (

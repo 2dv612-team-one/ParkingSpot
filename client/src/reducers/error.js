@@ -4,7 +4,7 @@ import {
   USER_AUTHENTICATION_TOKEN,
   USER_REGISTRATION,
   REGISTER_USER,
-  CLOSE_SNACKBAR,
+  REMOVE_SNACKBAR,
   ADD_CAR,
   GET_CARS,
   GET_ROLES,
@@ -14,38 +14,51 @@ import {
 const initialState = {
   message: null,
   showError: null,
+  messages: [],
 };
 
 const isServerError = p => p.response.status >= 500;
 const isInvalidCredentials = p => p.response.status >= 400;
 
-const getError = (state, message) => ({ ...state, message, showError: true });
+// const getError = (state, message) => ({ ...state, message, showError: true });
+const addMessage = (state, message, id) => ({ ...state, messages: [...state.messages, { message, id, },], });
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case `${USER_AUTHENTICATION}_REJECTED`:
       if (isServerError(action.payload)) {
-        return getError(state, 'Fel uppstod vid inloggning. Försök igen');
+        let errorMessage = 'Fel uppstod vid inloggning. Försök igen.';
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
       }
       if (isInvalidCredentials(action.payload)) {
-        return getError(state, 'Fel användarnamn eller lösenord.');
+        let errorMessage = 'Fel användarnamn eller lösenord.';
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
       }
       return initialState;
     case `${USER_REGISTRATION}_REJECTED`:
       if (isServerError(action.payload)) {
-        return getError(state, 'Fel uppstod vid registrering. Försök igen');
+        let errorMessage = 'Fel uppstod vid registrering. Försök igen.';
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
       }
       if (isInvalidCredentials(action.payload)) {
-        return getError(state, 'Användarnamnet eller mailadressen finns redan');
+        let errorMessage = 'Användarnamnet eller mailadressen finns redan.';
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
       }
       return initialState;
     case `${REGISTER_USER}_REJECTED`:
       if (isServerError(action.payload)) {
-        return getError(state, 'Fel uppstod vid registrering. Försök igen');
+        let errorMessage = 'Fel uppstod vid registrering. Försök igen.';
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
       }
       if (isInvalidCredentials(action.payload)) {
         let errorMessage = action.payload.response.data.message;
-        return getError(state, errorMessage);
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
       }
       return initialState;
     case `${USER_AUTHENTICATION_TOKEN}_REJECTED`:
@@ -53,23 +66,36 @@ export default (state = initialState, action) => {
 
     case `${ADD_CAR}_REJECTED`:
       if (isServerError(action.payload)) {
-        return getError(state, 'Fel uppstod vid registrering av fordon. Försök igen');
+        let errorMessage = 'Fel uppstod vid registrering av fordon. Försök igen.';
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
       }
       return initialState;
     case `${GET_CARS}_REJECTED`:
       if (isServerError(action.payload)) {
-        return getError(state, 'Fel uppstod vid hämtning av fordon. Försök igen');
+        let errorMessage = 'Fel uppstod vid hämtning av fordon. Försök igen.';
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
       }
       return initialState;
     case `${GET_ROLES}_REJECTED`:
       if (isServerError(action.payload)) {
-        return getError(state, 'Fel uppstod vid hämtning av fordon. Försök igen');
+        let errorMessage = 'Fel uppstod vid hämtning av roller. Försök igen.';
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
       }
       return initialState;
     case VERIFICATION_ERROR:
-      return getError(state, 'Din verifieringstoken kan inte hittas, eller har gått ut. Försök igen');
-    case CLOSE_SNACKBAR:
-      return { ...state, message: null, showError: false };
+      let errorMessage = 'Din verifieringstoken kan inte hittas, eller har gått ut. Försök igen.';
+      let id = new Date().getTime() + Math.random();
+      return addMessage(state, errorMessage, id);
+    case REMOVE_SNACKBAR:
+      return {
+        ...state,
+        messages: state.messages.filter(
+          message => message.id !== action.id,
+        ),
+      };
     default:
       return state;
   }

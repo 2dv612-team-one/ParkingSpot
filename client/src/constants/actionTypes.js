@@ -19,12 +19,13 @@ export const GET_ROLES = 'GET_ROLES';
 export const REGISTER_USER = 'REGISTER_USER';
 
 // Snackbar
-export const SHOW_MESSAGE = 'SHOW_MESSAGE';
+export const REMOVE_SNACKBAR = 'REMOVE_SNACKBAR';
+export const ENQUEUE_SNACKBAR = 'ENQUEUE_SNACKBAR';
 export const MARK_MESSAGE_VIEWED = 'MARK_MESSAGE_VIEWED'
+export const SHOW_MESSAGE = 'SHOW_MESSAGE';
 
 // Error Snackbar
 export const VERIFICATION_ERROR = 'VERIFICATION_ERROR';
-export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
 
 // ParkingArea
 export const ADD_PARKING_AREA = 'ADD_PARKING_AREA';
