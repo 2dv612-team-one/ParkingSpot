@@ -124,13 +124,13 @@ public class ParkingAreaController {
     if (!parkingArea.isPresent()) {
       return new ResponseEntity<>(new ApiResponse(false, Messages.entityNotFound(Messages.PArea)), HttpStatus.BAD_REQUEST);
     }
-    
+
     if (parkingArea.get().getUserId() != principal.getId()) {
       return new ResponseEntity<>(new ApiResponse(false, Messages.ACCESS_DENIED), HttpStatus.FORBIDDEN);
     }
 
     for (int i = 0; i < rates.length; i++) {
-      parkingSpot.get().getRates().add(rates[i]);
+      parkingArea.get().getRates().add(rates[i]);
     }
 
     parkingAreaService.updateParkingArea(parkingArea.get());
