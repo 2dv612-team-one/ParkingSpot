@@ -9,7 +9,6 @@ import CheckIcon from '@material-ui/icons/Check';
 class SnackbarHandling extends Component {
   state = {
     viewed: [],
-    clicked: [],
   };
 
   storeViewed = (id) => {
@@ -17,18 +16,6 @@ class SnackbarHandling extends Component {
       viewed: [...viewed, id],
     }));
   };
-
-  storeClicked = (id) => {
-    this.setState(({ clicked }) => ({
-      clicked: [...clicked, id],
-    }));
-  };
-
-  showMessage = (id) => {
-    const { viewed } = this.state;
-    let filteredList = viewed.filter(messageId => messageId !== id)
-    this.setState({ viewed: filteredList });
-  }
 
   handleClose = (id) => {
     const { removeSnackbar } = this.props;
@@ -39,26 +26,17 @@ class SnackbarHandling extends Component {
     const { markMessageViewed, removeSnackbar } = this.props;
     markMessageViewed();
     removeSnackbar(id);
-    this.storeClicked(id);
   };
 
   render() {
     const { infoMessages, successMessages, errorMessages, enqueueSnackbar } = this.props;
-    const { viewed, clicked } = this.state;
+    const { viewed } = this.state;
 
-    // let allMessages = infoMessages.concat(errorMessages);
+    // let allMessages = infoMessages.concat(successMessages, errorMessages);
     // console.log("__ALL MESSAGES__HERE__");
     // console.log(allMessages);
 
-    let messagesToShow = infoMessages.slice(infoMessages.length - 3, infoMessages.length).reverse();
-    messagesToShow.forEach(message => {
-      // this.showMessage(message.id)
-    });
-
-    // console.log(messagesToShow);
-    // console.log(viewed);
-
-    messagesToShow.forEach((message) => {
+    infoMessages.forEach((message) => {
       if (message === undefined) {
         return;
       }
@@ -70,16 +48,13 @@ class SnackbarHandling extends Component {
       };
       setTimeout(() => {
         let messageSeen = viewed.indexOf(message.id) > -1;
-        let messageClicked = clicked.indexOf(message.id) > -1;
         if (messageSeen) return;
-        if (messageClicked === false) {
 
-          // Display message using notistack
-          if (typeof enqueueSnackbar === "function") { enqueueSnackbar(message.message, options); }
+        // Display message using notistack
+        if (typeof enqueueSnackbar === "function") { enqueueSnackbar(message.message, options); }
 
-          // Add message"s id to the local state
-          this.storeViewed(message.id);
-        }
+        // Add message"s id to the local state
+        this.storeViewed(message.id);
       }, 1);
     })
 
@@ -103,26 +78,26 @@ class SnackbarHandling extends Component {
       }, 1);
     })
 
-    // successMessages.forEach((message) => {
-    //   if (message === undefined) {
-    //     return;
-    //   }
-    //   const timeInSeconds = 6 * 1000;
-    //   const options = {
-    //     variant: "success",
-    //     autoHideDuration: timeInSeconds,
-    //     action: <IconButton key="close" aria-label="Close" color="inherit" onClick={() => this.handleClose(message.id)}><CheckIcon /></IconButton>,
-    //   };
-    //   setTimeout(() => {
-    //     let messageSeen = viewed.indexOf(message.id) > -1;
-    //     if (messageSeen) return;
+    successMessages.forEach((message) => {
+      if (message === undefined) {
+        return;
+      }
+      const timeInSeconds = 6 * 1000;
+      const options = {
+        variant: "success",
+        autoHideDuration: timeInSeconds,
+        action: <IconButton key="close" aria-label="Close" color="inherit" onClick={() => this.handleClose(message.id)}><CheckIcon /></IconButton>,
+      };
+      setTimeout(() => {
+        let messageSeen = viewed.indexOf(message.id) > -1;
+        if (messageSeen) return;
 
-    //     // Display message using notistack
-    //     if (typeof enqueueSnackbar === "function") { enqueueSnackbar(message.message, options); }
-    //     this.storeViewed(message.id);
-    //     this.handleClose(message.id);
-    //   }, 1);
-    // })
+        // Display message using notistack
+        if (typeof enqueueSnackbar === "function") { enqueueSnackbar(message.message, options); }
+        this.storeViewed(message.id);
+        this.handleClose(message.id);
+      }, 1);
+    })
 
     return null;
   }

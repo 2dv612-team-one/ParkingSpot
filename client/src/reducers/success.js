@@ -1,19 +1,17 @@
 /* eslint import/no-webpack-loader-syntax: off */
 import {
+  ADD_CAR,
   REGISTER_USER,
   USER_REGISTRATION,
   REMOVE_SNACKBAR,
 } from '../constants/actionTypes';
 
 const initialState = {
-  message: null,
-  showSuccess: null,
   messages: [],
 };
 
 const isSuccess = p => p.status >= 200 && p.status < 300;
 
-// const getInfo = (state, message) => ({ ...state, message, showSuccess: true });
 const addMessage = (state, message, id) => ({ ...state, messages: [...state.messages, { message, id, },], });
 
 export default (state = initialState, action) => {
@@ -32,9 +30,20 @@ export default (state = initialState, action) => {
         return addMessage(state, successMessage, id);
       }
       return initialState;
-
+    case `${ADD_CAR}_FULFILLED`:
+      if (isSuccess(action.payload)) {
+        let successMessage = 'Fordonet har registrerats.';
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, successMessage, id);
+      }
+      return initialState;
     case REMOVE_SNACKBAR:
-      return { ...state, message: null, showSuccess: false };
+      return {
+        ...state,
+        messages: state.messages.filter(
+          message => message.id !== action.id,
+        ),
+      };
     default:
       return state;
   }

@@ -12,13 +12,13 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { sendMessage } from '../../actions/userControl';
 
 const mapStateToProps = state => ({
-    accessToken: state.authentication.accessToken,  
-    role: state.authentication.role,
-  });
-  
-  const mapDispatchToProps = dispatch => ({
-    sendMessage: (accessToken, message) => dispatch(sendMessage(accessToken, message)),
-  });
+  accessToken: state.authentication.accessToken,
+  role: state.authentication.role,
+});
+
+const mapDispatchToProps = dispatch => ({
+  sendMessage: (accessToken, message) => dispatch(sendMessage(accessToken, message)),
+});
 
 class AddMessage extends Component {
   constructor(props) {
@@ -28,9 +28,15 @@ class AddMessage extends Component {
       message: ''
     };
 
-    this.handleMessage = this.handleMessage.bind(this);   
+    this.onKeyPress = this.onKeyPress.bind(this);
+    this.handleMessage = this.handleMessage.bind(this);
   }
- 
+
+  onKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      this.sendMessage();
+    }
+  }
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -45,57 +51,58 @@ class AddMessage extends Component {
   };
 
   sendMessage = () => {
-    const {message} = this.state;
-    const {accessToken} = this.props;
+    const { message } = this.state;
+    const { accessToken } = this.props;
     sendMessage(accessToken, message);
     this.setState({ open: false });
   }
 
   render() {
-    const {message} = this.state;
+    const { message } = this.state;
     const { role } = this.props;
     return (
       <div>
         {
           role === 'ROLE_ADMIN'
-                ? (
-                  <Paper>
-            <Button onClick={this.handleClickOpen}>Broadcast</Button>
-            <Dialog
-              open={this.state.open}
-              onClose={this.handleClose}
-              aria-labelledby="form-dialog-title"
-            >
-              <DialogTitle id="form-dialog-title">Broadcast</DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  Skriv in meddelandet som ska skickas ut
+            ? (
+              <Paper>
+                <Button onClick={this.handleClickOpen}>Broadcast</Button>
+                <Dialog
+                  open={this.state.open}
+                  onClose={this.handleClose}
+                  aria-labelledby="form-dialog-title"
+                >
+                  <DialogTitle id="form-dialog-title">Broadcast</DialogTitle>
+                  <DialogContent>
+                    <DialogContentText>
+                      Skriv in meddelandet som ska skickas ut
                 </DialogContentText>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  label="Message"
-                  type="text"
-                  fullWidth
-                  value={message}
-                  onChange={this.handleMessage}
-                />
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={this.handleClose} color="primary">
-                  Cancel
+                    <TextField
+                      autoFocus
+                      margin="dense"
+                      id="name"
+                      label="Message"
+                      type="text"
+                      fullWidth
+                      value={message}
+                      onChange={this.handleMessage}
+                      onKeyPress={this.onKeyPress}
+                    />
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={this.handleClose} color="primary">
+                      Cancel
                 </Button>
-                <Button onClick={this.sendMessage} color="primary">
-                  Send
+                    <Button onClick={this.sendMessage} color="primary">
+                      Send
                 </Button>
-              </DialogActions>
-            </Dialog>
-                  </Paper>
-             
-              )       
+                  </DialogActions>
+                </Dialog>
+              </Paper>
+
+            )
             : null
-          }       
+        }
       </div>
     );
   }

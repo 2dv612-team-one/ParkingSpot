@@ -20,7 +20,6 @@ const initialState = {
 const isServerError = p => p.response.status >= 500;
 const isInvalidCredentials = p => p.response.status >= 400;
 
-// const getError = (state, message) => ({ ...state, message, showError: true });
 const addMessage = (state, message, id) => ({ ...state, messages: [...state.messages, { message, id, },], });
 
 export default (state = initialState, action) => {
@@ -63,10 +62,14 @@ export default (state = initialState, action) => {
       return initialState;
     case `${USER_AUTHENTICATION_TOKEN}_REJECTED`:
       return initialState;
-
     case `${ADD_CAR}_REJECTED`:
       if (isServerError(action.payload)) {
         let errorMessage = 'Fel uppstod vid registrering av fordon. Försök igen.';
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
+      }
+      if (isInvalidCredentials(action.payload)) {
+        let errorMessage = 'Fordonet har redan registrerats.';
         let id = new Date().getTime() + Math.random();
         return addMessage(state, errorMessage, id);
       }
