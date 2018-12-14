@@ -5,14 +5,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.*;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import se.lnu.ParkingZpot.models.Rate;
 
@@ -53,5 +48,9 @@ public class ParkingArea {
     this.coord2 = coords[1];
     this.coord3 = coords[2];
     this.coord4 = coords[3];
+  }
+
+  public List<Rate> getRates() {
+    return this.rates;
   }
 }

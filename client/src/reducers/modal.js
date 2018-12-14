@@ -2,6 +2,8 @@
 import {
   USER_AUTHENTICATION,
   USER_REGISTRATION,
+  ADD_PARKING_AREA,
+  EDIT_PARKING_AREA,
   OPEN_MODAL,
   CLOSE_MODAL,
 } from '../constants/actionTypes';
@@ -23,6 +25,11 @@ export default (state = initialState, action) => {
     case OPEN_MODAL:
       return { ...state, [action.content]: {show: true, props: action.props, update: true } };
     case CLOSE_MODAL:
+      return initialState;
+
+    case `${ADD_PARKING_AREA}_FULFILLED`:
+      return initialState;
+    case `${EDIT_PARKING_AREA}_FULFILLED`:
       return initialState;
 
     case `${USER_AUTHENTICATION}_FULFILLED`:

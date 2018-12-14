@@ -14,20 +14,20 @@ import javax.persistence.*;
 public class Rate {
 
   @Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long rate_id;
 
   @ManyToOne(fetch=FetchType.LAZY)
 	private ParkingArea area;
 
-  private String from_date_format;
-  private String to_date_format;
+  private String rate_from;
+  private String rate_to;
 
   private Double rate;
 
-  public Rate(String from_date_format, String to_date_format, Double rate) {
-    this.from_date_format = from_date_format;
-    this.to_date_format = to_date_format;
+  public Rate(String rate_from, String rate_to, Double rate) {
+    this.rate_from = rate_from;
+    this.rate_to = rate_to;
     this.rate = rate;
   }
 }
