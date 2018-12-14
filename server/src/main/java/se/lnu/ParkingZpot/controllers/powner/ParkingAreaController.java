@@ -25,7 +25,7 @@ import java.net.URI;
 import java.util.Optional;
 
 @RestController
-@RequestMapping({"/api/parkingspots", "/api/parkingarea"})
+@RequestMapping({"/api/parkingarea"})
 public class ParkingAreaController {
 
   private final JwtTokenProvider tokenProvider;
