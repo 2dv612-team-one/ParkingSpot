@@ -39,7 +39,6 @@ public class MessageController {
   @PostMapping("/send")
   @PreAuthorize("hasRole('ADMIN')")
   public ResponseEntity<ApiResponse> addMessage(@CurrentUser UserDetailsImpl principal, @Valid @RequestBody AddMessageRequest addMessageRequest) {
-
     try {
         this.messageService.addMessage(addMessageRequest.getMsg());
         return new ResponseEntity<>(new ApiResponse(true, "Message sent"), HttpStatus.OK);

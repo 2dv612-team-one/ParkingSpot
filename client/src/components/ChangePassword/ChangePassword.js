@@ -44,7 +44,7 @@ class ChangePassword extends Component {
 
   changePassword = () => {
     const {password} = this.state;
-    const {accessToken} = this.props;
+    const { accessToken, changePassword} = this.props;
     if(password.length === 0){
       return;
     }

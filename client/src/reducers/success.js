@@ -2,8 +2,9 @@
 import {
   ADD_CAR,
   REGISTER_USER,
-  USER_REGISTRATION,
   REMOVE_SNACKBAR,
+  UPDATE_USER_PASSWORD,
+  USER_REGISTRATION,
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -33,6 +34,13 @@ export default (state = initialState, action) => {
     case `${ADD_CAR}_FULFILLED`:
       if (isSuccess(action.payload)) {
         let successMessage = 'Fordonet har registrerats.';
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, successMessage, id);
+      }
+      return initialState;
+    case `${UPDATE_USER_PASSWORD}_FULFILLED`:
+      if (isSuccess(action.payload)) {
+        let successMessage = 'Lösenordet har ändrats.';
         let id = new Date().getTime() + Math.random();
         return addMessage(state, successMessage, id);
       }

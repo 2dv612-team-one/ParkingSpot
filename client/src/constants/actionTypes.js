@@ -20,7 +20,6 @@ export const REGISTER_USER = 'REGISTER_USER';
 
 // Snackbar
 export const REMOVE_SNACKBAR = 'REMOVE_SNACKBAR';
-export const ENQUEUE_SNACKBAR = 'ENQUEUE_SNACKBAR';
 export const MARK_MESSAGE_VIEWED = 'MARK_MESSAGE_VIEWED'
 export const SHOW_MESSAGE = 'SHOW_MESSAGE';
 
@@ -36,6 +35,7 @@ export const ADD_PARKING_AREA_RATES = 'ADD_PARKING_AREA_RATES';
 
 // Messages
 export const SEND_MESSAGE = 'SEND_MESSAGE';
+export const GET_UNSEEN_MESSAGES = 'GET_UNSEEN_MESSAGES';
 
 // Update Information
 export const UPDATE_USER_PASSWORD = 'UPDATE_USER_PASSWORD';

@@ -7,6 +7,8 @@ import configureStore from './store';
 import App from './App';
 import './assets/styles/main.css';
 
+window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true;
+
 const rootEl = document.getElementById('root');
 const store = configureStore();
 

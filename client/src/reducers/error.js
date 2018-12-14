@@ -1,13 +1,14 @@
 /* eslint import/no-webpack-loader-syntax: off */
 import {
-  USER_AUTHENTICATION,
-  USER_AUTHENTICATION_TOKEN,
-  USER_REGISTRATION,
-  REGISTER_USER,
-  REMOVE_SNACKBAR,
   ADD_CAR,
   GET_CARS,
   GET_ROLES,
+  REGISTER_USER,
+  REMOVE_SNACKBAR,
+  UPDATE_USER_PASSWORD,
+  USER_AUTHENTICATION_TOKEN,
+  USER_AUTHENTICATION,
+  USER_REGISTRATION,
   VERIFICATION_ERROR,
 } from '../constants/actionTypes';
 
@@ -92,6 +93,18 @@ export default (state = initialState, action) => {
       let errorMessage = 'Din verifieringstoken kan inte hittas, eller har gått ut. Försök igen.';
       let id = new Date().getTime() + Math.random();
       return addMessage(state, errorMessage, id);
+    case `${UPDATE_USER_PASSWORD}_REJECTED`:
+      if (isServerError(action.payload)) {
+        let errorMessage = 'Fel uppstod vid ändring av lösenord. Försök igen.';
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
+      }
+      if (isInvalidCredentials(action.payload)) {
+        let errorMessage = 'Fel uppstod vid ändring av lösenord. Försök igen.';
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
+      }
+      return initialState;
     case REMOVE_SNACKBAR:
       return {
         ...state,

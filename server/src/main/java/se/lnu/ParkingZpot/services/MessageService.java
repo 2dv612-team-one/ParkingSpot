@@ -25,41 +25,41 @@ public class MessageService implements IMessageService {
 
 	@Autowired
 	public MessageService(MessageRepository repository, SimpMessagingTemplate websocket, EntityLinks entityLinks) {
-        this.repository = repository;
+    this.repository = repository;
 		this.websocket = websocket;
 		this.entityLinks = entityLinks;
-    }
+  }
 
-    @Override
-    public Message addMessage(String message) {
-        Message msg = new Message(message);
-        Message savedMessage = repository.save(msg);
-        this.websocket.convertAndSend("/topic/message", savedMessage);
-        return savedMessage;
-    }
+  @Override
+  public Message addMessage(String message) {
+    Message msg = new Message(message);
+    Message savedMessage = repository.save(msg);
+    this.websocket.convertAndSend("/topic/message", savedMessage);
+    return savedMessage;
+  }
 
-    @Override
-    public Message updateMessage(Message message) {
-        return repository.save(message);
+  @Override
+  public Message updateMessage(Message message) {
+    return repository.save(message);
+  }
+
+  @Override
+  public Optional<Message> findById(Long id) {
+      return repository.findById(id);
+  }
+
+  @Override
+  public List<Message> getAllUnseenMessages(Long userId) {
+    List<Message> messages = repository.findAll();
+    List<Message> unseenMessages = new ArrayList<>();
+
+    for (Message message : messages) {
+      if (!message.getBlacklist().contains(userId)) {
+        unseenMessages.add(message);
       }
-
-    @Override
-    public Optional<Message> findById(Long id) {
-        return repository.findById(id);
     }
 
-    @Override
-    public List<Message> getAllUnseenMessages(Long userId) {
-	    List<Message> messages = repository.findAll();
-	    List<Message> unseenMessages = new ArrayList<>();
-
-	    for (Message message : messages) {
-	      if (!message.getBlacklist().contains(userId)) {
-	        unseenMessages.add(message);
-        }
-      }
-
-      return unseenMessages;
-    }
+    return unseenMessages;
+  }
 
 }

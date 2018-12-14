@@ -6,6 +6,18 @@ import { removeSnackbar, markMessageViewed } from '../../actions/snackbar';
 import { IconButton } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 
+const mapStateToProps = state => ({
+  accessToken: state.authentication.accessToken,
+  infoMessages: state.message.messages,
+  successMessages: state.success.messages,
+  errorMessages: state.error.messages,
+});
+
+const mapDispatchToProps = dispatch => ({
+  removeSnackbar: (id) => dispatch(removeSnackbar(id)),
+  markMessageViewed: (id, accessToken) => dispatch(markMessageViewed(id, accessToken)),
+});
+
 class SnackbarHandling extends Component {
   state = {
     viewed: [],
@@ -23,8 +35,8 @@ class SnackbarHandling extends Component {
   };
 
   handleViewed = (id) => {
-    const { markMessageViewed, removeSnackbar } = this.props;
-    markMessageViewed();
+    const { markMessageViewed, removeSnackbar, accessToken } = this.props;
+    markMessageViewed(id, accessToken);
     removeSnackbar(id);
   };
 
@@ -102,16 +114,5 @@ class SnackbarHandling extends Component {
     return null;
   }
 }
-
-const mapStateToProps = state => ({
-  infoMessages: state.message.messages,
-  successMessages: state.success.messages,
-  errorMessages: state.error.messages,
-});
-
-const mapDispatchToProps = dispatch => ({
-  removeSnackbar: (id) => dispatch(removeSnackbar(id)),
-  markMessageViewed: () => dispatch(markMessageViewed()),
-});
 
 export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(SnackbarHandling));
