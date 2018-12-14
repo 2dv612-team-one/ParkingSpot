@@ -40,6 +40,7 @@ export default (state = initialState, action) => {
           message => message.id !== action.id,
         ),
       };
+      return { ...state, data: action.payload.data };
     case `${GET_UNSEEN_MESSAGES}_FULFILLED`:
       console.log("ALEX");
       console.log(action.payload.data);

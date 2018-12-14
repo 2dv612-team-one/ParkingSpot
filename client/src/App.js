@@ -46,7 +46,7 @@ class App extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { accessToken, showMessage } = this.props;
+    const { accessToken, showMessage, getUnseenMessages } = this.props;
 
     // Wait until accesstoken is loaded
     if (accessToken !== prevProps) {
