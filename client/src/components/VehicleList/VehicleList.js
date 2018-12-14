@@ -13,11 +13,8 @@ import DirectionsCar from '@material-ui/icons/DirectionsCar';
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
   vehicles: state.vehicle.data,
-<<<<<<< HEAD
   shouldUpdate: state.vehicle.update,
-=======
   role: state.authentication.role
->>>>>>> c526b67c4ff136e2d347161cb0638d43ed5dcb66
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -70,62 +67,40 @@ class VehicleList extends Component {
 
 
   render() {
-<<<<<<< HEAD
     const { classes, vehicles } = this.props;
     const { showMenu } = this.state;
 
     return (
-      <Grid item xs={12} md={6}>
-        <Typography variant="h6" className={classes.title}>
-          Registreringsnummer
-      </Typography>
-        <div className={classes.demo}>
-          <List> {vehicles && vehicles.map(vehicle => (
-            <ListItem>
-              <ListItemAvatar>
-                      <Avatar>
-                        <DirectionsCar />
-                      </Avatar>
-                    </ListItemAvatar>
-              <ListItemText
-                key={vehicle.id}
-                primary={vehicle.registrationNumber}
-              />
-              <ListItemSecondaryAction>
-                <IconButton aria-label="Delete" onClick={() => this.handleDelete(vehicle.registrationNumber)}>
-                  <DeleteIcon />
-                </IconButton>
-              </ListItemSecondaryAction>
-            </ListItem>
-          ))}
-          </List>
+        <div>
+          { role === "ROLE_USER" ?
+            <Grid item xs={12} md={6}>
+              <Typography variant="h6" className={classes.title}>
+                Registreringsnummer
+            </Typography>
+              <div className={classes.demo}>
+                <List> {vehicles && vehicles.map(vehicle => (
+                  <ListItem>
+                    <ListItemAvatar>
+                            <Avatar>
+                              <DirectionsCar />
+                            </Avatar>
+                          </ListItemAvatar>
+                    <ListItemText
+                      key={vehicle.id}
+                      primary={vehicle.registrationNumber}
+                    />
+                    <ListItemSecondaryAction>
+                      <IconButton aria-label="Delete" onClick={() => this.handleDelete(vehicle.registrationNumber)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                  </ListItem>
+                ))}
+                </List>
+              </div>
+            </Grid> : null
+          }
         </div>
-      </Grid>
-=======
-    const { classes, vehicles, role } = this.props;
-
-    return (
-      <div>
-      { role === "ROLE_USER" ?
-      <Paper className={classes.root}>
-        <Table className={classes.table}>
-          <TableHead>
-            <TableRow>
-              <TableCell>Registreringsnummer</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {vehicles && vehicles.map(vehicle => (
-              <TableRow key={vehicle.id}>
-                <TableCell>{vehicle.registrationNumber}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </Paper> : null
-      }
-      </div>
->>>>>>> c526b67c4ff136e2d347161cb0638d43ed5dcb66
     );
   }
 }
