@@ -20,7 +20,7 @@ const initialState = {
 const isServerError = p => p.response.status >= 500;
 const isInvalidCredentials = p => p.response.status >= 400;
 
-const getError = (state, message) => ({ ...state, message, showError: true });
+// const getError = (state, message) => ({ ...state, message, showError: true });
 const addMessage = (state, message, id) => ({ ...state, messages: [...state.messages, { message, id, },], });
 
 export default (state = initialState, action) => {

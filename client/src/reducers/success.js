@@ -13,7 +13,7 @@ const initialState = {
 
 const isSuccess = p => p.status >= 200 && p.status < 300;
 
-const getInfo = (state, message) => ({ ...state, message, showSuccess: true });
+// const getInfo = (state, message) => ({ ...state, message, showSuccess: true });
 const addMessage = (state, message, id) => ({ ...state, messages: [...state.messages, { message, id, },], });
 
 export default (state = initialState, action) => {

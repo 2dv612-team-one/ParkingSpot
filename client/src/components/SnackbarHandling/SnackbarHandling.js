@@ -103,25 +103,26 @@ class SnackbarHandling extends Component {
       }, 1);
     })
 
-    successMessages.forEach((message) => {
-      if (message === undefined) {
-        return;
-      }
-      const timeInSeconds = 6 * 1000;
-      const options = {
-        variant: "error",
-        autoHideDuration: timeInSeconds,
-        action: <IconButton key="close" aria-label="Close" color="inherit" onClick={() => this.handleClose(message.id)}><CheckIcon /></IconButton>,
-      };
-      setTimeout(() => {
-        let messageSeen = viewed.indexOf(message.id) > -1;
-        if (messageSeen) return;
+    // successMessages.forEach((message) => {
+    //   if (message === undefined) {
+    //     return;
+    //   }
+    //   const timeInSeconds = 6 * 1000;
+    //   const options = {
+    //     variant: "success",
+    //     autoHideDuration: timeInSeconds,
+    //     action: <IconButton key="close" aria-label="Close" color="inherit" onClick={() => this.handleClose(message.id)}><CheckIcon /></IconButton>,
+    //   };
+    //   setTimeout(() => {
+    //     let messageSeen = viewed.indexOf(message.id) > -1;
+    //     if (messageSeen) return;
 
-        // Display message using notistack
-        if (typeof enqueueSnackbar === "function") { enqueueSnackbar(message.message, options); }
-        this.handleClose(message.id);
-      }, 1);
-    })
+    //     // Display message using notistack
+    //     if (typeof enqueueSnackbar === "function") { enqueueSnackbar(message.message, options); }
+    //     this.storeViewed(message.id);
+    //     this.handleClose(message.id);
+    //   }, 1);
+    // })
 
     return null;
   }
@@ -129,7 +130,7 @@ class SnackbarHandling extends Component {
 
 const mapStateToProps = state => ({
   infoMessages: state.message.messages,
-  successMessages: state.error.messages,
+  successMessages: state.success.messages,
   errorMessages: state.error.messages,
 });
 
