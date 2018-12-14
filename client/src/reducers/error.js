@@ -27,23 +27,33 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case `${USER_AUTHENTICATION}_REJECTED`:
       if (isServerError(action.payload)) {
-        return getError(state, 'Fel uppstod vid inloggning. Försök igen');
+        let errorMessage = 'Fel uppstod vid inloggning. Försök igen.';
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
       }
       if (isInvalidCredentials(action.payload)) {
-        return getError(state, 'Fel användarnamn eller lösenord.');
+        let errorMessage = 'Fel användarnamn eller lösenord.';
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
       }
       return initialState;
     case `${USER_REGISTRATION}_REJECTED`:
       if (isServerError(action.payload)) {
-        return getError(state, 'Fel uppstod vid registrering. Försök igen');
+        let errorMessage = 'Fel uppstod vid registrering. Försök igen.';
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
       }
       if (isInvalidCredentials(action.payload)) {
-        return getError(state, 'Användarnamnet eller mailadressen finns redan');
+        let errorMessage = 'Användarnamnet eller mailadressen finns redan.';
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
       }
       return initialState;
     case `${REGISTER_USER}_REJECTED`:
       if (isServerError(action.payload)) {
-        return getError(state, 'Fel uppstod vid registrering. Försök igen');
+        let errorMessage = 'Fel uppstod vid registrering. Försök igen.';
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
       }
       if (isInvalidCredentials(action.payload)) {
         let errorMessage = action.payload.response.data.message;
@@ -56,21 +66,29 @@ export default (state = initialState, action) => {
 
     case `${ADD_CAR}_REJECTED`:
       if (isServerError(action.payload)) {
-        return getError(state, 'Fel uppstod vid registrering av fordon. Försök igen');
+        let errorMessage = 'Fel uppstod vid registrering av fordon. Försök igen.';
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
       }
       return initialState;
     case `${GET_CARS}_REJECTED`:
       if (isServerError(action.payload)) {
-        return getError(state, 'Fel uppstod vid hämtning av fordon. Försök igen');
+        let errorMessage = 'Fel uppstod vid hämtning av fordon. Försök igen.';
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
       }
       return initialState;
     case `${GET_ROLES}_REJECTED`:
       if (isServerError(action.payload)) {
-        return getError(state, 'Fel uppstod vid hämtning av fordon. Försök igen');
+        let errorMessage = 'Fel uppstod vid hämtning av roller. Försök igen.';
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
       }
       return initialState;
     case VERIFICATION_ERROR:
-      return getError(state, 'Din verifieringstoken kan inte hittas, eller har gått ut. Försök igen');
+      let errorMessage = 'Din verifieringstoken kan inte hittas, eller har gått ut. Försök igen.';
+      let id = new Date().getTime() + Math.random();
+      return addMessage(state, errorMessage, id);
     case REMOVE_SNACKBAR:
       return {
         ...state,
