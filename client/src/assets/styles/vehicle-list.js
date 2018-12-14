@@ -8,8 +8,14 @@ const styles = theme => ({
   table: {
     minWidth: 700,
   },
+  title: {
+    padding: '10px 15px'
+  },
+  carAvatar: {
+    margin: 10,
+    url: '../assets/images/parkingzpot_blue.svg'
+  },
 
-  
 });
 
 export default styles;

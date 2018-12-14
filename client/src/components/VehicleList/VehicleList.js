@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { getCars, deleteCar } from '../../actions/vehicle';
 import styles from '../../assets/styles/vehicle-list';
+import DirectionsCar from '@material-ui/icons/DirectionsCar';
 
 
 const mapStateToProps = state => ({
@@ -77,9 +78,10 @@ class VehicleList extends Component {
           <List> {vehicles && vehicles.map(vehicle => (
             <ListItem>
               <ListItemAvatar>
-                <Avatar>
-                </Avatar>
-              </ListItemAvatar>
+                      <Avatar>
+                        <DirectionsCar />
+                      </Avatar>
+                    </ListItemAvatar>
               <ListItemText
                 key={vehicle.id}
                 primary={vehicle.registrationNumber}
