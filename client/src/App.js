@@ -18,7 +18,7 @@ import HourlyRate from "./components/HourlyRate/HourlyRate";
 
 import { fetchAccessTokenFromLocalStorage } from './actions/authenticate';
 import { emailVerificationError, showMessage } from './actions/snackbar';
-
+import { getUnseenMessages } from './actions/userControl';
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
@@ -28,6 +28,7 @@ const mapDispatchToProps = dispatch => ({
   loadAccessToken: () => dispatch(fetchAccessTokenFromLocalStorage()),
   emailVerificationError: () => dispatch(emailVerificationError()),
   showMessage: message => dispatch(showMessage(message)),
+  getUnseenMessages: (accessToken) => dispatch(getUnseenMessages(accessToken)),
 });
 
 class App extends Component {
@@ -57,6 +58,7 @@ class App extends Component {
       stompClient.connect(headers, () => {
         stompClient.subscribe('/topic/message', showMessage, headers);
       });
+      getUnseenMessages(accessToken);
     }
   }
 

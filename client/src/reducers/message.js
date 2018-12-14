@@ -4,6 +4,7 @@ import {
   SEND_MESSAGE,
   REMOVE_SNACKBAR,
   MARK_MESSAGE_VIEWED,
+  GET_UNSEEN_MESSAGES,
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -39,6 +40,14 @@ export default (state = initialState, action) => {
           message => message.id !== action.id,
         ),
       };
+    case `${GET_UNSEEN_MESSAGES}_FULFILLED`:
+      console.log("ALEX");
+      console.log(action.payload.data);
+      return { ...state, messages: action.payload.data };
+    case `${GET_UNSEEN_MESSAGES}_REJECTED`:
+      return { ...state };
+    case `${GET_UNSEEN_MESSAGES}_PENDING`:
+      return { ...state };
     case REMOVE_SNACKBAR:
       return {
         ...state,
