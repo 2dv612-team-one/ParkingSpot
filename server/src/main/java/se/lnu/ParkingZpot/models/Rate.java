@@ -17,9 +17,6 @@ public class Rate {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long rate_id;
 
-  @ManyToOne(fetch=FetchType.LAZY)
-	private ParkingArea area;
-
   private String rate_from;
   private String rate_to;
 

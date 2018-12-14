@@ -30,7 +30,8 @@ public class ParkingArea {
   private double coord3;
   private double coord4;
 
-  @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="area")
+  @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+  @JoinColumn(name="id", nullable=true)
   public List<Rate> rates;
 
   public void setCoords(double[] coords){

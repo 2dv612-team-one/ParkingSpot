@@ -67,12 +67,17 @@ class TopicSubscriptionInterceptor extends ChannelInterceptorAdapter {
   @Override
   public Message<?> preSend(Message<?> message, MessageChannel channel) {
     StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(message);
-    String token = headerAccessor.getNativeHeader("Authorization").get(0);
-    boolean validToken = tokenProvider.validateToken(token);
+    List<String> authHeaders = headerAccessor.getNativeHeader("Authorization");
+    String validToken = null;
+
+    if (authHeaders != null) {
+      boolean validToken = tokenProvider.validateToken(authHeaders.get(0));
+    }
 
     if (!validToken) {
       throw new IllegalArgumentException("No permission for this topic");
     }
+
     return message;
   }
 }
