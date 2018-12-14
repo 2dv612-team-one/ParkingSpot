@@ -121,14 +121,14 @@ class HourlyRate extends Component {
     for (let i = 0; i < rates.length; i++) {
 
       if (rates[i].id === value.id) {
-        for (let j = parseInt(value.from); j <= parseInt(value.to); j++) {
+        for (let j = parseInt(value.rate_from); j <= parseInt(value.rate_to); j++) {
 
           hours[j] = -1;
           this.setState({hours});
         }
 
         rates.splice(i,1);
-        this.setState({ rates});
+        this.setState({rates});
       }
     }
   };
@@ -142,6 +142,7 @@ class HourlyRate extends Component {
 
   allHoursCovered() {
     const { hours } = this.state;
+
     for (let i = 1; i <= 24; i++) {
 
       if (hours[i] === -1) {
