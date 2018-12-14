@@ -72,11 +72,11 @@ class ParkingAreaModal extends Component {
   }
 
   submitArea() {
-      const { name, coords } = this.state;
-      const { accessToken } = this.props;
-      const { onSubmit, id } = this.props.info;
-      onSubmit(accessToken, id, {name: name, coords: coords});
-      closeModal();
+    const { name, coords } = this.state;
+    const { accessToken } = this.props;
+    const { onSubmit, id } = this.props.info;
+    onSubmit(accessToken, id, {name: name, coords: coords});
+    this.handleClose();
   }
 
   canBeSubmitted() {
@@ -86,7 +86,7 @@ class ParkingAreaModal extends Component {
   }
 
   render() {
-    const { id, submitPrompt } = this.props.info
+    const { submitPrompt } = this.props.info
     const { name, coords } = this.state
     const emptyInput = this.hasEmptyInput()
     const canBeSubmitted = this.canBeSubmitted()

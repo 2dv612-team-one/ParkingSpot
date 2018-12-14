@@ -1,4 +1,3 @@
-/* eslint import/no-webpack-loader-syntax: off */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 

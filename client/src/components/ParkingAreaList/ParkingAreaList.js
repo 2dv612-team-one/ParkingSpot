@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-/* eslint import/no-webpack-loader-syntax: off */
-import { Typography, List, ListItem, ListItemAvatar, ListItemText, ListItemSecondaryAction, Avatar, Button, Grid, withStyles} from '@material-ui/core';
+import { Typography, List, ListItem, ListItemAvatar, ListItemText, ListItemSecondaryAction, Avatar, Grid, withStyles} from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -11,6 +10,7 @@ import AddIcon from '@material-ui/icons/Add';
 import ParkingAreaModal from '../ParkingAreaModal/ParkingAreaModal';
 import { openModal } from '../../actions/modal';
 import { PARKING_AREA_MODAL } from '../../constants/environment';
+import styles from '../../assets/styles/parking-area-list';
 
 import { getAreas, deleteArea, editArea, addArea } from '../../actions/parkingArea';
 
@@ -29,33 +29,9 @@ const mapDispatchToProps = dispatch => ({
   addArea: (accessToken, id, props) => dispatch(addArea(accessToken, props)),
 });
 
-const styles = theme => ({
-  root: {
-    flexGrow: 1,
-    maxWidth: 752,
-  },
-  demo: {
-    backgroundColor: theme.palette.background.paper,
-  },
-  title: {
-    margin: `${theme.spacing.unit * 4}px 15px ${theme.spacing.unit * 2}px`,
-  },
-});
-
-function generate(element) {
-  return [0, 1, 2].map(value =>
-    React.cloneElement(element, {
-      key: value,
-    }),
-  );
-}
-
 class ParkingAreaList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      showMenu: null,
-    };
     this.handleDelete = this.handleDelete.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
@@ -67,64 +43,46 @@ class ParkingAreaList extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    if (!this.props.shouldUpdate && prevProps.shouldUpdate) {
-      this.props.onLoad();
-    }
-  }
-
   componentWillMount() {
-    const { onLoad } = this.props;
-    onLoad();
+    this.props.onLoad();
   }
-
-  handleClick = (e) => {
-    this.setState({ showMenu: e.currentTarget });
-  };
-
-  handleClose = () => {
-    this.setState({ showMenu: null });
-  };
 
   handleDelete = (id) => {
     const { accessToken, deleteArea } = this.props;
     deleteArea(accessToken, id);
-    this.handleClose();
   };
 
   handleEdit = (id, name, coords) => {
     const { editArea, openParkingAreaModal } = this.props;
     let props = {id: id, name: name, coords: coords, onSubmit: editArea, submitPrompt: "Uppdatera"}
     openParkingAreaModal(props)
-    this.handleClose();
   };
 
   handleAdd = () => {
     const { addArea, openParkingAreaModal } = this.props;
-    let props = {onSubmit: addArea, submitPrompt: "Lägg till", name: 'Untitled', coords: [0, 0, 0, 0]}
+    let props = {onSubmit: addArea, submitPrompt: "Lägg till", name: 'Untitled Area', coords: ['-', '-', '-', '-']}
     openParkingAreaModal(props)
-    this.handleClose();
   };
 
   render() {
     const { areas, classes, role } = this.props;
-    const { showMenu } = this.state;
 
     return (
-      <div>
-        { role === "ROLE_PARKING_OWNER" ?
-      <Grid item xs={12} md={6}>
-            <Grid><ParkingAreaModal /></Grid>
+          <Grid item xs={12} md={6}>
+            <ParkingAreaModal />
             <Typography variant="h6" className={classes.title}>
               Parkeringsplatser
+            { role === "ROLE_PARKING_OWNER" ?
               <IconButton aria-label="Add" onClick={() => this.handleAdd()}>
                   <AddIcon />
               </IconButton>
+              : null
+            }
             </Typography>
             <div className={classes.demo}>
               <List>
                 {areas.length > 0 && areas.map(area => 
-                    <ListItem>
+                  <ListItem>
                     <ListItemAvatar>
                       <Avatar>
                         <LocationOnIcon />
@@ -139,6 +97,7 @@ class ParkingAreaList extends Component {
                         ":00 " +
                         rate.rate + " kr/h")}`}
                     />
+                    { role === "ROLE_PARKING_OWNER" ?
                     <ListItemSecondaryAction>
                       <IconButton aria-label="Delete" onClick={() => this.handleDelete(area.id)}>
                         <DeleteIcon />
@@ -147,12 +106,13 @@ class ParkingAreaList extends Component {
                         <EditIcon />
                       </IconButton>
                     </ListItemSecondaryAction>
+                    : null
+                    }
                   </ListItem>
                 )}
               </List>
             </div>
-      </Grid> : null }
-      </div>
+        </Grid>
     );
   }
 }

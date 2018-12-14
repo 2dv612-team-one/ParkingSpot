@@ -170,7 +170,7 @@ class HourlyRate extends Component {
             <hi>Timtaxa</hi>
             {!allHoursCovered && (
             <Paper>
-              <Typography variant="subtitle">Skapa timtaxa för {area.name}</Typography>
+              <Typography variant="subtitle1">Skapa timtaxa för {area.name}</Typography>
               <FormControl >
                 <TextField
                   label="Från timmar (hh):"

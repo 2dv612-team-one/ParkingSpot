@@ -68,7 +68,7 @@ class App extends Component {
         <LoginModal />
         <RegisterModal />
 
-        <Typography className="app-header-message" variant="title" align="center">Välkommen till ParkingZpot</Typography>
+        <Typography className="app-header-message" variant="h6" align="center">Välkommen till ParkingZpot</Typography>
 
         <SnackbarHandling />
 
