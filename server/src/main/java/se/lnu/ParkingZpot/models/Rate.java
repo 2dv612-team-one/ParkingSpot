@@ -6,11 +6,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-import org.hibernate.annotations.Cascade;
-
-import se.lnu.ParkingZpot.models.ParkingSpot;
-import se.lnu.ParkingZpot.services.ParkingSpotService;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -22,8 +17,8 @@ public class Rate {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long rate_id;
 
-  // @ManyToOne(fetch=FetchType.LAZY)
-	// private ParkingSpot spot;
+  @ManyToOne(fetch=FetchType.LAZY)
+	private ParkingArea area;
 
   private String rate_from;
   private String rate_to;

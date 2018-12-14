@@ -13,7 +13,7 @@ public class Messages {
   public static final String REG_VERIFICATION_REDIRECT_ERROR = "Användaren kunde inte omdirigeras efter verifikationen.";
   public static final String VERIFY_FAIL = "<p>Din verifieringstoken kan inte hittas, eller har gått ut. Försök gärna att registrera dig igen, och kom ihåg att verifiera din mailaddress inom 24 timmar.</p>";
   public static final String VEHICLE = "Fordonet";
-  public static final String PSPOT = "Parkeringsplatsen";
+  public static final String PArea = "Parkeringsplatsen";
   public static final String REG_ERROR_USERNAME = "Användarnamnet finns redan.";
   public static final String REG_ERROR_EMAIL = "Mailadressen är redan registrerad.";
   public static final String REG_ERROR_EXISTS_ROLE = "Rollen finns inte i systemet: ";
