@@ -125,7 +125,11 @@ public class ParkingAreaController {
     if (parkingArea.get().getUserId() != principal.getId()) {
       return new ResponseEntity<>(new ApiResponse(false, Messages.ACCESS_DENIED), HttpStatus.FORBIDDEN);
     }
-    parkingArea.get().getRates().add(rates[0]);
+
+    for (int i = 0; i < rates.length; i++) {
+
+      parkingSpot.get().getRates().add(rates[i]);
+    }
     parkingAreaService.updateParkingArea(parkingArea.get());
     return new ResponseEntity<>(new ApiResponse(true, Messages.updateSuccess("ParkingArea")), HttpStatus.OK);
   }
