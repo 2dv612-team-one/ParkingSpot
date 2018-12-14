@@ -157,8 +157,7 @@ class AdminUserControl extends Component {
                     label="Användarnamn"
                     name="username"
                     onChange={this.handleUsernameInput}
-                    value="a"
-                    // value={username}
+                    value={username}
                     onBlur={this.handleBlur('username')}
                     error={emptyInputError('username')}
                   />
@@ -169,8 +168,7 @@ class AdminUserControl extends Component {
                     label="Email"
                     name="email"
                     onChange={this.handleEmail}
-                    value="a@a.com"
-                    // value={email}
+                    value={email}
                     onBlur={this.handleBlur('email')}
                     error={invalidInputError('email')}
                   />
@@ -180,8 +178,7 @@ class AdminUserControl extends Component {
                   <TextField
                     label="Lösenord"
                     name="password"
-                    value="a"
-                    // value={password}
+                    value={password}
                     onChange={this.handlePassInput}
                     onBlur={this.handleBlur('password')}
                     error={emptyInputError('password')}

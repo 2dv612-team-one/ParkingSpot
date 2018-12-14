@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import {
-  CLOSE_SNACKBAR,
+  REMOVE_SNACKBAR,
   ENQUEUE_SNACKBAR,
   MARK_MESSAGE_VIEWED,
   SHOW_MESSAGE,
@@ -9,9 +9,10 @@ import {
 } from '../constants/actionTypes';
 import { CONFIRM_MESSAGE_URL } from '../constants/environment';
 
-export function closeSnackBar() {
+export function removeSnackbar(id) {
   return {
-    type: CLOSE_SNACKBAR,
+    type: REMOVE_SNACKBAR,
+    id: id
   };
 }
 

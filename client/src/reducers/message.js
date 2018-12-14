@@ -2,7 +2,7 @@
 import {
   SHOW_MESSAGE,
   SEND_MESSAGE,
-  CLOSE_SNACKBAR,
+  REMOVE_SNACKBAR,
   MARK_MESSAGE_VIEWED,
 } from '../constants/actionTypes';
 
@@ -39,8 +39,7 @@ export default (state = initialState, action) => {
           message => message.id !== action.id,
         ),
       };
-
-    case CLOSE_SNACKBAR:
+    case REMOVE_SNACKBAR:
       return {
         ...state,
         messages: state.messages.filter(

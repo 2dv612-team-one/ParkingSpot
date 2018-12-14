@@ -2,7 +2,7 @@
 import {
   REGISTER_USER,
   USER_REGISTRATION,
-  CLOSE_SNACKBAR,
+  REMOVE_SNACKBAR,
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -27,7 +27,7 @@ export default (state = initialState, action) => {
       }
       return initialState;
 
-    case CLOSE_SNACKBAR:
+    case REMOVE_SNACKBAR:
       return { ...state, message: null, showSuccess: false };
     default:
       return state;

@@ -18,7 +18,7 @@ export const GET_ROLES = 'GET_ROLES';
 export const REGISTER_USER = 'REGISTER_USER';
 
 // Snackbar
-export const CLOSE_SNACKBAR = 'CLOSE_SNACKBAR';
+export const REMOVE_SNACKBAR = 'REMOVE_SNACKBAR';
 export const ENQUEUE_SNACKBAR = 'ENQUEUE_SNACKBAR';
 export const MARK_MESSAGE_VIEWED = 'MARK_MESSAGE_VIEWED'
 export const SHOW_MESSAGE = 'SHOW_MESSAGE';

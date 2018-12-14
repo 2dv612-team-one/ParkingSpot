@@ -4,7 +4,7 @@ import {
   USER_AUTHENTICATION_TOKEN,
   USER_REGISTRATION,
   REGISTER_USER,
-  CLOSE_SNACKBAR,
+  REMOVE_SNACKBAR,
   ADD_CAR,
   GET_CARS,
   GET_ROLES,
@@ -49,7 +49,6 @@ export default (state = initialState, action) => {
         let errorMessage = action.payload.response.data.message;
         let id = new Date().getTime() + Math.random();
         return addMessage(state, errorMessage, id);
-        // return getError(state, errorMessage);
       }
       return initialState;
     case `${USER_AUTHENTICATION_TOKEN}_REJECTED`:
@@ -72,8 +71,13 @@ export default (state = initialState, action) => {
       return initialState;
     case VERIFICATION_ERROR:
       return getError(state, 'Din verifieringstoken kan inte hittas, eller har gått ut. Försök igen');
-    case CLOSE_SNACKBAR:
-      return { ...state, message: null, showError: false };
+    case REMOVE_SNACKBAR:
+      return {
+        ...state,
+        messages: state.messages.filter(
+          message => message.id !== action.id,
+        ),
+      };
     default:
       return state;
   }
