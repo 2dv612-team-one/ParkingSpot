@@ -115,22 +115,25 @@ public class ParkingAreaController {
 
   @PutMapping("/rates/{area_id}")
   @PreAuthorize("hasAnyRole('PARKING_OWNER', 'ADMIN')")
-  public ResponseEntity<ApiResponse> updateParkingSpot(@CurrentUser UserDetailsImpl principal,
+  public ResponseEntity<ApiResponse> updateParkingAreaRates(@CurrentUser UserDetailsImpl principal,
                                                        @Valid @RequestBody Rate[] rates,
                                                        @PathVariable("area_id") String areaID) {
+    
     Optional<ParkingArea> parkingArea = parkingAreaService.getParkingArea(Long.parseLong(areaID));
+
     if (!parkingArea.isPresent()) {
-      return new ResponseEntity<>(new ApiResponse(false, Messages.entityNotFound("ParkingArea")), HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(new ApiResponse(false, Messages.entityNotFound(Messages.PArea)), HttpStatus.BAD_REQUEST);
     }
+    
     if (parkingArea.get().getUserId() != principal.getId()) {
       return new ResponseEntity<>(new ApiResponse(false, Messages.ACCESS_DENIED), HttpStatus.FORBIDDEN);
     }
 
     for (int i = 0; i < rates.length; i++) {
-
       parkingSpot.get().getRates().add(rates[i]);
     }
+
     parkingAreaService.updateParkingArea(parkingArea.get());
-    return new ResponseEntity<>(new ApiResponse(true, Messages.updateSuccess("ParkingArea")), HttpStatus.OK);
+    return new ResponseEntity<>(new ApiResponse(true, Messages.updateSuccess(Messages.PArea)), HttpStatus.OK);
   }
 }
