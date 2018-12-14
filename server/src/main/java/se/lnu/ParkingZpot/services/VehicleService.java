@@ -25,6 +25,11 @@ public class VehicleService implements IVehicleService {
     return vehicleRepository.findAll();
   }
 
+  @Override
+  public Optional<Vehicle> getVehicle(String regNum) {
+    return vehicleRepository.getByRegistrationNumber(regNum);
+  }
+
 
   @Override
   public Vehicle addVehicle(long userId, String registrationNumber) throws EntityExistsException {
@@ -36,13 +41,7 @@ public class VehicleService implements IVehicleService {
   }
 
   @Override
-  public boolean deleteVehicle(String regNum, Long userId) {
-    if (vehicleRepository.getByRegistrationNumber(regNum).isPresent() && (vehicleRepository.getByRegistrationNumber(regNum).get().getUser_Id() == userId)) {
-      Optional<Vehicle> deletedVehicle = vehicleRepository.findById(vehicleRepository.deleteByRegistrationNumber(regNum));
-      return deletedVehicle.isPresent();
-    }
-
-    return false;
-    
+  public boolean deleteVehicle(String regNum) {
+    return vehicleRepository.findById(vehicleRepository.deleteByRegistrationNumber(regNum)) != null;
   }
 }

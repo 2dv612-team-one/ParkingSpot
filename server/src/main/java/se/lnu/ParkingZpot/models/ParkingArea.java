@@ -15,8 +15,8 @@ import se.lnu.ParkingZpot.models.Rate;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "parking_spots")
-public class ParkingSpot {
+@Table(name = "parking_areas")
+public class ParkingArea {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,8 +30,7 @@ public class ParkingSpot {
   private double coord3;
   private double coord4;
 
-  @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-  @JoinColumn(name="id", nullable=true)
+  @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="area")
   public List<Rate> rates;
 
   public void setCoords(double[] coords){
@@ -41,7 +40,7 @@ public class ParkingSpot {
     this.coord4 = coords[3];
   }
 
-  public ParkingSpot(long user_Id, String name, double[] coords) {
+  public ParkingArea(long user_Id, String name, double[] coords) {
     super();
     this.userId = user_Id;
     this.name = name;

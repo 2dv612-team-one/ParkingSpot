@@ -3,6 +3,8 @@ package se.lnu.ParkingZpot.controllers.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,12 +27,15 @@ import se.lnu.ParkingZpot.payloads.ApiResponse;
 import se.lnu.ParkingZpot.payloads.Messages;
 
 import java.util.List;
+import java.util.Optional;
 import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
 @RequestMapping("/api/vehicles")
 public class VehicleController {
+
+  private static final Logger logger = LoggerFactory.getLogger(VehicleController.class);
 
   private final JwtTokenProvider tokenProvider;
   private final VehicleService vehicleService;
@@ -66,9 +71,20 @@ public class VehicleController {
   }
 
   @DeleteMapping("/{reg_num}")
-  @PreAuthorize("hasAnyRole('PARKING_OWNER', 'ADMIN')")
+  @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
   public ResponseEntity<ApiResponse> deleteVehicle(@CurrentUser UserDetailsImpl principal, @PathVariable("reg_num") String regNum) {
-    if (vehicleService.deleteVehicle(regNum, principal.getId())) {
+    
+    Optional<Vehicle> vehicle = vehicleService.getVehicle(regNum);
+
+    if (!vehicle.isPresent()) {
+      return new ResponseEntity<ApiResponse>(new ApiResponse(true, Messages.entityDeleted(Messages.VEHICLE)), HttpStatus.OK);
+    }
+
+    if (vehicle.get().getUser_Id() != principal.getId()) {
+      return new ResponseEntity<>(new ApiResponse(false, Messages.ACCESS_DENIED), HttpStatus.FORBIDDEN);
+    }
+
+    if (vehicleService.deleteVehicle(vehicle.get().getRegistrationNumber())) {
       return new ResponseEntity<ApiResponse>(new ApiResponse(true, Messages.entityDeleted(Messages.VEHICLE)), HttpStatus.OK);
     }
 
