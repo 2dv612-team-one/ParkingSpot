@@ -12,7 +12,7 @@ export const CONFIRM_MESSAGE_URL = `${API_ROOT}/message/confirm`;
 export const UPDATE_USER_PASSWORD_URL = `${API_ROOT}/users/update`;
 
 // Parking spot uris
-export const PARKING_AREA_URI = `${API_ROOT}/parkingspots`;
+export const PARKING_AREA_URI = `${API_ROOT}/parkingarea`;
 export const PARKING_AREA_RATES_URI = `${PARKING_AREA_URI}/rates`;
 
 // Modals

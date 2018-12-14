@@ -6,18 +6,14 @@ import SockJS from 'sockjs-client';
 import Stomp from 'stomp-websocket';
 
 import AddMessage from './components/AddMessage/AddMessage';
-import AddParkingArea from './components/AddParkingArea/AddParkingArea';
-import AdminUserControl from './components/AdminUserControl/AdminUserControl';
 import LoginModal from './components/LoginModal/LoginModal';
 import MenuBar from './components/MenuBar/MenuBar';
 import RegisterModal from './components/RegisterModal/RegisterModal';
-import SelectParkingArea from './components/SelectParkingArea/SelectParkingArea';
 import SnackbarHandling from './components/SnackbarHandling/SnackbarHandling';
 import VehicleForm from './components/VehicleForm/VehicleForm';
 import VehicleList from './components/VehicleList/VehicleList';
 import ParkingAreaList from './components/ParkingAreaList/ParkingAreaList';
 import AdminUserControl from './components/AdminUserControl/AdminUserControl';
-import AddMessage from './components/AddMessage/AddMessage';
 import HourlyRate from "./components/HourlyRate/HourlyRate";
 
 import { fetchAccessTokenFromLocalStorage } from './actions/authenticate';
@@ -36,7 +32,6 @@ const mapDispatchToProps = dispatch => ({
 
 class App extends Component {
   componentWillMount() {
-    // Check for email verification errors
     const { emailVerificationError } = this.props;
     const tokenVal = new URLSearchParams(window.location.search.substr(1)).get('token');
     if (tokenVal === 'error') {
