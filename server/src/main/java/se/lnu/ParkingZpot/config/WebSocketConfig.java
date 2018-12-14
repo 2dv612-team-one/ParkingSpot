@@ -69,10 +69,10 @@ class TopicSubscriptionInterceptor extends ChannelInterceptorAdapter {
   public Message<?> preSend(Message<?> message, MessageChannel channel) {
     StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(message);
     List<String> authHeaders = headerAccessor.getNativeHeader("Authorization");
-    String validToken = null;
+    boolean validToken = false;
 
     if (authHeaders != null) {
-      boolean validToken = tokenProvider.validateToken(authHeaders.get(0));
+      validToken = tokenProvider.validateToken(authHeaders.get(0));
     }
 
     if (!validToken) {
