@@ -61,7 +61,7 @@ public class ParkingSpotService implements IParkingSpotService {
 
   @Override
   public boolean deleteParkingSpot(String name) {
-    // Optional<ParkingSpot> deletedSpot = parkingSpotRepository.findById(parkingSpotRepository.deleteByName(name));
+    // Handle conflicts - multiple spots with same name?
     return parkingSpotRepository.findById(parkingSpotRepository.deleteByName(name)) != null;
   }
 }

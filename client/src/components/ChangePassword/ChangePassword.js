@@ -56,22 +56,22 @@ class ChangePassword extends Component {
     const {password} = this.state;
     return (
       <div>               
-            <Button onClick={this.handleClickOpen} color="inherit" >Change Password</Button>
+            <Button onClick={this.handleClickOpen} color="inherit" >Byt lösenord</Button>
             <Dialog
               open={this.state.open}
               onClose={this.handleClose}
               aria-labelledby="form-dialog-title"
             >
-              <DialogTitle id="form-dialog-title">New Password</DialogTitle>
+              <DialogTitle id="form-dialog-title">Nytt lösenord</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  Enter new password
+                  Fyll i nytt lösenord
                 </DialogContentText>
                 <TextField
                   autoFocus
                   margin="dense"
                   id="name"
-                  label="New Password"
+                  label="Nytt lösenord"
                   type="text"
                   fullWidth
                   value={password}
@@ -80,10 +80,10 @@ class ChangePassword extends Component {
               </DialogContent>
               <DialogActions>
                 <Button onClick={this.handleClose} color="primary">
-                  Cancel
+                  Avbryt
                 </Button>
                 <Button onClick={this.changePassword} color="primary">
-                  Save
+                  Spara
                 </Button>
               </DialogActions>
             </Dialog>  

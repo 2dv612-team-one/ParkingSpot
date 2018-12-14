@@ -10,13 +10,12 @@ import LoginModal from './components/LoginModal/LoginModal';
 import RegisterModal from './components/RegisterModal/RegisterModal';
 import VehicleForm from './components/VehicleForm/VehicleForm';
 import VehicleList from './components/VehicleList/VehicleList';
+import ParkingAreaList from './components/ParkingAreaList/ParkingAreaList';
 import AdminUserControl from './components/AdminUserControl/AdminUserControl';
 import ErrorHandling from './components/SnackbarHandling/ErrorHandling';
 import InfoHandling from './components/SnackbarHandling/InfoHandling';
 import SuccessHandling from './components/SnackbarHandling/SuccessHandling';
-import AddParkingArea from './components/AddParkingArea/AddParkingArea';
 import AddMessage from './components/AddMessage/AddMessage';
-import SelectParkingArea from './components/SelectParkingArea/SelectParkingArea';
 import HourlyRate from "./components/HourlyRate/HourlyRate";
 
 import { fetchAccessTokenFromLocalStorage } from './actions/authenticate';
@@ -91,12 +90,8 @@ class App extends Component {
               >
                 <Grid item><VehicleForm /></Grid>
                 <Grid item><VehicleList /></Grid>
+                <Grid><ParkingAreaList /></Grid>
                 <Grid item><AdminUserControl /></Grid>
-                <Grid item>
-                  <AddParkingArea />
-                  {' '}
-                </Grid>
-                <Grid item><SelectParkingArea /></Grid>
                 <Grid item><HourlyRate /></Grid>
                 <Grid><AddMessage /></Grid>
               </Grid>

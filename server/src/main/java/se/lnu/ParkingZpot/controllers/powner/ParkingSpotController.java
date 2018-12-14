@@ -12,7 +12,9 @@ import se.lnu.ParkingZpot.authentication.UserDetailsImpl;
 import se.lnu.ParkingZpot.authentication.JwtTokenProvider;
 import se.lnu.ParkingZpot.exceptions.EntityExistsException;
 import se.lnu.ParkingZpot.models.ParkingSpot;
+import se.lnu.ParkingZpot.models.Rate;
 import se.lnu.ParkingZpot.payloads.UpdateParkingSpotRequest;
+import se.lnu.ParkingZpot.payloads.UpdateRatesRequest;
 import se.lnu.ParkingZpot.services.ParkingSpotService;
 import se.lnu.ParkingZpot.payloads.AddParkingSpotRequest;
 import se.lnu.ParkingZpot.payloads.ApiResponse;
@@ -67,24 +69,35 @@ public class ParkingSpotController {
     return ResponseEntity.created(pspotLocation).body(new ApiResponse(true, Messages.addSuccess(Messages.PSPOT)));
   }
 
-  @DeleteMapping("/{spot_name}")
+  @DeleteMapping("/{spot_id}")
   @PreAuthorize("hasAnyRole('PARKING_OWNER', 'ADMIN')")
-  public ResponseEntity<ApiResponse> deleteParkingSpot(@CurrentUser UserDetailsImpl principal, @PathVariable("spot_name") String spotName) {
+  public ResponseEntity<ApiResponse> deleteParkingSpot(@CurrentUser UserDetailsImpl principal, @PathVariable("spot_id") String spotID) {
     //TODO: Check that no cars are parked in the area
 
-    if (parkingSpotService.deleteParkingSpot((spotName))) {
+    Optional<ParkingSpot> parkingSpot = parkingSpotService.getParkingSpot(Long.parseLong(spotID));
+
+    if (!parkingSpot.isPresent()) {
+      return new ResponseEntity<ApiResponse>(new ApiResponse(true, Messages.entityDeleted(Messages.PSPOT)), HttpStatus.OK);
+    }
+
+    if (parkingSpot.get().getUserId() != principal.getId()) {
+      return new ResponseEntity<>(new ApiResponse(false, Messages.ACCESS_DENIED), HttpStatus.FORBIDDEN);
+    }
+
+    if (parkingSpotService.deleteParkingSpot(parkingSpot.get().getName())) {
       return new ResponseEntity<ApiResponse>(new ApiResponse(true, Messages.entityDeleted(Messages.PSPOT)), HttpStatus.OK);
     }
 
     return new ResponseEntity<ApiResponse>(new ApiResponse(false, Messages.UNAUTH_CRUD), HttpStatus.UNAUTHORIZED);
   }
 
-  @PutMapping("/update")
+  @PutMapping("/{spot_id}")
   @PreAuthorize("hasAnyRole('PARKING_OWNER', 'ADMIN')")
   public ResponseEntity<ApiResponse> updateParkingSpot(@CurrentUser UserDetailsImpl principal,
-                                                       @Valid @RequestBody UpdateParkingSpotRequest updateParkingSpotRequest) {
+                                                       @Valid @RequestBody UpdateParkingSpotRequest updateParkingSpotRequest,
+                                                       @PathVariable("spot_id") String spotID) {
 
-    Optional<ParkingSpot> parkingSpot = parkingSpotService.getParkingSpot(updateParkingSpotRequest.getId());
+    Optional<ParkingSpot> parkingSpot = parkingSpotService.getParkingSpot(Long.parseLong(spotID));
 
     if (!parkingSpot.isPresent()) {
       return new ResponseEntity<>(new ApiResponse(false, Messages.entityNotFound(updateParkingSpotRequest.getName())), HttpStatus.BAD_REQUEST);
@@ -99,5 +112,30 @@ public class ParkingSpotController {
     parkingSpotService.updateParkingSpot(parkingSpot.get());
 
     return new ResponseEntity<>(new ApiResponse(true, Messages.updateSuccess(updateParkingSpotRequest.getName())), HttpStatus.OK);
+  }
+
+  @PutMapping("/rates/{spot_id}")
+  @PreAuthorize("hasAnyRole('PARKING_OWNER', 'ADMIN')")
+  public ResponseEntity<ApiResponse> updateParkingSpot(@CurrentUser UserDetailsImpl principal,
+                                                       @Valid @RequestBody Rate[] rates,
+                                                       @PathVariable("spot_id") String spotID) {
+
+    Optional<ParkingSpot> parkingSpot = parkingSpotService.getParkingSpot(Long.parseLong(spotID));
+
+    if (!parkingSpot.isPresent()) {
+      return new ResponseEntity<>(new ApiResponse(false, Messages.entityNotFound("ParkingSpot")), HttpStatus.BAD_REQUEST);
+    }
+
+    if (parkingSpot.get().getUserId() != principal.getId()) {
+      return new ResponseEntity<>(new ApiResponse(false, Messages.ACCESS_DENIED), HttpStatus.FORBIDDEN);
+    }
+
+    for (int i = 0; i < rates.length; i++) {
+
+      parkingSpot.get().getRates().add(rates[i]);
+    }
+    parkingSpotService.updateParkingSpot(parkingSpot.get());
+
+    return new ResponseEntity<>(new ApiResponse(true, Messages.updateSuccess("ParkingSpot")), HttpStatus.OK);
   }
 }

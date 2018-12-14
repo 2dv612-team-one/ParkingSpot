@@ -20,7 +20,6 @@ import java.util.List;
 @EnableEmailTools
 @SpringBootApplication
 public class ParkingZpotApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(ParkingZpotApplication.class, args);
 	}

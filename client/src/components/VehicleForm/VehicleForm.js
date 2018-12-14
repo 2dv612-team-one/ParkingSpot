@@ -12,6 +12,7 @@ import styles from '../../assets/styles/vehicle-form';
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
+  role: state.authentication.role
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -49,11 +50,13 @@ class VehicleForm extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, role } = this.props;
     const { showForm, registrationNumber } = this.state;
 
     return (
       <div className='add-vehicle-btn'>
+      { role === "ROLE_USER" ?
+      <Paper>
         <Button
           variant="extendedFab"
           aria-label="Add"
@@ -80,9 +83,9 @@ class VehicleForm extends Component {
               <Button variant="contained" size="small" className={classes.button} onClick={this.handleSave}>
                 <SaveIcon className="btn-icon" />
                 Spara
-                  </Button>
-            </Paper>
-          )
+              </Button>
+          </Paper> ) }
+        </Paper> : null
         }
       </div>
     );

@@ -60,7 +60,7 @@ class AddMessage extends Component {
           role === 'ROLE_ADMIN'
                 ? (
                   <Paper>
-            <Button onClick={this.handleClickOpen}>Open form dialog</Button>
+            <Button onClick={this.handleClickOpen}>Broadcast</Button>
             <Dialog
               open={this.state.open}
               onClose={this.handleClose}
@@ -69,7 +69,7 @@ class AddMessage extends Component {
               <DialogTitle id="form-dialog-title">Broadcast</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  Enter the message that should be broadcasted
+                  Skriv in meddelandet som ska skickas ut
                 </DialogContentText>
                 <TextField
                   autoFocus

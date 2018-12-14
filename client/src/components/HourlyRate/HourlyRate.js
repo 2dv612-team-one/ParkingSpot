@@ -6,16 +6,18 @@ import { Button , withStyles} from '@material-ui/core';
 import { FormControl, TextField, Paper, Typography } from '@material-ui/core';
 import { TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 
-import { getAreas } from '../../actions/parkingArea';
+import { getAreas, saveRates } from '../../actions/parkingArea';
 import styles from '../../assets/styles/hourly-rate';
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
   areas: state.parkingArea.data,
+  role: state.authentication.role
 });
 
 const mapDispatchToProps = dispatch => ({
   onLoad: () => dispatch(getAreas()),
+  saveRates: (accessToken, id, rates) => dispatch(saveRates(accessToken, id, rates)),
 });
 
 class HourlyRate extends Component {
@@ -104,8 +106,8 @@ class HourlyRate extends Component {
     this.setState(prevState => ({
       rates: [...prevState.rates, {
         id: "f=" + rate_from + ";t=" + rate_to + ";r=" + rate,
-        from: rate_from,
-        to: rate_to,
+        rate_from,
+        rate_to,
         rate: rate,
       }]
     }))
@@ -113,32 +115,34 @@ class HourlyRate extends Component {
   };
 
   handleDelete = (e) => {
-    const { rates, hours} = this.state;
+    const { rates, hours } = this.state;
     let value = JSON.parse(e.currentTarget.value);
 
     for (let i = 0; i < rates.length; i++) {
 
       if (rates[i].id === value.id) {
-        for (let j = parseInt(value.from); j <= parseInt(value.to); j++) {
+        for (let j = parseInt(value.rate_from); j <= parseInt(value.rate_to); j++) {
 
           hours[j] = -1;
           this.setState({hours});
         }
 
         rates.splice(i,1);
-        this.setState({ rates});
+        this.setState({rates});
       }
     }
   };
 
-  handleSave = (e) => {
-    // send parking rates to server
-    //const { rates, hours} = this.state;
+  handleSave = (id) => {
+    const { saveRates, accessToken } = this.props;
+    const { rates } = this.state;
+    saveRates(accessToken, id, rates);
   };
 
 
   allHoursCovered() {
     const { hours } = this.state;
+
     for (let i = 1; i <= 24; i++) {
 
       if (hours[i] === -1) {
@@ -151,22 +155,25 @@ class HourlyRate extends Component {
   }
 
   render() {
-    const { areas } = this.props;
+    const { areas, role } = this.props;
 
     const { rate_from, rate_to, rate , rates} = this.state;
 
     const canBeSubmitted = this.canBeSubmitted();
     const allHoursCovered = this.allHoursCovered();
 
-    return (areas && Array.from(areas).map(area => (
-          <div>
+    return (
+      <div>
+        { role === "ROLE_PARKING_OWNER" ?
+      areas && Array.from(areas).map(area => (
+        area.rates.length > 0 ? <div></div> : <div>
             <hi>Timtaxa</hi>
             {!allHoursCovered && (
             <Paper>
               <Typography variant="subtitle">Skapa timtaxa för {area.name}</Typography>
               <FormControl >
                 <TextField
-                  label="Från timmar:"
+                  label="Från timmar (hh):"
                   name="rate_from"
                   onChange={this.handleRateFrom}
                   value={rate_from}
@@ -174,7 +181,7 @@ class HourlyRate extends Component {
               </FormControl>
               <FormControl >
                 <TextField
-                  label="Till timmar:"
+                  label="Till timmar (hh):"
                   name="rate_to"
                   onChange={this.handleRateTo}
                   value={rate_to}
@@ -202,7 +209,7 @@ class HourlyRate extends Component {
               <TableBody>
                 {rates && rates.map(nrate => (
                   <TableRow key={nrate.id}>
-                    <TableCell>{nrate.from}:00-{nrate.to}:00 = {nrate.rate}kr</TableCell>
+                    <TableCell>{nrate.rate_from}:00-{nrate.rate_to}:00 = {nrate.rate}kr</TableCell>
                     <Button
                       onClick={this.handleDelete}
                       value={JSON.stringify(nrate)}
@@ -212,13 +219,14 @@ class HourlyRate extends Component {
                 ))}
               </TableBody>
               <Button
-                onClick={this.handleSave}
+                onClick={() => this.handleSave(area.id)}
                 disabled={!allHoursCovered}
               >SPARA
               </Button>
             </Paper>
           </div>
-        ))
+        )) : null }
+        </div>
     );
   }
 }

@@ -10,7 +10,7 @@ import { closeModal } from '../../actions/modal';
 import { REGISTER_MODAL } from '../../constants/environment';
 
 const mapStateToProps = state => ({
-  showRegisterModal: state.modal[REGISTER_MODAL],
+  showRegisterModal: state.modal[REGISTER_MODAL].show,
 });
 
 const mapDispatchToProps = dispatch => ({

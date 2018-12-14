@@ -12,7 +12,7 @@ import logo from '../../assets/images/parkingzpot_white.svg';
 import { logout } from '../../actions/authenticate';
 import { openModal } from '../../actions/modal';
 import { LOGIN_MODAL, REGISTER_MODAL } from '../../constants/environment';
-import {deleteUser} from "../../actions/userControl";
+import { deleteUser } from "../../actions/userControl";
 import ChangePassword from '../../components/ChangePassword/ChangePassword';
 
 const mapStateToProps = state => ({

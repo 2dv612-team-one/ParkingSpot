@@ -17,7 +17,6 @@ public class WebSocketController {
 
     @SubscribeMapping("/message")
     public String subscribeInit() {
-        // TODO: Add some method here to retrieve missed message(s)
         return "Välkommen";
     }
 
