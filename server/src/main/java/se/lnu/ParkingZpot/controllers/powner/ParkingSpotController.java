@@ -130,7 +130,10 @@ public class ParkingSpotController {
       return new ResponseEntity<>(new ApiResponse(false, Messages.ACCESS_DENIED), HttpStatus.FORBIDDEN);
     }
 
-    parkingSpot.get().getRates().add(rates[0]);
+    for (int i = 0; i < rates.length; i++) {
+
+      parkingSpot.get().getRates().add(rates[i]);
+    }
     parkingSpotService.updateParkingSpot(parkingSpot.get());
 
     return new ResponseEntity<>(new ApiResponse(true, Messages.updateSuccess("ParkingSpot")), HttpStatus.OK);
