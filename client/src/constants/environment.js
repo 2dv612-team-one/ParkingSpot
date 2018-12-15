@@ -20,6 +20,7 @@ export const PARKING_AREA_RATES_URI = `${PARKING_AREA_URI}/rates`;
 export const ERRORHANDLING_MODAL = 'showErrorHandlingModal';
 export const LOGIN_MODAL = 'showLoginModal';
 export const PARKING_AREA_MODAL = 'showParkingAreaModal';
+export const VEHICLE_MODAL = 'showVehicleModal';
 export const REGISTER_MODAL = 'showRegisterModal';
 
 // Local Storage

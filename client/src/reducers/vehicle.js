@@ -1,4 +1,3 @@
-/* eslint import/no-webpack-loader-syntax: off */
 import {
   ADD_CAR,
   GET_CARS,
@@ -9,6 +8,7 @@ const initialState = {
   data: [],
   message: null,
   fetch: true,
+  update: false
 };
 
 export default (state = initialState, action) => {
@@ -21,7 +21,7 @@ export default (state = initialState, action) => {
     case `${ADD_CAR}_REJECTED`:
       return { ...state, message: action.payload };
     case `${ADD_CAR}_FULFILLED`:
-      return { ...state, message: action.payload, fetch: false };
+      return { ...state, message: action.payload, update: true, fetch: true };
     case `${DELETE_CAR}_FULFILLED`:
       return { ...state, message: action.payload, update: true };
     case `${DELETE_CAR}_PENDING`:

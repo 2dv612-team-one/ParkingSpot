@@ -26,7 +26,7 @@ const mapDispatchToProps = dispatch => ({
   openParkingAreaModal: (props) => dispatch(openModal(PARKING_AREA_MODAL, props)),
   editArea: (accessToken, id, newProps) => dispatch(editArea(accessToken, id, newProps)),
   deleteArea: (accessToken, id) => dispatch(deleteArea(accessToken, id)),
-  addArea: (accessToken, id, props) => dispatch(addArea(accessToken, props)),
+  addArea: (accessToken, id, props) => dispatch(addArea(accessToken, props))
 });
 
 class ParkingAreaList extends Component {
@@ -69,15 +69,16 @@ class ParkingAreaList extends Component {
 
     return (
           <Grid item xs={12} md={6}>
-            <ParkingAreaModal />
             <Typography variant="h6" className={classes.title}>
               Parkeringsplatser
             { role === "ROLE_PARKING_OWNER" ?
+              <div>
               <IconButton aria-label="Add" onClick={() => this.handleAdd()}>
                   <AddIcon />
               </IconButton>
-              : null
-            }
+              <ParkingAreaModal />
+              </div>
+            : null }
             </Typography>
             <div className={classes.demo}>
               <List>

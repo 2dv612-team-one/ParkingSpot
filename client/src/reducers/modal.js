@@ -4,20 +4,23 @@ import {
   USER_REGISTRATION,
   ADD_PARKING_AREA,
   EDIT_PARKING_AREA,
+  ADD_CAR,
   OPEN_MODAL,
   CLOSE_MODAL,
 } from '../constants/actionTypes';
 import {
   LOGIN_MODAL,
   REGISTER_MODAL,
-  PARKING_AREA_MODAL
+  PARKING_AREA_MODAL,
+  VEHICLE_MODAL
 } from '../constants/environment';
 
 
 const initialState = {
   [LOGIN_MODAL]: { show: false, props: {}, update: false },
   [REGISTER_MODAL]: { show: false, props: {}, update: false },
-  [PARKING_AREA_MODAL]: { show: false, props: {}, update: false }
+  [PARKING_AREA_MODAL]: { show: false, props: {}, update: false },
+  [VEHICLE_MODAL]: { show: false, props: {}, update: false }
 };
 
 export default (state = initialState, action) => {
@@ -30,6 +33,9 @@ export default (state = initialState, action) => {
     case `${ADD_PARKING_AREA}_FULFILLED`:
       return initialState;
     case `${EDIT_PARKING_AREA}_FULFILLED`:
+      return initialState;
+    
+    case `${ADD_CAR}_FULFILLED`:
       return initialState;
 
     case `${USER_AUTHENTICATION}_FULFILLED`:
