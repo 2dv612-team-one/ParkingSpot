@@ -7,6 +7,7 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
+import DirectionsCar from '@material-ui/icons/DirectionsCar';
 import ParkingAreaModal from '../ParkingAreaModal/ParkingAreaModal';
 import { openModal } from '../../actions/modal';
 import { PARKING_AREA_MODAL } from '../../constants/environment';

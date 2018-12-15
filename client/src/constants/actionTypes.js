@@ -13,6 +13,7 @@ export const CLOSE_MODAL = 'CLOSE_MODAL';
 export const ADD_CAR = 'ADD_CAR';
 export const GET_CARS = 'GET_CARS';
 export const DELETE_CAR = 'DELETE_CAR';
+export const PARK_CAR = 'PARK_CAR';
 
 // User control actions
 export const GET_ROLES = 'GET_ROLES';

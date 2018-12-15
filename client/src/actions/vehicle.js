@@ -5,6 +5,7 @@ import {
   ADD_CAR,
   GET_CARS,
   DELETE_CAR,
+  PARK_CAR
 } from '../constants/actionTypes';
 
 export function addCar(accessToken, registrationNumber) {
@@ -34,5 +35,16 @@ export function deleteCar(accessToken, registrationNumber) {
   return {
     type: DELETE_CAR,
     payload: axios.delete(VEHICLE_URI + '/' + registrationNumber, config),
+  }
+}
+
+export function parkCar(accessToken, registrationNumber, areaID) {
+  let config = {
+    headers: {'Authorization': "Bearer " + accessToken}
+  };
+
+  return {
+    type: PARK_CAR,
+    payload: axios.post(VEHICLE_URI + '/park', { registrationNumber, areaID }, config)
   }
 }

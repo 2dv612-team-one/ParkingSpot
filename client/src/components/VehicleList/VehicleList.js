@@ -5,7 +5,7 @@ import { Typography, List, ListItem, ListItemAvatar, ListItemText, ListItemSecon
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
-import { getCars, deleteCar, addCar } from '../../actions/vehicle';
+import { getCars, deleteCar, addCar, parkCar } from '../../actions/vehicle';
 import VehicleModal from '../VehicleModal/VehicleModal';
 import { openModal } from '../../actions/modal';
 import { VEHICLE_MODAL } from '../../constants/environment';
@@ -25,7 +25,8 @@ const mapDispatchToProps = dispatch => ({
   onLoad: () => dispatch(getCars()),
   openVehicleModal: (props) => dispatch(openModal(VEHICLE_MODAL, props)),
   deleteCar: (accessToken, registrationNumber) => dispatch(deleteCar(accessToken, registrationNumber)),
-  addCar: (accessToken, registrationNumber) => dispatch(addCar(accessToken, registrationNumber))
+  addCar: (accessToken, registrationNumber) => dispatch(addCar(accessToken, registrationNumber)),
+  parkCar: (accessToken, registrationNumber, areaID) => dispatch(parkCar(accessToken, registrationNumber, areaID))
 });
 
 class VehicleList extends Component {
