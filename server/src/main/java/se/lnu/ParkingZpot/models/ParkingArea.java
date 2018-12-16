@@ -34,6 +34,9 @@ public class ParkingArea {
   @JoinColumn(name="id", nullable=true)
   public List<Rate> rates;
 
+  @OneToOne(mappedBy = "area_Id")
+  private Parking parked_at;
+
   public void setCoords(double[] coords){
     this.coord1 = coords[0];
     this.coord2 = coords[1];

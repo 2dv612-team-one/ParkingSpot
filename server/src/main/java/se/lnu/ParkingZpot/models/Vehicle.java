@@ -19,6 +19,9 @@ public class Vehicle {
   private long user_Id;
   private String registrationNumber;
 
+  @OneToOne(mappedBy = "vehicle_Id")
+  private Parking parked_at;
+
   public Vehicle(long user_Id, String registrationNumber) {
     super();
     this.user_Id = user_Id;
