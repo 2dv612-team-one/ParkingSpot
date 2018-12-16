@@ -20,17 +20,20 @@ public class Parking {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
 
-  @OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-  @JoinColumn(name="id", nullable=true)
-  public Vehicle vehicle_Id;
+  private long user_Id;
 
   @OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name="id", nullable=true)
-  public ParkingArea area_Id;
+  private Vehicle vehicle_Id;
 
-  public Parking(long vehicle_Id, long area_Id) {
+  @OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+  @JoinColumn(name="id", nullable=true)
+  private ParkingArea area_Id;
+
+  public Parking(Vehicle vehicle, ParkingArea area, long user_Id) {
     super();
-    this.vehicle_Id = vehicle_Id;
-    this.area_Id = area_Id;
+    this.vehicle = vehicle;
+    this.area = area;
+    this.user_Id = user_Id;
   }
 }

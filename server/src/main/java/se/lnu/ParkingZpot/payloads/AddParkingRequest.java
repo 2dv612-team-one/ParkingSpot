@@ -7,7 +7,7 @@ import java.util.Optional;
 
 @Getter
 @Setter
-public class ParkVehicleRequest {
+public class AddParkingRequest {
   
   private String registrationNumber;
 

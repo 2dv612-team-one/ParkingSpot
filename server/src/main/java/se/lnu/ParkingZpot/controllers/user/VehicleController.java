@@ -90,23 +90,4 @@ public class VehicleController {
 
     return new ResponseEntity<ApiResponse>(new ApiResponse(false, Messages.UNAUTH_CRUD), HttpStatus.UNAUTHORIZED);
   }
-
-  @PostMapping("/park")
-  @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
-  public ResponseEntity<ApiResponse> parkVehicle(@CurrentUser UserDetailsImpl principal, @Valid @RequestBody ParkVehicleRequest parkVehicleRequest) {
-    Long id = (addVehicleRequest.getId() != null && addVehicleRequest.getId().isPresent()) ? Long.parseLong(addVehicleRequest.getId().get()) : principal.getId();
-    String registrationNumber = addVehicleRequest.getRegistrationNumber();
-    
-    try {
-      vehicleService.addVehicle(id, registrationNumber);
-    } catch (EntityExistsException e) {
-      return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
-    }
-
-    URI vehicleLocation = ServletUriComponentsBuilder
-      .fromCurrentContextPath().path("/api/vehicles/{registrationNumber}")
-      .buildAndExpand(registrationNumber).toUri();
-
-    return ResponseEntity.created(vehicleLocation).body(new ApiResponse(true, Messages.addSuccess(Messages.VEHICLE)));
-  }
 }
