@@ -2,9 +2,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withSnackbar } from 'notistack';
-import { removeSnackbar, markMessageViewed } from '../../actions/snackbar';
 import { IconButton } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
+import { removeSnackbar, markMessageViewed } from '../../actions/snackbar';
+import { getUnseenMessages } from '../../actions/userControl';
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
@@ -16,6 +17,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   removeSnackbar: (id) => dispatch(removeSnackbar(id)),
   markMessageViewed: (id, accessToken) => dispatch(markMessageViewed(id, accessToken)),
+  getUnseenMessages: (accessToken) => dispatch(getUnseenMessages(accessToken)),
 });
 
 class SnackbarHandling extends Component {
@@ -35,40 +37,42 @@ class SnackbarHandling extends Component {
   };
 
   handleViewed = (id) => {
-    const { markMessageViewed, removeSnackbar, accessToken } = this.props;
+    const { accessToken, markMessageViewed, removeSnackbar } = this.props;
     markMessageViewed(id, accessToken);
     removeSnackbar(id);
   };
 
-  render() {
+  componentDidUpdate(prevProps) {
     const { infoMessages, successMessages, errorMessages, enqueueSnackbar } = this.props;
     const { viewed } = this.state;
 
     // let allMessages = infoMessages.concat(successMessages, errorMessages);
     // console.log("__ALL MESSAGES__HERE__");
-    // console.log(allMessages);
+    // console.log(infoMessages);
 
-    infoMessages.forEach((message) => {
-      if (message === undefined) {
-        return;
-      }
-      const timeInSeconds = 600 * 1000;
-      const options = {
-        variant: "info",
-        autoHideDuration: timeInSeconds,
-        action: <IconButton key="close" aria-label="Close" color="inherit" onClick={() => this.handleViewed(message.id)}><CheckIcon /></IconButton>,
-      };
-      setTimeout(() => {
-        let messageSeen = viewed.indexOf(message.id) > -1;
-        if (messageSeen) return;
+    if (infoMessages !== prevProps.infoMessages) {
+      infoMessages.forEach((message) => {
+        if (message === undefined) {
+          return;
+        }
+        const timeInSeconds = 600 * 1000;
+        const options = {
+          variant: "info",
+          autoHideDuration: timeInSeconds,
+          action: <IconButton key="close" aria-label="Close" color="inherit" onClick={() => this.handleViewed(message.id)}><CheckIcon /></IconButton>,
+        };
+        setTimeout(() => {
+          let messageSeen = viewed.includes(message.id);
+          if (messageSeen) return;
 
-        // Display message using notistack
-        if (typeof enqueueSnackbar === "function") { enqueueSnackbar(message.message, options); }
+          // Display message using notistack
+          if (typeof enqueueSnackbar === "function") { enqueueSnackbar(message.message, options); }
 
-        // Add message"s id to the local state
-        this.storeViewed(message.id);
-      }, 1);
-    })
+          // Add message"s id to the local state
+          this.storeViewed(message.id);
+        }, 1);
+      })
+    }
 
     errorMessages.forEach((message) => {
       if (message === undefined) {
@@ -110,9 +114,9 @@ class SnackbarHandling extends Component {
         this.handleClose(message.id);
       }, 1);
     })
-
-    return null;
   }
+
+  render() { return <div></div>; }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(SnackbarHandling));

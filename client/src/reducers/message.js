@@ -13,19 +13,11 @@ const initialState = {
 };
 
 const addMessage = (state, action) => ({ ...state, messages: [...state.messages, { ...action.payload, },], });
-const addSocketMessage = (state, message, id) => ({ ...state, messages: [...state.messages, { message, id, },], });
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case SHOW_MESSAGE:
-      let isSocketMessage = action.payload.id === undefined;
-      if (isSocketMessage) {
-        let message = action.payload.body;
-        let id = action.id;
-        return addSocketMessage(state, message, id);
-      } else {
-        return addMessage(state, action);
-      }
+      return addMessage(state, action);
     case `${SEND_MESSAGE}_FULFILLED`:
       return { ...state, message: action.payload.body, showInfo: true };
     case `${SEND_MESSAGE}_REJECTED`:

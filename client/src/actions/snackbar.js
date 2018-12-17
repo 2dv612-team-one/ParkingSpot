@@ -21,7 +21,7 @@ export function markMessageViewed(id, accessToken) {
   };
   return {
     type: MARK_MESSAGE_VIEWED,
-    payload: axios.post(CONFIRM_MESSAGE_URL, { id },  config)
+    payload: axios.post(CONFIRM_MESSAGE_URL, { id }, config)
   }
 };
 
@@ -36,11 +36,6 @@ export function showMessage(message) {
       },
     };
   } catch {
-    return {
-      type: SHOW_MESSAGE,
-      payload: message,
-      id: new Date().getTime() + Math.random(),
-    };
   }
 }
 
