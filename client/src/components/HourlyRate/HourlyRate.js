@@ -7,7 +7,6 @@ import { FormControl, TextField, Paper, Typography } from '@material-ui/core';
 import { TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import InputLabel from '@material-ui/core/InputLabel';
 import NativeSelect from '@material-ui/core/NativeSelect';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
 import Input from '@material-ui/core/Input';
 
 import { getAreas, saveRates } from '../../actions/parkingArea';
