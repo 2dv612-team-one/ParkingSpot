@@ -6,8 +6,9 @@ import { Button , withStyles} from '@material-ui/core';
 import { FormControl, TextField, Paper, Typography } from '@material-ui/core';
 import { TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import InputLabel from '@material-ui/core/InputLabel';
-import Select from '@material-ui/core/Select';
+import NativeSelect from '@material-ui/core/NativeSelect';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
+import Input from '@material-ui/core/Input';
 
 import { getAreas, saveRates } from '../../actions/parkingArea';
 //import styles from '../../assets/styles/hourly-rate';
@@ -254,23 +255,83 @@ class HourlyRate extends Component {
             <div>
               <Typography variant="subtitle1">Skapa timtaxa för {area.name}</Typography>
 
-
-              <FormControl >
-                <TextField
-                  label="Från timmar (hh):"
-                  name="rate_from"
-                  onChange={this.handleRateFrom}
+              <FormControl className={classes.formControl}>
+                <InputLabel
+                  htmlFor="age-native-simple"
+                >
+                  Från timmar (hh)
+                </InputLabel>
+                <NativeSelect
                   value={rate_from}
-                />
+                  onChange={this.handleRateFrom}
+                  input={<Input name="age" id="age-native-label-placeholder" />}
+                >
+                  <option value={1}>1</option>
+                  <option value={2}>2</option>
+                  <option value={3}>3</option>
+                  <option value={4}>4</option>
+                  <option value={5}>5</option>
+                  <option value={6}>6</option>
+                  <option value={7}>7</option>
+                  <option value={8}>8</option>
+                  <option value={9}>9</option>
+                  <option value={10}>10</option>
+                  <option value={11}>11</option>
+                  <option value={12}>12</option>
+                  <option value={13}>13</option>
+                  <option value={14}>14</option>
+                  <option value={15}>15</option>
+                  <option value={16}>16</option>
+                  <option value={17}>17</option>
+                  <option value={18}>18</option>
+                  <option value={19}>19</option>
+                  <option value={20}>20</option>
+                  <option value={21}>21</option>
+                  <option value={22}>22</option>
+                  <option value={23}>23</option>
+                  <option value={24}>24</option>
+                </NativeSelect>
               </FormControl>
-              <FormControl >
-                <TextField
-                  label="Till timmar (hh):"
-                  name="rate_to"
-                  onChange={this.handleRateTo}
+
+
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="age-native-simple"
+                >
+                  Till timmar (hh)
+                </InputLabel>
+                <NativeSelect
                   value={rate_to}
-                />
+                  onChange={this.handleRateTo}
+                  input={<Input name="age" id="age-native-label-placeholder" />}
+                >
+                  <option value={1}>1</option>
+                  <option value={2}>2</option>
+                  <option value={3}>3</option>
+                  <option value={4}>4</option>
+                  <option value={5}>5</option>
+                  <option value={6}>6</option>
+                  <option value={7}>7</option>
+                  <option value={8}>8</option>
+                  <option value={9}>9</option>
+                  <option value={10}>10</option>
+                  <option value={11}>11</option>
+                  <option value={12}>12</option>
+                  <option value={13}>13</option>
+                  <option value={14}>14</option>
+                  <option value={15}>15</option>
+                  <option value={16}>16</option>
+                  <option value={17}>17</option>
+                  <option value={18}>18</option>
+                  <option value={19}>19</option>
+                  <option value={20}>20</option>
+                  <option value={21}>21</option>
+                  <option value={22}>22</option>
+                  <option value={23}>23</option>
+                  <option value={24}>24</option>
+                </NativeSelect>
               </FormControl>
+
+
               <FormControl>
                 <TextField
                   label="Taxa:"
@@ -280,85 +341,11 @@ class HourlyRate extends Component {
                 />
               </FormControl>
 
-
-
-
-
-              <FormControl className={classes.formControl}>
-                <InputLabel
-                  htmlFor="age-native-simple"
-                >
-                  Från timmar (hh)
-                </InputLabel>
-                <Select
-                  native
-                  value={rate_from}
-                  onChange={this.handleRateFrom}
-                  inputProps={{
-                    name: 'age',
-                    id: 'age-native-simple',
-                  }}
-                >
-                  <option value="" />
-                  <option value={10}>Ten</option>
-                  <option value={20}>Twenty</option>
-                  <option value={30}>Thirty</option>
-                </Select>
-              </FormControl>
-
-
-
-              <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="age-native-simple"
-                >
-                  Till timmar (hh)
-                </InputLabel>
-                <Select
-                  native
-                  value={rate_to}
-                  onChange={this.handleRateTo}
-                  inputProps={{
-                    name: 'age',
-                    id: 'age-native-simple',
-                  }}
-                >
-                  <option value="" />
-                  <option value={10}>Ten</option>
-                  <option value={20}>Twenty</option>
-                  <option value={30}>Thirty</option>
-                </Select>
-              </FormControl>
-
-
-
-              <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="age-native-simple">
-                  Taxa
-                </InputLabel>
-                <Select
-                  native
-                  value={rate}
-                  onChange={this.handleRate}
-                  inputProps={{
-                    name: 'age',
-                    id: 'age-native-simple',
-                  }}
-                >
-                  <option value="" />
-                  <option value={10}>Ten</option>
-                  <option value={20}>Twenty</option>
-                  <option value={30}>Thirty</option>
-                </Select>
-              </FormControl>
-
-
-
               <Button
                 onClick={this.handleSubmit}
                 disabled={canBeSubmitted}
               >LÄGG TILL
               </Button>
-
 
             </div>
             )}
