@@ -5,9 +5,12 @@ import { connect } from 'react-redux';
 import { Button , withStyles} from '@material-ui/core';
 import { FormControl, TextField, Paper, Typography } from '@material-ui/core';
 import { TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
 
 import { getAreas, saveRates } from '../../actions/parkingArea';
-import styles from '../../assets/styles/hourly-rate';
+//import styles from '../../assets/styles/hourly-rate';
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
@@ -18,6 +21,20 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   onLoad: () => dispatch(getAreas()),
   saveRates: (accessToken, id, rates) => dispatch(saveRates(accessToken, id, rates)),
+});
+
+const styles = theme => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  formControl: {
+    margin: theme.spacing.unit,
+    minWidth: 160,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing.unit * 2,
+  },
 });
 
 class HourlyRate extends Component {
@@ -97,10 +114,42 @@ class HourlyRate extends Component {
   handleSubmit = () => {
     const { rate_from, rate_to, rate, hours} = this.state;
 
-    for (let i = parseInt(rate_from); i <= parseInt(rate_to); i++) {
+    if (parseInt(rate_from) === parseInt(rate_to)) {
 
-      hours[i] = rate;
+      for (let i = 1; i <= 24; i++) {
+
+        hours[i] = rate;
+        this.setState({hours});
+      }
       this.setState({hours});
+
+    } else if (parseInt(rate_from) < parseInt(rate_to)) {
+
+      for (let i = parseInt(rate_from); i < parseInt(rate_to); i++) {
+
+        hours[i] = rate;
+        this.setState({hours});
+      }
+
+      this.setState({hours});
+    } else if (parseInt(rate_from) > parseInt(rate_to)) {
+
+      for (let i = parseInt(rate_from); i <= 24; i++) {
+
+        hours[i] = rate;
+        this.setState({hours});
+      }
+
+      for (let i = 1; i < parseInt(rate_to); i++) {
+
+        hours[i] = rate;
+        this.setState({hours});
+      }
+
+      this.setState({hours});
+    } else {
+
+      throw("Something went wrong...");
     }
 
     this.setState(prevState => ({
@@ -121,14 +170,47 @@ class HourlyRate extends Component {
     for (let i = 0; i < rates.length; i++) {
 
       if (rates[i].id === value.id) {
-        for (let j = parseInt(value.rate_from); j <= parseInt(value.rate_to); j++) {
 
-          hours[j] = -1;
-          this.setState({hours});
+        if (parseInt(value.rate_from) === parseInt(value.rate_to)) {
+
+          for (let i = 1; i <= 24; i++) {
+
+            hours[i] = -1;
+            this.setState({hours});
+          }
+
+          rates.splice(i,1);
+          this.setState({rates});
+        } else if (parseInt(value.rate_from) < parseInt(value.rate_to)) {
+
+          for (let i = parseInt(value.rate_from); i < parseInt(value.rate_to); i++) {
+
+            hours[i] = -1;
+            this.setState({hours});
+          }
+
+          rates.splice(i,1);
+          this.setState({rates});
+        } else if (parseInt(value.rate_from) > parseInt(value.rate_to)) {
+
+          for (let i = parseInt(value.rate_from); i <= 24; i++) {
+
+            hours[i] = -1;
+            this.setState({hours});
+          }
+
+          for (let i = 1; i < parseInt(value.rate_to); i++) {
+
+            hours[i] = -1;
+            this.setState({hours});
+          }
+
+          rates.splice(i,1);
+          this.setState({rates});
+        } else {
+
+          throw("Something went wrong...");
         }
-
-        rates.splice(i,1);
-        this.setState({rates});
       }
     }
   };
@@ -142,7 +224,7 @@ class HourlyRate extends Component {
 
   allHoursCovered() {
     const { hours } = this.state;
-
+    console.log(hours);
     for (let i = 1; i <= 24; i++) {
 
       if (hours[i] === -1) {
@@ -155,7 +237,7 @@ class HourlyRate extends Component {
   }
 
   render() {
-    const { areas, role } = this.props;
+    const { areas, role, classes } = this.props;
 
     const { rate_from, rate_to, rate , rates} = this.state;
 
@@ -169,8 +251,10 @@ class HourlyRate extends Component {
         area.rates.length > 0 ? <div></div> : <div>
             <hi>Timtaxa</hi>
             {!allHoursCovered && (
-            <Paper>
+            <div>
               <Typography variant="subtitle1">Skapa timtaxa för {area.name}</Typography>
+
+
               <FormControl >
                 <TextField
                   label="Från timmar (hh):"
@@ -187,7 +271,7 @@ class HourlyRate extends Component {
                   value={rate_to}
                 />
               </FormControl>
-              <FormControl >
+              <FormControl>
                 <TextField
                   label="Taxa:"
                   name="rate"
@@ -195,12 +279,88 @@ class HourlyRate extends Component {
                   value={rate}
                 />
               </FormControl>
+
+
+
+
+
+              <FormControl className={classes.formControl}>
+                <InputLabel
+                  htmlFor="age-native-simple"
+                >
+                  Från timmar (hh)
+                </InputLabel>
+                <Select
+                  native
+                  value={rate_from}
+                  onChange={this.handleRateFrom}
+                  inputProps={{
+                    name: 'age',
+                    id: 'age-native-simple',
+                  }}
+                >
+                  <option value="" />
+                  <option value={10}>Ten</option>
+                  <option value={20}>Twenty</option>
+                  <option value={30}>Thirty</option>
+                </Select>
+              </FormControl>
+
+
+
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="age-native-simple"
+                >
+                  Till timmar (hh)
+                </InputLabel>
+                <Select
+                  native
+                  value={rate_to}
+                  onChange={this.handleRateTo}
+                  inputProps={{
+                    name: 'age',
+                    id: 'age-native-simple',
+                  }}
+                >
+                  <option value="" />
+                  <option value={10}>Ten</option>
+                  <option value={20}>Twenty</option>
+                  <option value={30}>Thirty</option>
+                </Select>
+              </FormControl>
+
+
+
+              <FormControl className={classes.formControl}>
+                <InputLabel htmlFor="age-native-simple">
+                  Taxa
+                </InputLabel>
+                <Select
+                  native
+                  value={rate}
+                  onChange={this.handleRate}
+                  inputProps={{
+                    name: 'age',
+                    id: 'age-native-simple',
+                  }}
+                >
+                  <option value="" />
+                  <option value={10}>Ten</option>
+                  <option value={20}>Twenty</option>
+                  <option value={30}>Thirty</option>
+                </Select>
+              </FormControl>
+
+
+
               <Button
                 onClick={this.handleSubmit}
                 disabled={canBeSubmitted}
               >LÄGG TILL
               </Button>
-            </Paper>
+
+
+            </div>
             )}
             <Paper>
               <TableHead>
