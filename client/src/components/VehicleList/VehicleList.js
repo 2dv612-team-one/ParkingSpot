@@ -1,19 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Typography, List, ListItem, ListItemAvatar, ListItemText, ListItemSecondaryAction, MenuItem, Avatar, Input, Grid, withStyles } from '@material-ui/core';
+import { Typography, List, ListItem, ListItemAvatar, ListItemText, ListItemSecondaryAction, Avatar, Grid, withStyles } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
-import DoneIcon from '@material-ui/icons/Done';
 import DirectionsCar from '@material-ui/icons/DirectionsCar';
 import LocalParking from '@material-ui/icons/LocalParking';
 
-import Select from '@material-ui/core/Select';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormControl from '@material-ui/core/FormControl';
+import ConfirmationDialog from '../ConfirmationDialog/ConfirmationDialog';
 
-import { getCars, deleteCar, addCar, parkCar } from '../../actions/vehicle';
+import { getCars, deleteCar, addCar, parkCar, unparkCar } from '../../actions/vehicle';
 import VehicleModal from '../VehicleModal/VehicleModal';
 import { openModal } from '../../actions/modal';
 import { VEHICLE_MODAL } from '../../constants/environment';
@@ -34,7 +31,8 @@ const mapDispatchToProps = dispatch => ({
   openVehicleModal: (props) => dispatch(openModal(VEHICLE_MODAL, props)),
   deleteCar: (accessToken, registrationNumber) => dispatch(deleteCar(accessToken, registrationNumber)),
   addCar: (accessToken, registrationNumber) => dispatch(addCar(accessToken, registrationNumber)),
-  parkCar: (accessToken, registrationNumber, areaID) => dispatch(parkCar(accessToken, registrationNumber, areaID))
+  parkCar: (accessToken, registrationNumber, areaID) => dispatch(parkCar(accessToken, registrationNumber, areaID)),
+  unparkCar: (accessToken, areaID) => dispatch(unparkCar(accessToken, areaID))
 });
 
 class VehicleList extends Component {
@@ -42,12 +40,15 @@ class VehicleList extends Component {
     super(props);
 
     this.state = {
-      pArea: ''
+      open: false
     }
 
     this.handleDelete = this.handleDelete.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
     this.handlePark = this.handlePark.bind(this);
+    this.handlePark = this.handlePark.bind(this);
+    this.handleDialogClose = this.handleDialogClose.bind(this);
+    this.handleDialogOpen = this.handleDialogOpen.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -71,14 +72,29 @@ class VehicleList extends Component {
     openVehicleModal(props)
   };
 
-  handlePark = (registrationNumber, areaID) => {
+  handlePark = (vehicle, areaID) => {
     const { accessToken } = this.props
-    parkCar(accessToken, registrationNumber, areaID)
+    this.setState({open: false});
+
+    console.log('parking on id: ' + areaID)
+
+    if (areaID) {
+      parkCar(accessToken, vehicle.registrationNumber, areaID);
+    } else if (vehicle.parked_at) {
+      unparkCar(accessToken, vehicle.parked_at.id)
+    }
   }
+
+  handleDialogOpen = () => {
+    this.setState({ open: true }, () => console.log('truestate sat ' + this.state.open));
+  };
+
+  handleDialogClose = () => {
+    this.setState({ open: false }, () => console.log('falsestate sat ' + this.state.open));
+  };
 
   render() {
     const { classes, vehicles, areas, role } = this.props;
-    const { pArea } = this.state;
 
     return (
       <div>
@@ -93,7 +109,8 @@ class VehicleList extends Component {
           </Typography>
           <div className={classes.demo}>
             <List> {vehicles && vehicles.map(vehicle => (
-              <ListItem>
+              <div>
+              <ListItem onClick={this.handleDialogOpen}>
                 <ListItemAvatar>
                   <Avatar>
                     <DirectionsCar />
@@ -107,42 +124,43 @@ class VehicleList extends Component {
                 <ListItemText
                   key={vehicle.id}
                   primary={vehicle.registrationNumber}
+                  secondary={vehicle.parked_at ? areas.filter(area => area.parked_at && (area.parked_at.id === vehicle.parked_at.id)).map((area) => `${area.name + " (" + area.coord1 + ","+ area.coord2 + ","+ area.coord3 + ","+ area.coord4 + ") : "}` + `${area.rates.map(rate => 
+                    rate.rate_from +
+                    ":00 - " +
+                    rate.rate_to +
+                    ":00 " +
+                    rate.rate + " kr/h\n")}`) : 'Inte parkerad'}
                 />
                 <ListItemSecondaryAction>
-                  <FormControl className={classes.formControl}>
-                    <Select
-                      onChange={(event) => this.setState({pArea: event.target.value})}
-                      value={pArea}
-                      name="parking"
-                      input={<Input name="age" id="age-auto-width" />}
-                      displayEmpty
-                      className={classes.selectEmpty}
-                    >
-                      <MenuItem value="">
-                        Inte Parkerad
-                      </MenuItem>
-                      {areas.length > 0 && areas.map(area => 
-                        <MenuItem value={area.id} disabled={!!area.parked_at}>
-                            {area.name + " (" + area.coord1 + ","+ area.coord2 + ","+ area.coord3 + ","+ area.coord4 + ")\n"}
-                            {`${area.rates.map(rate => 
-                              rate.rate_from +
-                              ":00 - " +
-                              rate.rate_to +
-                              ":00 " +
-                              rate.rate + " kr/h\n")}`}
-                        </MenuItem>
-                      )}
-                    </Select>
-                  <FormHelperText>Parkera bilen</FormHelperText>
-                  </FormControl>
-                  <IconButton aria-label="Park" onClick={() => this.handlePark(vehicle.registrationNumber, pArea)}>
-                    <DoneIcon />
-                  </IconButton>
                   <IconButton aria-label="Delete" onClick={() => this.handleDelete(vehicle.registrationNumber)}>
                     <DeleteIcon />
                   </IconButton>
                 </ListItemSecondaryAction>
               </ListItem>
+              <ConfirmationDialog
+              classes={{
+                paper: classes.paper,
+              }}
+              open={this.state.open}
+              title={'Välj parkeringsplats'}
+              onConfirm={(value) => this.handlePark(vehicle, value)}
+              onClose={this.handleDialogClose}
+              options={areas.length > 0 ? areas.map((area) => {
+                return {  value: area.id.toString(), 
+                          disabled: !!area.parked_at,
+                          label: area.name + " (" + area.coord1 + ","+ area.coord2 + ","+ area.coord3 + ","+ area.coord4 + ") : " +
+                          `${area.rates.map(rate => 
+                            rate.rate_from +
+                            ":00 - " +
+                            rate.rate_to +
+                            ":00 " +
+                            rate.rate + " kr/h")}`
+                        }
+                }).concat([{value: '', label: 'Ingen parkering'}]) : [{value: '', label: 'Ingen parkering'}]
+              }
+              value={(areas.filter(area => (area.parked_at && vehicle.parked_at) && (area.parked_at.id === vehicle.parked_at.id)))[0] ? (areas.filter(area => (area.parked_at && vehicle.parked_at) && (area.parked_at.id === vehicle.parked_at.id)))[0].id : ''}
+            />
+            </div>
             ))}
             </List>
           </div>

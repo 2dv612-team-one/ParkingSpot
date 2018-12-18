@@ -2,7 +2,8 @@ import {
   ADD_CAR,
   GET_CARS,
   DELETE_CAR,
-  PARK_CAR
+  PARK_CAR,
+  UNPARK_CAR
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -34,6 +35,12 @@ export default (state = initialState, action) => {
     case `${PARK_CAR}_PENDING`:
       return { ...state };
     case `${PARK_CAR}_REJECTED`:
+      return { ...state, message: action.payload };
+    case `${UNPARK_CAR}_FULFILLED`:
+      return { ...state, message: action.payload, update: true, fetch: true };
+    case `${UNPARK_CAR}_PENDING`:
+      return { ...state };
+    case `${UNPARK_CAR}_REJECTED`:
       return { ...state, message: action.payload };
       
     default:
