@@ -11,6 +11,7 @@ import LocalParking from '@material-ui/icons/LocalParking';
 import ConfirmationDialog from '../ConfirmationDialog/ConfirmationDialog';
 
 import { getCars, deleteCar, addCar, parkCar, unparkCar } from '../../actions/vehicle';
+import { getAreas } from '../../actions/parkingArea';
 import VehicleModal from '../VehicleModal/VehicleModal';
 import { openModal } from '../../actions/modal';
 import { VEHICLE_MODAL } from '../../constants/environment';
@@ -28,6 +29,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   // TODO: only load vehicles accessible to the user
   onLoad: () => dispatch(getCars()),
+  loadAreas: () => dispatch(getAreas()),
   openVehicleModal: (props) => dispatch(openModal(VEHICLE_MODAL, props)),
   deleteCar: (accessToken, registrationNumber) => dispatch(deleteCar(accessToken, registrationNumber)),
   addCar: (accessToken, registrationNumber) => dispatch(addCar(accessToken, registrationNumber)),
@@ -49,13 +51,16 @@ class VehicleList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(this.props.shouldUpdate)
     if (!this.props.shouldUpdate && nextProps.shouldUpdate) {
       this.props.onLoad();
+      this.props.loadAreas();
     }
   }
 
   componentWillMount() {
     this.props.onLoad();
+    this.props.loadAreas();
   }
 
   handleDelete = (registrationNumber) => {
@@ -70,7 +75,7 @@ class VehicleList extends Component {
   };
 
   handlePark = (vehicle, areaID) => {
-    const { accessToken } = this.props
+    const { accessToken, parkCar, unparkCar } = this.props
     this.setState({[vehicle.registrationNumber]: {open: false}});
 
     if (areaID) {

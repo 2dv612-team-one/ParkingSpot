@@ -42,22 +42,18 @@ export function deleteCar(accessToken, registrationNumber) {
 export function parkCar(accessToken, registrationNumber, areaID) {
   let config = {
     headers: {'Authorization': "Bearer " + accessToken}
-  };
-
-  console.log('returning ' + PARK_CAR )
+  }
 
   return {
     type: PARK_CAR,
-    payload: axios.post(PARKING_URI, { registrationNumber, areaID }, config)
-  }
+    payload: axios.post(PARKING_URI, { registrationNumber, areaID }, config),
+  };
 }
 
 export function unparkCar(accessToken, areaID) {
   let config = {
     headers: {'Authorization': "Bearer " + accessToken}
   };
-
-  console.log('returning ' + UNPARK_CAR)
 
   return {
     type: UNPARK_CAR,

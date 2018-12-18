@@ -44,10 +44,6 @@ class ConfirmationDialog extends Component {
   render() {
     const { title, options, open } = this.props;
 
-    console.log('value:')
-    console.log(this.props.value)
-    console.log(this.state.value)
-
     return (
       <Dialog
         maxWidth="s"
