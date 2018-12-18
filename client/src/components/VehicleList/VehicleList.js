@@ -23,12 +23,13 @@ const mapStateToProps = state => ({
   vehicles: state.vehicle.data,
   areas: state.parkingArea.data,
   shouldUpdate: state.vehicle.update,
+  shouldFetch: state.vehicle.fetch,
   role: state.authentication.role
 });
 
 const mapDispatchToProps = dispatch => ({
   // TODO: only load vehicles accessible to the user
-  onLoad: () => dispatch(getCars()),
+  loadCars: () => dispatch(getCars()),
   loadAreas: () => dispatch(getAreas()),
   openVehicleModal: (props) => dispatch(openModal(VEHICLE_MODAL, props)),
   deleteCar: (accessToken, registrationNumber) => dispatch(deleteCar(accessToken, registrationNumber)),
@@ -51,15 +52,14 @@ class VehicleList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(this.props.shouldUpdate)
-    if (!this.props.shouldUpdate && nextProps.shouldUpdate) {
-      this.props.onLoad();
+    if (!this.props.shouldUpdate && nextProps.shouldUpdate || !this.props.shouldFetch && nextProps.shouldFetch) {
+      this.props.loadCars();
       this.props.loadAreas();
     }
   }
 
   componentWillMount() {
-    this.props.onLoad();
+    this.props.loadCars();
     this.props.loadAreas();
   }
 
