@@ -55,7 +55,6 @@ class VehicleModal extends Component {
   }
 
   handleRegistrationNumber(e) {
-    console.log(e)
     this.setState({registrationNumber: e.target.value});
   }
 

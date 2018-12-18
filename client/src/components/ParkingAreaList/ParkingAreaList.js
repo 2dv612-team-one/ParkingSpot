@@ -69,16 +69,16 @@ class ParkingAreaList extends Component {
 
     return (
           <Grid item xs={12} md={6}>
+          { role === "ROLE_PARKING_OWNER" ?
+          <div>
             <Typography variant="h6" className={classes.title}>
               Parkeringsplatser
-            { role === "ROLE_PARKING_OWNER" ?
               <div>
               <IconButton aria-label="Add" onClick={() => this.handleAdd()}>
                   <AddIcon />
               </IconButton>
               <ParkingAreaModal />
               </div>
-            : null }
             </Typography>
             <div className={classes.demo}>
               <List>
@@ -98,7 +98,6 @@ class ParkingAreaList extends Component {
                         ":00 " +
                         rate.rate + " kr/h")}`}
                     />
-                    { role === "ROLE_PARKING_OWNER" ?
                     <ListItemSecondaryAction>
                       <IconButton aria-label="Delete" onClick={() => this.handleDelete(area.id)}>
                         <DeleteIcon />
@@ -107,12 +106,12 @@ class ParkingAreaList extends Component {
                         <EditIcon />
                       </IconButton>
                     </ListItemSecondaryAction>
-                    : null
-                    }
                   </ListItem>
                 )}
               </List>
             </div>
+            </div>
+            : null }
         </Grid>
     );
   }
