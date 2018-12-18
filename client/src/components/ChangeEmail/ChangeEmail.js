@@ -83,12 +83,6 @@ class ChangeEmail extends Component {
     render() {
         const { email } = this.state;
         const canBeSubmitted = this.canBeSubmitted();
-        const emptyInputError = (field) => {
-            const hasEmptyInput = emptyInput[field];
-            const shouldShow = clicked[field];
-            return hasEmptyInput ? shouldShow : false;
-        };
-      
         const invalidInputError = (field) => {
             const hasValidInput = isValidInput[field];
             const shouldShow = clicked[field];
@@ -113,7 +107,7 @@ class ChangeEmail extends Component {
                             margin="dense"
                             id="name"
                             label="Ny e-postadress"
-                            type="text"
+                            type="email"
                             fullWidth
                             value={email}
                             onChange={this.handleEmailInput}
