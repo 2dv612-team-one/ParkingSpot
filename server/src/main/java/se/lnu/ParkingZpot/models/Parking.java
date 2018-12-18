@@ -3,9 +3,9 @@ package se.lnu.ParkingZpot.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.hibernate.annotations.NaturalId;
+import org.springframework.transaction.annotation.Transactional;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 
@@ -14,26 +14,27 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "parkings")
-public class Parking {
+public class Parking { 
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  private long id;
+  private Long id;
 
-  private long user_Id;
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "vehicle_id", nullable = true)
+  @JsonBackReference
+  private Vehicle vehicle;
 
-  @OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-  @JoinColumn(name="id", nullable=true)
-  private Vehicle vehicle_Id;
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "area_id", nullable = true)
+  @JsonBackReference
+  private ParkingArea area;
 
-  @OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-  @JoinColumn(name="id", nullable=true)
-  private ParkingArea area_Id;
+  private long user_id;
 
-  public Parking(Vehicle vehicle, ParkingArea area, long user_Id) {
-    super();
+  public Parking(long user_Id, Vehicle vehicle, ParkingArea area) {
+    this.user_id = user_Id;
     this.vehicle = vehicle;
     this.area = area;
-    this.user_Id = user_Id;
   }
 }

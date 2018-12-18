@@ -11,6 +11,7 @@ export const SEND_MESSAGE_URL = `${API_ROOT}/message/send`;
 export const UPDATE_USER_PASSWORD_URL = `${API_ROOT}/users/update`;
 export const VALIDATE_TOKEN_URI = `${API_ROOT}/auth/validate`;
 export const VEHICLE_URI = `${API_ROOT}/vehicles`;
+export const PARKING_URI = `${API_ROOT}/parkings`;
 
 // Parking spot uris
 export const PARKING_AREA_URI = `${API_ROOT}/parkingarea`;

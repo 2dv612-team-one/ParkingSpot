@@ -7,9 +7,8 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
-
-import se.lnu.ParkingZpot.models.Rate;
 
 @Getter
 @Setter
@@ -19,11 +18,12 @@ import se.lnu.ParkingZpot.models.Rate;
 public class ParkingArea {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
   @Column(name = "user_Id", nullable = false)
   private long userId;
+
   private String name;
   private double coord1;
   private double coord2;
@@ -34,7 +34,8 @@ public class ParkingArea {
   @JoinColumn(name="id", nullable=true)
   public List<Rate> rates;
 
-  @OneToOne(mappedBy = "area_Id")
+  @OneToOne(fetch = FetchType.LAZY, mappedBy="area", cascade = CascadeType.ALL)
+  @JsonManagedReference
   private Parking parked_at;
 
   public void setCoords(double[] coords){

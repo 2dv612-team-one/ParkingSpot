@@ -44,7 +44,7 @@ public class ParkingService implements IParkingService {
       throw new BadRequestException(InternalMessages.ERROR_AREA_IN_USE);
     }
 
-    Parking parking = new Parking(area, vehicle, user_id);
+    Parking parking = new Parking(user_id, vehicle, area);
     return parkingRepository.save(parking);
   }
 

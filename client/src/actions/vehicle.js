@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { VEHICLE_URI } from '../constants/environment';
+import { VEHICLE_URI, PARKING_URI } from '../constants/environment';
 import {
   ADD_CAR,
   GET_CARS,
@@ -45,6 +45,6 @@ export function parkCar(accessToken, registrationNumber, areaID) {
 
   return {
     type: PARK_CAR,
-    payload: axios.post(VEHICLE_URI + '/park', { registrationNumber, areaID }, config)
+    payload: axios.post(PARKING_URI, { registrationNumber, areaID }, config)
   }
 }

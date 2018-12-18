@@ -1,21 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Typography, List, ListItem, ListItemAvatar, ListItemText, ListItemSecondaryAction, Avatar, Grid, withStyles } from '@material-ui/core';
+import { Typography, List, ListItem, ListItemAvatar, ListItemText, ListItemSecondaryAction, MenuItem, Avatar, Input, Grid, withStyles } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddIcon from '@material-ui/icons/Add';
+import DoneIcon from '@material-ui/icons/Done';
+import DirectionsCar from '@material-ui/icons/DirectionsCar';
+import LocalParking from '@material-ui/icons/LocalParking';
+
+import Select from '@material-ui/core/Select';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+
 import { getCars, deleteCar, addCar, parkCar } from '../../actions/vehicle';
 import VehicleModal from '../VehicleModal/VehicleModal';
 import { openModal } from '../../actions/modal';
 import { VEHICLE_MODAL } from '../../constants/environment';
 import styles from '../../assets/styles/vehicle-list';
-import DirectionsCar from '@material-ui/icons/DirectionsCar';
 
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
   vehicles: state.vehicle.data,
+  areas: state.parkingArea.data,
   shouldUpdate: state.vehicle.update,
   role: state.authentication.role
 });
@@ -32,8 +40,14 @@ const mapDispatchToProps = dispatch => ({
 class VehicleList extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      pArea: ''
+    }
+
     this.handleDelete = this.handleDelete.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
+    this.handlePark = this.handlePark.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -57,8 +71,14 @@ class VehicleList extends Component {
     openVehicleModal(props)
   };
 
+  handlePark = (registrationNumber, areaID) => {
+    const { accessToken } = this.props
+    parkCar(accessToken, registrationNumber, areaID)
+  }
+
   render() {
-    const { classes, vehicles, role } = this.props;
+    const { classes, vehicles, areas, role } = this.props;
+    const { pArea } = this.state;
 
     return (
       <div>
@@ -79,11 +99,45 @@ class VehicleList extends Component {
                     <DirectionsCar />
                   </Avatar>
                 </ListItemAvatar>
+                {vehicle.parked_at && <ListItemAvatar>
+                  <Avatar>
+                    <LocalParking />
+                  </Avatar>
+                </ListItemAvatar>}
                 <ListItemText
                   key={vehicle.id}
                   primary={vehicle.registrationNumber}
                 />
                 <ListItemSecondaryAction>
+                  <FormControl className={classes.formControl}>
+                    <Select
+                      onChange={(event) => this.setState({pArea: event.target.value})}
+                      value={pArea}
+                      name="parking"
+                      input={<Input name="age" id="age-auto-width" />}
+                      displayEmpty
+                      className={classes.selectEmpty}
+                    >
+                      <MenuItem value="">
+                        Inte Parkerad
+                      </MenuItem>
+                      {areas.length > 0 && areas.map(area => 
+                        <MenuItem value={area.id} disabled={!!area.parked_at}>
+                            {area.name + " (" + area.coord1 + ","+ area.coord2 + ","+ area.coord3 + ","+ area.coord4 + ")\n"}
+                            {`${area.rates.map(rate => 
+                              rate.rate_from +
+                              ":00 - " +
+                              rate.rate_to +
+                              ":00 " +
+                              rate.rate + " kr/h\n")}`}
+                        </MenuItem>
+                      )}
+                    </Select>
+                  <FormHelperText>Parkera bilen</FormHelperText>
+                  </FormControl>
+                  <IconButton aria-label="Park" onClick={() => this.handlePark(vehicle.registrationNumber, pArea)}>
+                    <DoneIcon />
+                  </IconButton>
                   <IconButton aria-label="Delete" onClick={() => this.handleDelete(vehicle.registrationNumber)}>
                     <DeleteIcon />
                   </IconButton>

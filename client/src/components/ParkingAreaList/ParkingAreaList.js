@@ -7,7 +7,6 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import AddIcon from '@material-ui/icons/Add';
-import DirectionsCar from '@material-ui/icons/DirectionsCar';
 import ParkingAreaModal from '../ParkingAreaModal/ParkingAreaModal';
 import { openModal } from '../../actions/modal';
 import { PARKING_AREA_MODAL } from '../../constants/environment';
@@ -70,16 +69,16 @@ class ParkingAreaList extends Component {
 
     return (
           <Grid item xs={12} md={6}>
+          { role === "ROLE_PARKING_OWNER" ?
+          <div>
             <Typography variant="h6" className={classes.title}>
               Parkeringsplatser
-            { role === "ROLE_PARKING_OWNER" ?
               <div>
               <IconButton aria-label="Add" onClick={() => this.handleAdd()}>
                   <AddIcon />
               </IconButton>
               <ParkingAreaModal />
               </div>
-            : null }
             </Typography>
             <div className={classes.demo}>
               <List>
@@ -99,7 +98,6 @@ class ParkingAreaList extends Component {
                         ":00 " +
                         rate.rate + " kr/h")}`}
                     />
-                    { role === "ROLE_PARKING_OWNER" ?
                     <ListItemSecondaryAction>
                       <IconButton aria-label="Delete" onClick={() => this.handleDelete(area.id)}>
                         <DeleteIcon />
@@ -108,12 +106,12 @@ class ParkingAreaList extends Component {
                         <EditIcon />
                       </IconButton>
                     </ListItemSecondaryAction>
-                    : null
-                    }
                   </ListItem>
                 )}
               </List>
             </div>
+            </div>
+            : null }
         </Grid>
     );
   }

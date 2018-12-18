@@ -67,7 +67,7 @@ public class ParkingController {
   public ResponseEntity<ApiResponse> addParking(@CurrentUser UserDetailsImpl principal, @Valid @RequestBody AddParkingRequest addParkingRequest) {
     Long user_id = (addParkingRequest.getId() != null && addParkingRequest.getId().isPresent()) ? Long.parseLong(addParkingRequest.getId().get()) : principal.getId();
     String regNum = addParkingRequest.getRegistrationNumber();
-    String area_id = addParkingRequest.getAreaID();
+    Long area_id = Long.parseLong(addParkingRequest.getAreaID());
 
     Optional<ParkingArea> parkingArea = parkingAreaService.getParkingArea(area_id);
     Optional<Vehicle> vehicle = vehicleService.getVehicle(regNum);
@@ -81,7 +81,7 @@ public class ParkingController {
     }
 
     try {
-      Parking parking = parkingService.addParking(parkingArea, vehicle, user_id);
+      Parking parking = parkingService.addParking(parkingArea.get(), vehicle.get(), user_id);
       long parking_id = parking.getId();
 
       URI parkingLocation = ServletUriComponentsBuilder
@@ -98,17 +98,17 @@ public class ParkingController {
   @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
   public ResponseEntity<ApiResponse> deleteParking(@CurrentUser UserDetailsImpl principal, @PathVariable("park_id") String parkID) {
     
-    Optional<Parking> parking = parkingService.getParking(parkID);
+    Optional<Parking> parking = parkingService.getParking(Long.parseLong(parkID));
 
     if (!parking.isPresent()) {
       return new ResponseEntity<ApiResponse>(new ApiResponse(true, Messages.entityDeleted(Messages.VEHICLE)), HttpStatus.OK);
     }
 
-    if (parking.get().getUser_Id() != principal.getId()) {
+    if (parking.get().getUser_id() != principal.getId()) {
       return new ResponseEntity<>(new ApiResponse(false, Messages.ACCESS_DENIED), HttpStatus.FORBIDDEN);
     }
 
-    if (parkingService.deleteParking(parkID)) {
+    if (parkingService.deleteParking(Long.parseLong(parkID))) {
       return new ResponseEntity<ApiResponse>(new ApiResponse(true, Messages.entityDeleted(Messages.PARKING)), HttpStatus.OK);
     }
 
