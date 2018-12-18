@@ -54,25 +54,12 @@ class SnackbarHandling extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { infoMessages, successMessages, errorMessages, enqueueSnackbar, accessToken, getUnseenMessages } = this.props;
-    const { viewed, clickCount } = this.state;
-
-    // let allMessages = infoMessages.concat(successMessages, errorMessages);
+    const { infoMessages, successMessages, errorMessages, enqueueSnackbar } = this.props;
+    const { viewed } = this.state;
 
     if (infoMessages !== prevProps.infoMessages) {
-
-      if (clickCount === 3) {
-        getUnseenMessages(accessToken);
-
-        this.setState(({ viewed }) => ({
-          viewed: [],
-        }));
-        this.setState(({ clickCount }) => ({
-          clickCount: 0,
-        }));
-      }
-
-      infoMessages.forEach((message) => {
+      for (let i = 0; i < 4; i++) {
+        const message = infoMessages[i];
         if (message === undefined) return;
 
         const timeInSeconds = 600;
@@ -91,7 +78,7 @@ class SnackbarHandling extends Component {
           // Add message"s id to the local state
           this.storeViewed(message.id);
         }, 1);
-      })
+      }
     }
 
     errorMessages.forEach((message) => {
@@ -134,7 +121,23 @@ class SnackbarHandling extends Component {
     })
   }
 
-  render() { return null; }
+  render() {
+    const { accessToken, getUnseenMessages } = this.props;
+    const { clickCount } = this.state;
+
+    if (clickCount === 3) {
+      getUnseenMessages(accessToken);
+
+      this.setState(({ viewed }) => ({
+        viewed: [],
+      }));
+      this.setState(({ clickCount }) => ({
+        clickCount: 0,
+      }));
+    }
+
+    return null;
+  }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withSnackbar(SnackbarHandling));
