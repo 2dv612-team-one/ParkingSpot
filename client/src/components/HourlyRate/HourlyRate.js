@@ -106,13 +106,59 @@ class HourlyRate extends Component {
   }
 
   canBeSubmitted() {
+    const { rate_from, rate_to, hours, rate } = this.state;
     const emptyInputErrors = this.hasEmptyInput();
 
-    return Object.keys(emptyInputErrors).some(x => emptyInputErrors[x]);
+    if (!Object.keys(emptyInputErrors).some(x => emptyInputErrors[x])) {
+
+      // TODO Convert into a function and clean it up
+      // Checks for valid hours
+      if (parseInt(rate_from) === parseInt(rate_to)) {
+
+        for (let i = 1; i <= 24; i++) {
+
+          if (hours[i] !== -1) {
+
+            return false;
+          }
+        }
+      } else if (parseInt(rate_from) < parseInt(rate_to)) {
+
+        for (let i = parseInt(rate_from); i < parseInt(rate_to); i++) {
+
+          if (hours[i] !== -1) {
+
+            return false;
+          }
+        }
+      } else if (parseInt(rate_from) > parseInt(rate_to)) {
+
+        for (let i = parseInt(rate_from); i <= 24; i++) {
+
+          if (hours[i] !== -1) {
+
+            return false;
+          }
+        }
+
+        for (let i = 1; i < parseInt(rate_to); i++) {
+
+          if (hours[i] !== -1) {
+
+            return false;
+          }
+        }
+      }
+
+      // Checks for valid rate
+      return rate >>> 0 === parseFloat(rate);
+    } else {
+      return false;
+    }
   }
 
   handleSubmit = () => {
-    const { rate_from, rate_to, rate, hours} = this.state;
+    const { rate_from, rate_to, rate, hours } = this.state;
 
     if (parseInt(rate_from) === parseInt(rate_to)) {
 
@@ -224,7 +270,7 @@ class HourlyRate extends Component {
 
   allHoursCovered() {
     const { hours } = this.state;
-    console.log(hours);
+
     for (let i = 1; i <= 24; i++) {
 
       if (hours[i] === -1) {
@@ -342,7 +388,7 @@ class HourlyRate extends Component {
 
               <Button
                 onClick={this.handleSubmit}
-                disabled={canBeSubmitted}
+                disabled={!canBeSubmitted}
               >LÄGG TILL
               </Button>
 
