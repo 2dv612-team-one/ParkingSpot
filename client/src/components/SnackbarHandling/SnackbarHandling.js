@@ -48,7 +48,6 @@ class SnackbarHandling extends Component {
 
   handleViewed = (id) => {
     const { accessToken, markMessageViewed, removeSnackbar } = this.props;
-    const { viewed } = this.state;
     markMessageViewed(id, accessToken);
     removeSnackbar(id);
     this.increaseClickCount();
@@ -102,7 +101,7 @@ class SnackbarHandling extends Component {
       const options = {
         variant: "error",
         autoHideDuration: timeInSeconds * 1000,
-        action: <IconButton key="close" aria-label="Close" color="inherit" onClick={() => this.handleClose(message.id)}><CheckIcon /></IconButton>,
+        action: <IconButton key="close" aria-label="Close" color="inherit"><CheckIcon /></IconButton>,
       };
       setTimeout(() => {
         let messageSeen = viewed.includes(message.id);
@@ -110,7 +109,7 @@ class SnackbarHandling extends Component {
 
         // Display message using notistack
         if (typeof enqueueSnackbar === "function") { enqueueSnackbar(message.message, options); }
-        // this.handleClose(message.id);
+        this.handleClose(message.id);
       }, 1);
     })
 
@@ -121,7 +120,7 @@ class SnackbarHandling extends Component {
       const options = {
         variant: "success",
         autoHideDuration: timeInSeconds * 1000,
-        action: <IconButton key="close" aria-label="Close" color="inherit" onClick={() => this.handleClose(message.id)}><CheckIcon /></IconButton>,
+        action: <IconButton key="close" aria-label="Close" color="inherit"><CheckIcon /></IconButton>,
       };
       setTimeout(() => {
         let messageSeen = viewed.includes(message.id);
