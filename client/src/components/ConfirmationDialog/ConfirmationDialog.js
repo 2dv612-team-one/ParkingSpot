@@ -44,9 +44,13 @@ class ConfirmationDialog extends Component {
   render() {
     const { title, options, open } = this.props;
 
+    console.log('value:')
+    console.log(this.props.value)
+    console.log(this.state.value)
+
     return (
       <Dialog
-        maxWidth="xs"
+        maxWidth="s"
         onEntering={this.handleEntering}
         aria-labelledby="confirmation-dialog-title"
         open={open}
@@ -58,7 +62,7 @@ class ConfirmationDialog extends Component {
             ref={ref => {
               this.radioGroupRef = ref;
             }}
-            value={this.state.value}
+            value={this.state.value.toString()}
             onChange={this.handleChange}
           >
             {options.map(option => (

@@ -39,13 +39,10 @@ class VehicleList extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      open: false
-    }
+    this.state = {}
 
     this.handleDelete = this.handleDelete.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
-    this.handlePark = this.handlePark.bind(this);
     this.handlePark = this.handlePark.bind(this);
     this.handleDialogClose = this.handleDialogClose.bind(this);
     this.handleDialogOpen = this.handleDialogOpen.bind(this);
@@ -74,9 +71,7 @@ class VehicleList extends Component {
 
   handlePark = (vehicle, areaID) => {
     const { accessToken } = this.props
-    this.setState({open: false});
-
-    console.log('parking on id: ' + areaID)
+    this.setState({[vehicle.registrationNumber]: {open: false}});
 
     if (areaID) {
       parkCar(accessToken, vehicle.registrationNumber, areaID);
@@ -85,12 +80,12 @@ class VehicleList extends Component {
     }
   }
 
-  handleDialogOpen = () => {
-    this.setState({ open: true }, () => console.log('truestate sat ' + this.state.open));
+  handleDialogOpen = (vehicle) => {
+    this.setState({ [vehicle.registrationNumber]: { open: true }});
   };
 
-  handleDialogClose = () => {
-    this.setState({ open: false }, () => console.log('falsestate sat ' + this.state.open));
+  handleDialogClose = (vehicle) => {
+    this.setState({ [vehicle.registrationNumber]: { open: false }});
   };
 
   render() {
@@ -110,7 +105,7 @@ class VehicleList extends Component {
           <div className={classes.demo}>
             <List> {vehicles && vehicles.map(vehicle => (
               <div>
-              <ListItem onClick={this.handleDialogOpen}>
+              <ListItem onClick={() => this.handleDialogOpen(vehicle)}>
                 <ListItemAvatar>
                   <Avatar>
                     <DirectionsCar />
@@ -138,27 +133,27 @@ class VehicleList extends Component {
                 </ListItemSecondaryAction>
               </ListItem>
               <ConfirmationDialog
-              classes={{
-                paper: classes.paper,
-              }}
-              open={this.state.open}
-              title={'Välj parkeringsplats'}
-              onConfirm={(value) => this.handlePark(vehicle, value)}
-              onClose={this.handleDialogClose}
-              options={areas.length > 0 ? areas.map((area) => {
-                return {  value: area.id.toString(), 
-                          disabled: !!area.parked_at,
-                          label: area.name + " (" + area.coord1 + ","+ area.coord2 + ","+ area.coord3 + ","+ area.coord4 + ") : " +
-                          `${area.rates.map(rate => 
-                            rate.rate_from +
-                            ":00 - " +
-                            rate.rate_to +
-                            ":00 " +
-                            rate.rate + " kr/h")}`
-                        }
-                }).concat([{value: '', label: 'Ingen parkering'}]) : [{value: '', label: 'Ingen parkering'}]
-              }
-              value={(areas.filter(area => (area.parked_at && vehicle.parked_at) && (area.parked_at.id === vehicle.parked_at.id)))[0] ? (areas.filter(area => (area.parked_at && vehicle.parked_at) && (area.parked_at.id === vehicle.parked_at.id)))[0].id : ''}
+                classes={{
+                  paper: classes.paper,
+                }}
+                open={this.state[vehicle.registrationNumber] && this.state[vehicle.registrationNumber].open}
+                title={'Välj parkeringsplats'}
+                onConfirm={(value) => this.handlePark(vehicle, value)}
+                onClose={() => this.handleDialogClose(vehicle)}
+                options={areas.length > 0 ? areas.map((area) => {
+                  return {  value: area.id.toString(), 
+                            disabled: (!!area.parked_at && (!vehicle.parked_at || (area.parked_at.id !== vehicle.parked_at.id))),
+                            label: area.name + " (" + area.coord1 + ","+ area.coord2 + ","+ area.coord3 + ","+ area.coord4 + ") : " +
+                            `${area.rates.map(rate => 
+                              rate.rate_from +
+                              ":00 - " +
+                              rate.rate_to +
+                              ":00 " +
+                              rate.rate + " kr/h")}`
+                          }
+                  }).concat([{value: '', label: 'Ingen parkering'}]) : [{value: '', label: 'Ingen parkering'}]
+                }
+                value={(areas.filter(area => (area.parked_at && vehicle.parked_at) && (area.parked_at.id === vehicle.parked_at.id)))[0] ? (areas.filter(area => (area.parked_at && vehicle.parked_at) && (area.parked_at.id === vehicle.parked_at.id)))[0].id : ''}
             />
             </div>
             ))}

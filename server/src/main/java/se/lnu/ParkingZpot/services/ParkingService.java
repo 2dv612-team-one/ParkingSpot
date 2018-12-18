@@ -50,6 +50,11 @@ public class ParkingService implements IParkingService {
 
   @Override
   public boolean deleteParking(long parkingID) {
-    return parkingRepository.findById(parkingRepository.deleteById(parkingID)) != null;
+    try {
+      parkingRepository.deleteById(parkingID);
+      return true;
+    } catch (IllegalArgumentException e) {
+      return false;
+    }
   }
 }
