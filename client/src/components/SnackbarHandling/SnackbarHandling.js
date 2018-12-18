@@ -2,9 +2,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withSnackbar } from 'notistack';
-import { removeSnackbar, markMessageViewed } from '../../actions/snackbar';
 import { IconButton } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
+import { removeSnackbar, markMessageViewed } from '../../actions/snackbar';
+import { getUnseenMessages } from '../../actions/userControl';
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
@@ -16,16 +17,27 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   removeSnackbar: (id) => dispatch(removeSnackbar(id)),
   markMessageViewed: (id, accessToken) => dispatch(markMessageViewed(id, accessToken)),
+  getUnseenMessages: (accessToken) => dispatch(getUnseenMessages(accessToken)),
 });
 
 class SnackbarHandling extends Component {
   state = {
     viewed: [],
+    clickCount: 0,
   };
 
   storeViewed = (id) => {
+    const { viewed } = this.state;
+    if (viewed.includes(id)) return;
+
     this.setState(({ viewed }) => ({
       viewed: [...viewed, id],
+    }));
+  };
+
+  increaseClickCount = () => {
+    this.setState(({ clickCount }) => ({
+      clickCount: clickCount += 1,
     }));
   };
 
@@ -35,53 +47,51 @@ class SnackbarHandling extends Component {
   };
 
   handleViewed = (id) => {
-    const { markMessageViewed, removeSnackbar, accessToken } = this.props;
+    const { accessToken, markMessageViewed, removeSnackbar } = this.props;
     markMessageViewed(id, accessToken);
     removeSnackbar(id);
-  };
+    this.increaseClickCount();
+  }
 
-  render() {
+  componentDidUpdate(prevProps) {
     const { infoMessages, successMessages, errorMessages, enqueueSnackbar } = this.props;
     const { viewed } = this.state;
 
-    // let allMessages = infoMessages.concat(successMessages, errorMessages);
-    // console.log("__ALL MESSAGES__HERE__");
-    // console.log(allMessages);
+    if (infoMessages !== prevProps.infoMessages) {
+      for (let i = 0; i < 4; i++) {
+        const message = infoMessages[i];
+        if (message === undefined) return;
 
-    infoMessages.forEach((message) => {
-      if (message === undefined) {
-        return;
+        const timeInSeconds = 600;
+        const options = {
+          variant: "info",
+          autoHideDuration: timeInSeconds * 1000,
+          action: <IconButton key="close" aria-label="Close" color="inherit" onClick={() => this.handleViewed(message.id)}><CheckIcon /></IconButton>,
+        };
+        setTimeout(() => {
+          let messageSeen = viewed.includes(message.id);
+          if (messageSeen) return;
+
+          // Display message using notistack
+          if (typeof enqueueSnackbar === "function") { enqueueSnackbar(message.message, options); }
+
+          // Add message"s id to the local state
+          this.storeViewed(message.id);
+        }, 1);
       }
-      const timeInSeconds = 600 * 1000;
-      const options = {
-        variant: "info",
-        autoHideDuration: timeInSeconds,
-        action: <IconButton key="close" aria-label="Close" color="inherit" onClick={() => this.handleViewed(message.id)}><CheckIcon /></IconButton>,
-      };
-      setTimeout(() => {
-        let messageSeen = viewed.indexOf(message.id) > -1;
-        if (messageSeen) return;
-
-        // Display message using notistack
-        if (typeof enqueueSnackbar === "function") { enqueueSnackbar(message.message, options); }
-
-        // Add message"s id to the local state
-        this.storeViewed(message.id);
-      }, 1);
-    })
+    }
 
     errorMessages.forEach((message) => {
-      if (message === undefined) {
-        return;
-      }
-      const timeInSeconds = 6 * 1000;
+      if (message === undefined) return;
+
+      const timeInSeconds = 6;
       const options = {
         variant: "error",
-        autoHideDuration: timeInSeconds,
-        action: <IconButton key="close" aria-label="Close" color="inherit" onClick={() => this.handleClose(message.id)}><CheckIcon /></IconButton>,
+        autoHideDuration: timeInSeconds * 1000,
+        action: <IconButton key="close" aria-label="Close" color="inherit"><CheckIcon /></IconButton>,
       };
       setTimeout(() => {
-        let messageSeen = viewed.indexOf(message.id) > -1;
+        let messageSeen = viewed.includes(message.id);
         if (messageSeen) return;
 
         // Display message using notistack
@@ -91,17 +101,16 @@ class SnackbarHandling extends Component {
     })
 
     successMessages.forEach((message) => {
-      if (message === undefined) {
-        return;
-      }
-      const timeInSeconds = 6 * 1000;
+      if (message === undefined) return;
+
+      const timeInSeconds = 6;
       const options = {
         variant: "success",
-        autoHideDuration: timeInSeconds,
-        action: <IconButton key="close" aria-label="Close" color="inherit" onClick={() => this.handleClose(message.id)}><CheckIcon /></IconButton>,
+        autoHideDuration: timeInSeconds * 1000,
+        action: <IconButton key="close" aria-label="Close" color="inherit"><CheckIcon /></IconButton>,
       };
       setTimeout(() => {
-        let messageSeen = viewed.indexOf(message.id) > -1;
+        let messageSeen = viewed.includes(message.id);
         if (messageSeen) return;
 
         // Display message using notistack
@@ -110,6 +119,22 @@ class SnackbarHandling extends Component {
         this.handleClose(message.id);
       }, 1);
     })
+  }
+
+  render() {
+    const { accessToken, getUnseenMessages } = this.props;
+    const { clickCount } = this.state;
+
+    if (clickCount === 3) {
+      getUnseenMessages(accessToken);
+
+      this.setState(({ viewed }) => ({
+        viewed: [],
+      }));
+      this.setState(({ clickCount }) => ({
+        clickCount: 0,
+      }));
+    }
 
     return null;
   }

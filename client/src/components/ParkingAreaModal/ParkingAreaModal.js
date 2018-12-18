@@ -6,6 +6,8 @@ import { Button, Grid, Modal, TextField } from '@material-ui/core';
 import { closeModal } from '../../actions/modal';
 import { PARKING_AREA_MODAL } from '../../constants/environment';
 
+import ParkingMap from '../ParkingMap/ParkingMap';
+
 const mapStateToProps = state => ({
   showParkingAreaModal: state.modal[PARKING_AREA_MODAL].show,
   info: state.modal[PARKING_AREA_MODAL].props,
@@ -87,7 +89,7 @@ class ParkingAreaModal extends Component {
 
   render() {
     const { submitPrompt } = this.props.info
-    const { name, coords } = this.state
+    const { name } = this.state
     const emptyInput = this.hasEmptyInput()
     const canBeSubmitted = this.canBeSubmitted()
     const { showParkingAreaModal } = this.props
@@ -127,21 +129,7 @@ class ParkingAreaModal extends Component {
                     helperText={emptyInputError('name') ? 'Ange ett namn.' : ' '}
                   />
                 </Grid>
-                { coords.map((coord, index) => {
-                  return (
-                    <Grid item>
-                      <TextField
-                        label = { "Koordinat " + (index + 1) }
-                        name = { (index + 1).toString() }
-                        value = { coords[index] }
-                        onChange = { this.handleCoords }
-                        error={!!emptyInputError('coord' + (index + 1))}
-                        helperText={emptyInputError(('coord' + (index + 1))) ? 'Ange en koordinat.' : ' '}
-                      />
-                    </Grid>
-                  )
-                }
-                )}
+                <ParkingMap />
                 <Grid item>
                   <Button
                     type="button"
