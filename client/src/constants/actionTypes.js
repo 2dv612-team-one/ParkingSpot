@@ -39,3 +39,4 @@ export const GET_UNSEEN_MESSAGES = 'GET_UNSEEN_MESSAGES';
 
 // Update Information
 export const UPDATE_USER_PASSWORD = 'UPDATE_USER_PASSWORD';
+export const UPDATE_USER_EMAIL  = 'UPDATE_USER_EMAIL';

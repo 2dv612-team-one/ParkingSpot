@@ -105,6 +105,18 @@ export default (state = initialState, action) => {
         return addMessage(state, errorMessage, id);
       }
       return initialState;
+    case `${UPDATE_USER_EMAIL}_REJECTED`:
+      if (isServerError(action.payload)) {
+        let errorMessage = 'Fel uppstod vid ändring av e-postadress. Försök igen.';
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
+      }
+      if (isInvalidCredentials(action.payload)) {
+        let errorMessage = 'Fel uppstod vid ändring av e-postadress. Försök igen.';
+        let id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
+      }
+      return initialState;
     case REMOVE_SNACKBAR:
       return {
         ...state,

@@ -4,6 +4,7 @@ import {
   REGISTER_USER,
   REMOVE_SNACKBAR,
   UPDATE_USER_PASSWORD,
+  UPDATE_USER_EMAIL,
   USER_REGISTRATION,
 } from '../constants/actionTypes';
 
@@ -44,6 +45,13 @@ export default (state = initialState, action) => {
         let id = new Date().getTime() + Math.random();
         return addMessage(state, successMessage, id);
       }
+      return initialState;
+    case `${UPDATE_USER_EMAIL}_FULFILLED`:
+    if (isSuccess(action.payload)) {
+      let successMessage = 'E-postadressen har ändrats.';
+      let id = new Date().getTime() + Math.random();
+      return addMessage(state, successMessage, id);
+    }
       return initialState;
     case REMOVE_SNACKBAR:
       return {
