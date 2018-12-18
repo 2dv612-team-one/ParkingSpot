@@ -74,3 +74,12 @@ code {
 .MuiAvatar-colorDefault-343 {
     background-color: #427df2 !important;
 }
+
+.ol-attribution {
+    display: none;
+}
+
+.ol-rotate-reset {
+    display: none;
+}
+

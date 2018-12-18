@@ -4,8 +4,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Optional;
+
 @Getter
 @Setter
-public class UpdateUserRequest {
+public class UpdateUserPasswordRequest {
   String password;
 }

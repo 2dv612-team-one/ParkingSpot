@@ -25,6 +25,7 @@ public class Messages {
   public static final String USER_NOT_FOUND = "Det finns ingen användare med detta namn";
   public static final String USER_UPDATE_SUCCESS = "Användaren har blivit uppdaterad";
   public static final String USER_PASSWORD_UPDATE_FAIL_SAME = "Nya lösenordet kan inte vara samma som det gamla";
+  public static final String USER_EMAIL_UPDATE_FAIL = "Ny email kan inte vara samma som det gamla";
   public static final String ACCESS_DENIED = "Du har inte tillgång till detta objekt";
   public static final String CANNOT_MODIFY = "Objekten du försöker modifiera används redan.";
 

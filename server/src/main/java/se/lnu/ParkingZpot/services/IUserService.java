@@ -27,5 +27,7 @@ public interface IUserService {
   User saveUser(User user);
   User updateUser(User user);
   Optional<Role> getUserRole(User user);
+  boolean changeUserPassword(User user, String newPassword);
+  boolean changeUserEmail(User user, String newEmail);
   boolean deleteUser(UserDetails userPrincipal);
 }

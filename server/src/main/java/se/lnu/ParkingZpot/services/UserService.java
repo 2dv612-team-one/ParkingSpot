@@ -1,6 +1,8 @@
 package se.lnu.ParkingZpot.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -8,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import se.lnu.ParkingZpot.models.User;
 import se.lnu.ParkingZpot.models.Role;
 import se.lnu.ParkingZpot.models.VerificationToken;
+import se.lnu.ParkingZpot.payloads.ApiResponse;
 import se.lnu.ParkingZpot.repositories.UserRepository;
 import se.lnu.ParkingZpot.repositories.VerificationTokenRepository;
 import se.lnu.ParkingZpot.exceptions.EntityExistsException;
@@ -21,6 +24,7 @@ import java.util.HashSet;
 import java.util.Optional;
 
 import static se.lnu.ParkingZpot.payloads.Messages.USER_NOT_FOUND;
+import static se.lnu.ParkingZpot.payloads.Messages.USER_PASSWORD_UPDATE_FAIL_SAME;
 
 @Component
 public class UserService implements IUserService {
@@ -164,6 +168,32 @@ public class UserService implements IUserService {
     }
 
     return Optional.empty();
+  }
+
+  @Override
+  public boolean changeUserPassword(User user, String newPassword) {
+    if (passwordEncoder.matches(newPassword, user.getPassword())) {
+      return false;
+    }
+
+    user.setPassword(passwordEncoder.encode(newPassword));
+    repository.save(user);
+
+    return true;
+  }
+
+  @Override
+  public boolean changeUserEmail(User user, String newEmail) {
+    if (user.getEmail().equals(newEmail)) {
+      return false;
+    }
+
+    user.setEmail(newEmail);
+    user.setEnabled(false);
+
+    repository.save(user);
+
+    return true;
   }
 
   @Override

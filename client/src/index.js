@@ -27,8 +27,10 @@ if (module.hot) {
     const NextApp = require('./App').default;
     ReactDOM.render(
       <Provider store={store}>
-        <NextApp />
-      </Provider>,
+        <SnackbarProvider maxSnack={3}>
+          <NextApp />
+        </SnackbarProvider>
+      </Provider >,
       rootEl
     );
   });
