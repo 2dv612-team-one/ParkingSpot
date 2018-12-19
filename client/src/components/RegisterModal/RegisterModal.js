@@ -152,96 +152,97 @@ class RegisterModal extends Component {
             justify="flex-start"
             alignItems="center"
           >
-              <FormControl>
-                <TextField
-                  label="Användarnamn"
-                  name="username"
+            <FormControl>
+              <TextField
+                label="Användarnamn"
+                name="username"
+                className="register-input"
+                onChange={this.handleUsernameInput}
+                value={username}
+                onBlur={this.handleBlur('username')}
+                autoFocus={true}
+                error={emptyInputError('username')}
+              />
+              <FormHelperText>{emptyInputError('username') ? 'Ange ett användarnamn.' : ' '}</FormHelperText>
+            </FormControl>
+            <FormControl>
+              <TextField
+                label="Mailadress"
+                name="email"
+                onChange={this.handleEmailInput}
+                value={email}
+                onBlur={this.handleBlur('email')}
+                error={invalidInputError('email')}
+              />
+              <FormHelperText>{invalidInputError('email') ? 'Ange en korrekt mailadress.' : ' '}</FormHelperText>
+            </FormControl>
+            <FormControl>
+              <TextField
+                label="Lösenord"
+                name="password"
+                className="register-input"
+                onChange={this.handlePassInput}
+                value={password}
+                type="password"
+                onBlur={this.handleBlur('password')}
+                error={emptyInputError('password')}
+              />
+              <FormHelperText>{emptyInputError('password') ? 'Ange ett lösenord.' : ' '}</FormHelperText>
+            </FormControl>
+            <FormControl>
+              <TextField
+                label="Upprepa lösenord"
+                name="matchingPassword"
+                className="register-input"
+                inputProps={{
+                  type: 'password',
+                }}
+                onChange={this.handleMatchingPassInput}
+                value={matchingPassword}
+                onBlur={this.handleBlur('matchingPassword')}
+                error={emptyInputError('matchingPassword') ? true : ('' || invalidInputError('matchingPassword'))}
+              />
+              <FormHelperText>{invalidInputError('matchingPassword') ? 'Ange samma lösenord igen.' : ' '}</FormHelperText>
+            </FormControl>
+            <Grid item>
+              <Grid
+                container
+                direction="row"
+                justify="flex-start"
+                alignItems="center"
+              >
+                <label>User</label>
+                <Radio
+                  checked={roles === 'ROLE_USER'}
+                  onChange={this.handleRolesInput}
+                  value={'ROLE_USER'}
+                  name="roles"
                   className="register-input"
-                  onChange={this.handleUsernameInput}
-                  value={username}
-                  onBlur={this.handleBlur('username')}
-                  error={emptyInputError('username')}
+                  label="User"
                 />
-                <FormHelperText>{emptyInputError('username') ? 'Ange ett användarnamn.' : ' '}</FormHelperText>
-              </FormControl>
-              <FormControl>
-                <TextField
-                  label="Mailadress"
-                  name="email"
-                  onChange={this.handleEmailInput}
-                  value={email}
-                  onBlur={this.handleBlur('email')}
-                  error={invalidInputError('email')}
-                />
-                <FormHelperText>{invalidInputError('email') ? 'Ange en korrekt mailadress.' : ' '}</FormHelperText>
-              </FormControl>
-              <FormControl>
-                <TextField
-                  label="Lösenord"
-                  name="password"
+                <label>Admin</label>
+                <Radio
+                  checked={roles === 'ROLE_ADMIN'}
+                  onChange={this.handleRolesInput}
+                  value={'ROLE_ADMIN'}
+                  name="roles"
                   className="register-input"
-                  onChange={this.handlePassInput}
-                  value={password}
-                  type="password"
-                  onBlur={this.handleBlur('password')}
-                  error={emptyInputError('password')}
+                  label="Admin"
                 />
-                <FormHelperText>{emptyInputError('password') ? 'Ange ett lösenord.' : ' '}</FormHelperText>
-              </FormControl>
-              <FormControl>
-                <TextField
-                  label="Upprepa lösenord"
-                  name="matchingPassword"
-                  className="register-input"
-                  inputProps={{
-                    type: 'password',
-                  }}
-                  onChange={this.handleMatchingPassInput}
-                  value={matchingPassword}
-                  onBlur={this.handleBlur('matchingPassword')}
-                  error={emptyInputError('matchingPassword') ? true : ('' || invalidInputError('matchingPassword'))}
-                />
-                <FormHelperText>{invalidInputError('matchingPassword') ? 'Ange samma lösenord igen.' : ' '}</FormHelperText>
-              </FormControl>
-              <Grid item>
-                <Grid
-                  container
-                  direction="row"
-                  justify="flex-start"
-                  alignItems="center"
-                >
-                  <label>User</label>
-                  <Radio
-                    checked={roles === 'ROLE_USER'}
-                    onChange={this.handleRolesInput}
-                    value={'ROLE_USER'}
-                    name="roles"
-                    className="register-input"
-                    label="User"
-                  />
-                  <label>Admin</label>
-                  <Radio
-                    checked={roles === 'ROLE_ADMIN'}
-                    onChange={this.handleRolesInput}
-                    value={'ROLE_ADMIN'}
-                    name="roles"
-                    className="register-input"
-                    label="Admin"
-                  />
-                </Grid>
               </Grid>
-              <Grid item>
-                <Button
-                  type="button"
-                  color="primary"
-                  variant="outlined"
-                  className="modal-submit-btn"
-                  onClick={this.handleRegister}
-                  disabled={!canBeSubmitted}
-                >
-                  <span>Registrera</span>
-                </Button>
-              </Grid>
+            </Grid>
+            <Grid item>
+              <Button
+                type="button"
+                color="primary"
+                variant="outlined"
+                className="modal-submit-btn"
+                onClick={this.handleRegister}
+                disabled={!canBeSubmitted}
+              >
+                <span>Registrera</span>
+              </Button>
+            </Grid>
           </Grid>
         </div>
       </Modal >

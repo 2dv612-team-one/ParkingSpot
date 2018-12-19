@@ -43,7 +43,10 @@ class SnackbarHandling extends Component {
     const { infoMessages, successMessages, errorMessages } = this.props;
 
     if (infoMessages !== prevProps.infoMessages) {
-      infoMessages.forEach((message) => {
+      const snackbarsVisibleLimit = 3;
+
+      for (let i = 0; i < snackbarsVisibleLimit; i++) {
+        const message = infoMessages[i];
         if (message === undefined) return;
 
         const options = {
@@ -54,10 +57,10 @@ class SnackbarHandling extends Component {
         };
 
         this.notify(message.message, options);
-      })
+      }
     }
 
-    errorMessages.forEach((message) => {
+    errorMessages.forEach(message => {
       if (message === undefined) return;
 
       const timeInSeconds = 6;
@@ -71,9 +74,9 @@ class SnackbarHandling extends Component {
 
       this.notify(message.message, options);
       this.handleClose(message.id);
-    })
+    });
 
-    successMessages.forEach((message) => {
+    successMessages.forEach(message => {
       if (message === undefined) return;
 
       const timeInSeconds = 6;
@@ -87,7 +90,7 @@ class SnackbarHandling extends Component {
 
       this.notify(message.message, options);
       this.handleClose(message.id);
-    })
+    });
   }
 
   render() { return null; }
