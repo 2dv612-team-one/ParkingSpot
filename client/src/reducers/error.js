@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 /* eslint import/no-webpack-loader-syntax: off */
 import {
   ADD_CAR,
@@ -11,6 +12,7 @@ import {
   USER_AUTHENTICATION,
   USER_REGISTRATION,
   VERIFICATION_ERROR,
+  USER_NOT_CLOSE_TO_AREA,
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -20,43 +22,43 @@ const initialState = {
 const isServerError = p => p.response.status >= 500;
 const isInvalidCredentials = p => p.response.status >= 400;
 
-const addMessage = (state, message, id) => ({ ...state, messages: [...state.messages, { message, id, },], });
+const addMessage = (state, message, id) => ({ ...state, messages: [...state.messages, { message, id }] });
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case `${USER_AUTHENTICATION}_REJECTED`:
       if (isServerError(action.payload)) {
-        let errorMessage = 'Fel uppstod vid inloggning. Försök igen.';
-        let id = new Date().getTime() + Math.random();
+        const errorMessage = 'Fel uppstod vid inloggning. Försök igen.';
+        const id = new Date().getTime() + Math.random();
         return addMessage(state, errorMessage, id);
       }
       if (isInvalidCredentials(action.payload)) {
-        let errorMessage = 'Fel användarnamn eller lösenord.';
-        let id = new Date().getTime() + Math.random();
+        const errorMessage = 'Fel användarnamn eller lösenord.';
+        const id = new Date().getTime() + Math.random();
         return addMessage(state, errorMessage, id);
       }
       return initialState;
     case `${USER_REGISTRATION}_REJECTED`:
       if (isServerError(action.payload)) {
-        let errorMessage = 'Fel uppstod vid registrering. Försök igen.';
-        let id = new Date().getTime() + Math.random();
+        const errorMessage = 'Fel uppstod vid registrering. Försök igen.';
+        const id = new Date().getTime() + Math.random();
         return addMessage(state, errorMessage, id);
       }
       if (isInvalidCredentials(action.payload)) {
-        let errorMessage = 'Användarnamnet eller mailadressen finns redan.';
-        let id = new Date().getTime() + Math.random();
+        const errorMessage = 'Användarnamnet eller mailadressen finns redan.';
+        const id = new Date().getTime() + Math.random();
         return addMessage(state, errorMessage, id);
       }
       return initialState;
     case `${REGISTER_USER}_REJECTED`:
       if (isServerError(action.payload)) {
-        let errorMessage = 'Fel uppstod vid registrering. Försök igen.';
-        let id = new Date().getTime() + Math.random();
+        const errorMessage = 'Fel uppstod vid registrering. Försök igen.';
+        const id = new Date().getTime() + Math.random();
         return addMessage(state, errorMessage, id);
       }
       if (isInvalidCredentials(action.payload)) {
-        let errorMessage = action.payload.response.data.message;
-        let id = new Date().getTime() + Math.random();
+        const errorMessage = action.payload.response.data.message;
+        const id = new Date().getTime() + Math.random();
         return addMessage(state, errorMessage, id);
       }
       return initialState;
@@ -64,27 +66,27 @@ export default (state = initialState, action) => {
       return initialState;
     case `${ADD_CAR}_REJECTED`:
       if (isServerError(action.payload)) {
-        let errorMessage = 'Fel uppstod vid registrering av fordon. Försök igen.';
-        let id = new Date().getTime() + Math.random();
+        const errorMessage = 'Fel uppstod vid registrering av fordon. Försök igen.';
+        const id = new Date().getTime() + Math.random();
         return addMessage(state, errorMessage, id);
       }
       if (isInvalidCredentials(action.payload)) {
-        let errorMessage = 'Fordonet har redan registrerats.';
-        let id = new Date().getTime() + Math.random();
+        const errorMessage = 'Fordonet har redan registrerats.';
+        const id = new Date().getTime() + Math.random();
         return addMessage(state, errorMessage, id);
       }
       return initialState;
     case `${GET_CARS}_REJECTED`:
       if (isServerError(action.payload)) {
-        let errorMessage = 'Fel uppstod vid hämtning av fordon. Försök igen.';
-        let id = new Date().getTime() + Math.random();
+        const errorMessage = 'Fel uppstod vid hämtning av fordon. Försök igen.';
+        const id = new Date().getTime() + Math.random();
         return addMessage(state, errorMessage, id);
       }
       return initialState;
     case `${GET_ROLES}_REJECTED`:
       if (isServerError(action.payload)) {
-        let errorMessage = 'Fel uppstod vid hämtning av roller. Försök igen.';
-        let id = new Date().getTime() + Math.random();
+        const errorMessage = 'Fel uppstod vid hämtning av roller. Försök igen.';
+        const id = new Date().getTime() + Math.random();
         return addMessage(state, errorMessage, id);
       }
       return initialState;
@@ -94,28 +96,33 @@ export default (state = initialState, action) => {
       return addMessage(state, errorMessage, id);
     case `${UPDATE_USER_PASSWORD}_REJECTED`:
       if (isServerError(action.payload)) {
-        let errorMessage = 'Fel uppstod vid ändring av lösenord. Försök igen.';
-        let id = new Date().getTime() + Math.random();
+        const errorMessage = 'Fel uppstod vid ändring av lösenord. Försök igen.';
+        const id = new Date().getTime() + Math.random();
         return addMessage(state, errorMessage, id);
       }
       if (isInvalidCredentials(action.payload)) {
-        let errorMessage = 'Fel uppstod vid ändring av lösenord. Försök igen.';
-        let id = new Date().getTime() + Math.random();
+        const errorMessage = 'Fel uppstod vid ändring av lösenord. Försök igen.';
+        const id = new Date().getTime() + Math.random();
         return addMessage(state, errorMessage, id);
       }
       return initialState;
     case `${UPDATE_USER_EMAIL}_REJECTED`:
       if (isServerError(action.payload)) {
-        let errorMessage = 'Fel uppstod vid ändring av e-postadress. Försök igen.';
-        let id = new Date().getTime() + Math.random();
+        const errorMessage = 'Fel uppstod vid ändring av e-postadress. Försök igen.';
+        const id = new Date().getTime() + Math.random();
         return addMessage(state, errorMessage, id);
       }
       if (isInvalidCredentials(action.payload)) {
-        let errorMessage = 'Fel uppstod vid ändring av e-postadress. Försök igen.';
-        let id = new Date().getTime() + Math.random();
+        const errorMessage = 'Fel uppstod vid ändring av e-postadress. Försök igen.';
+        const id = new Date().getTime() + Math.random();
         return addMessage(state, errorMessage, id);
       }
       return initialState;
+
+    case USER_NOT_CLOSE_TO_AREA:
+      errorMessage = 'Du är utanför parkeringsområdet. Avsluta parkering?';
+      id = new Date().getTime() + Math.random();
+      return addMessage(state, errorMessage, id);
     case REMOVE_SNACKBAR:
       return {
         ...state,

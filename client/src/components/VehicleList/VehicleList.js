@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import ol from 'openlayers';
 
 import { Typography, List, ListItem, ListItemAvatar, ListItemText, ListItemSecondaryAction, Avatar, Grid, withStyles } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
@@ -14,6 +15,7 @@ import { getCars, deleteCar, addCar, parkCar, unparkCar } from '../../actions/ve
 import { getAreas } from '../../actions/parkingArea';
 import VehicleModal from '../VehicleModal/VehicleModal';
 import { openModal } from '../../actions/modal';
+import { setUserPosition, notifyOutsideArea } from '../../actions/location';
 import { VEHICLE_MODAL } from '../../constants/environment';
 import styles from '../../assets/styles/vehicle-list';
 
@@ -37,6 +39,8 @@ const mapDispatchToProps = dispatch => ({
   addCar: (accessToken, registrationNumber) => dispatch(addCar(accessToken, registrationNumber)),
   parkCar: (accessToken, registrationNumber, areaID) => dispatch(parkCar(accessToken, registrationNumber, areaID)),
   unparkCar: (accessToken, areaID) => dispatch(unparkCar(accessToken, areaID)),
+  setUserPosition: location => dispatch(setUserPosition(location)),
+  notifyOutsideArea: () => dispatch(notifyOutsideArea()),
 });
 
 class VehicleList extends Component {
@@ -57,24 +61,51 @@ class VehicleList extends Component {
     loadCars();
     loadAreas();
   }
+  
+  componentDidMount() {
+    const { role } = this.props;
+    if (role === 'ROLE_USER') {
+      this.trackUserPosition();
+    }
+  }
 
+  // TODO: This is unreadable
   componentWillReceiveProps(nextProps) {
-    const { loadCars, loadAreas, shouldUpdate, shouldFetch } = this.props;
+    const {
+      position,
+      role,
+      areas,
+      vehicles,
+      loadCars,
+      loadAreas,
+      shouldUpdate,
+      shouldFetch,
+      notifyOutsideArea,
+    } = this.props;
+
     if (!shouldUpdate && nextProps.shouldUpdate || !shouldFetch && nextProps.shouldFetch) {
       loadCars();
       loadAreas();
     }
-  }
 
-  // TODO: Not sure this is working
-  // TODO: Parked_at should 
-  componentDidUpdate(prevProps) {
-    const { position, shouldUpdate, role, areas, vehicles } = this.props;
-    if (position !== prevProps.position && role === 'ROLE_USER' && !shouldUpdate) {
+    if ((position !== null || position !== nextProps.position) && (areas.length > 0 || nextProps.areas.length > 0) && role === 'ROLE_USER') {
       areas.forEach((a) => {
         vehicles.forEach((v) => {
-          if (a.parked_at === v.parked_at) {
-            console.error('TODO: Check here if user location whitin parking area');
+          if (a.parked_at !== null && v.parked_at !== null) {
+            if (a.parked_at.id === v.parked_at.id) {
+              const area = new ol.format.WKT().readFeature(a.wkt);
+              const userPos = new ol.format.WKT().readFeature(nextProps.position);
+  
+              const polygonGeometry = area.getGeometry();
+              const coords = userPos.getGeometry().getCoordinates();
+              const coordinate = ol.proj.fromLonLat([coords[0], coords[1]]);
+
+              const isWhitinArea = ol.extent.containsXY(polygonGeometry.getExtent(), coordinate[0], coordinate[1]);
+
+              if (!isWhitinArea) {
+                notifyOutsideArea();
+              }
+            }
           }
         });
       });
@@ -110,6 +141,35 @@ class VehicleList extends Component {
   handleDialogClose = (vehicle) => {
     this.setState({ [vehicle.registrationNumber]: { open: false } });
   };
+
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.id);
+  }
+
+  // TODO: Make this more readable
+  trackUserPosition() {
+    let { setUserPosition } = this.props;
+    setUserPosition = setUserPosition.bind(this);
+    this.options = {
+      enableHighAccuracy: false,
+      timeout: 10000,
+      maximumAge: 0,
+    };
+
+    // WARN clearWatch may stop the tracking of the users
+    // Using clearwatch is best practice though
+    function success(pos) {
+      setUserPosition(`POINT (${pos.coords.longitude} ${pos.coords.latitude})`);
+      navigator.geolocation.clearWatch(this.id);
+    }
+    function error() {
+      navigator.geolocation.clearWatch(this.id);
+    }
+
+    if (typeof navigator.geolocation === 'object' && typeof navigator.geolocation.watchPosition === 'function') {
+      this.id = navigator.geolocation.watchPosition(success.bind(this), error.bind(this), this.options);
+    }
+  }
 
   render() {
     const { classes, vehicles, areas, role } = this.props;

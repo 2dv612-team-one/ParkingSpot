@@ -14,44 +14,44 @@ const initialState = {
 
 const isSuccess = p => p.status >= 200 && p.status < 300;
 
-const addMessage = (state, message, id) => ({ ...state, messages: [...state.messages, { message, id, },], });
+const addMessage = (state, message, id) => ({ ...state, messages: [...state.messages, { message, id } ] });
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case `${REGISTER_USER}_FULFILLED`:
       if (isSuccess(action.payload)) {
-        let successMessage = 'Kontot skapades.';
-        let id = new Date().getTime() + Math.random();
+        const successMessage = 'Kontot skapades.';
+        const id = new Date().getTime() + Math.random();
         return addMessage(state, successMessage, id);
       }
       return initialState;
     case `${USER_REGISTRATION}_FULFILLED`:
       if (isSuccess(action.payload)) {
-        let successMessage = 'Kontot skapades. Du måste nu bekräfta din e-postadress.';
-        let id = new Date().getTime() + Math.random();
+        const successMessage = 'Kontot skapades. Du måste nu bekräfta din e-postadress.';
+        const id = new Date().getTime() + Math.random();
         return addMessage(state, successMessage, id);
       }
       return initialState;
     case `${ADD_CAR}_FULFILLED`:
       if (isSuccess(action.payload)) {
-        let successMessage = 'Fordonet har registrerats.';
-        let id = new Date().getTime() + Math.random();
+        const successMessage = 'Fordonet har registrerats.';
+        const id = new Date().getTime() + Math.random();
         return addMessage(state, successMessage, id);
       }
       return initialState;
     case `${UPDATE_USER_PASSWORD}_FULFILLED`:
       if (isSuccess(action.payload)) {
-        let successMessage = 'Lösenordet har ändrats.';
-        let id = new Date().getTime() + Math.random();
+        const successMessage = 'Lösenordet har ändrats.';
+        const id = new Date().getTime() + Math.random();
         return addMessage(state, successMessage, id);
       }
       return initialState;
     case `${UPDATE_USER_EMAIL}_FULFILLED`:
-    if (isSuccess(action.payload)) {
-      let successMessage = 'E-postadressen har ändrats.';
-      let id = new Date().getTime() + Math.random();
-      return addMessage(state, successMessage, id);
-    }
+      if (isSuccess(action.payload)) {
+        const successMessage = 'E-postadressen har ändrats.';
+        const id = new Date().getTime() + Math.random();
+        return addMessage(state, successMessage, id);
+      }
       return initialState;
     case REMOVE_SNACKBAR:
       return {

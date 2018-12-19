@@ -45,3 +45,4 @@ export const UPDATE_USER_EMAIL = 'UPDATE_USER_EMAIL';
 
 // User location
 export const USER_LOCATION_CHANGE = 'USER_LOCATION_CHANGE';
+export const USER_NOT_CLOSE_TO_AREA = 'USER_NOT_CLOSE_TO_AREA';

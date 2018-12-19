@@ -20,7 +20,6 @@ import VehicleList from './components/VehicleList/VehicleList';
 import { fetchAccessTokenFromLocalStorage } from './actions/authenticate';
 import { getUnseenMessages, emailVerificationError } from './actions/userControl';
 import { showMessage } from './actions/snackbar';
-import setUserPosition from './actions/location';
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
@@ -31,7 +30,6 @@ const mapDispatchToProps = dispatch => ({
   emailVerificationError: () => dispatch(emailVerificationError()),
   showMessage: message => dispatch(showMessage(message)),
   getUnseenMessages: accessToken => dispatch(getUnseenMessages(accessToken)),
-  setUserPosition: location => dispatch(setUserPosition(location)),
 });
 
 class App extends Component {
@@ -62,33 +60,6 @@ class App extends Component {
         stompClient.subscribe('/topic/message', showMessage, headers);
       });
       getUnseenMessages(accessToken);
-      this.trackUserPosition();
-    }
-  }
-
-  // TODO: Make this more readable
-  trackUserPosition() {
-    let { setUserPosition } = this.props;
-    let id;
-    setUserPosition = setUserPosition.bind(this);
-    this.options = {
-      enableHighAccuracy: false,
-      timeout: 10000,
-      maximumAge: 0,
-    };
-
-    // WARN clearWatch may stop the tracking of the users
-    // Using clearwatch is best practice though
-    function success(pos) {
-      setUserPosition(`POINT (${pos.coords.longitude} ${pos.coords.latitude})`);
-      navigator.geolocation.clearWatch(id);
-    }
-    function error() {
-      navigator.geolocation.clearWatch(id);
-    }
-
-    if (typeof navigator.geolocation === 'object' && typeof navigator.geolocation.watchPosition === 'function') {
-      id = navigator.geolocation.watchPosition(success, error, this.options);
     }
   }
 
