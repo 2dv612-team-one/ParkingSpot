@@ -66,18 +66,28 @@ class App extends Component {
     }
   }
 
+  // TODO: Make this more readable
   trackUserPosition() {
     let { setUserPosition } = this.props;
     this.options = {
       enableHighAccuracy: false,
       timeout: 10000,
-      maximumAge: Infinity,
+      maximumAge: 0,
     };
 
-    setUserPosition = setUserPosition.bind(this);
+    // WARN clearWatch may stop the tracking of the users
+    // Using clearwatch is best practice though
+    function success(pos) {
+      setUserPosition(`POINT (${pos.coords.longitude} ${pos.coords.latitude})`);
+      navigator.geolocation.clearWatch(id);
+    }
+    function error() {
+      navigator.geolocation.clearWatch(id);
+    }
 
-    navigator.geolocation.watchPosition(success => setUserPosition(`POINT (${success.coords.longitude} ${success.coords.latitude})`),
-    e => console.error(e), this.options);
+
+    setUserPosition = setUserPosition.bind(this);
+    const id = navigator.geolocation.watchPosition(success, error, this.options);
   }
 
   render() {
