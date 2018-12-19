@@ -14,6 +14,7 @@ const initialState = {
   role: null,
   message: null,
   showError: null,
+  position: null,
 };
 
 export default (state = initialState, action) => {
@@ -24,12 +25,14 @@ export default (state = initialState, action) => {
         ...state,
         accessToken: action.payload.data.accessToken,
         role: action.payload.data.role,
+        position: getUserPosition()
       };
     case `${USER_AUTHENTICATION_TOKEN}_FULFILLED`:
       return {
         ...state,
         accessToken: action.meta.accessToken,
         role: action.payload.data.role,
+        poisition: getUserPosition()
       };
 
     case USER_LOGOUT:
@@ -43,3 +46,20 @@ export default (state = initialState, action) => {
       return state;
   }
 };
+
+function getUserPosition(){
+
+  let options= {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: Infinity
+  }
+
+  navigator.geolocation.watchPosition((success) => {
+    
+    // Returning position as wkt.
+    return "POINT (" + success.coords.longitude + " " + success.coords.latitude + ")";
+  }, error => {
+      return null;
+  }, options);
+}
