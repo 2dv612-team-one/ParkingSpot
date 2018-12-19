@@ -41,4 +41,7 @@ export const GET_UNSEEN_MESSAGES = 'GET_UNSEEN_MESSAGES';
 
 // Update Information
 export const UPDATE_USER_PASSWORD = 'UPDATE_USER_PASSWORD';
-export const UPDATE_USER_EMAIL  = 'UPDATE_USER_EMAIL';
+export const UPDATE_USER_EMAIL = 'UPDATE_USER_EMAIL';
+
+// User location
+export const USER_LOCATION_CHANGE = 'USER_LOCATION_CHANGE';

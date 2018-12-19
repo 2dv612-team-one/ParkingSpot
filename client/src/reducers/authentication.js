@@ -4,6 +4,7 @@ import {
   USER_AUTHENTICATION,
   USER_AUTHENTICATION_TOKEN,
   USER_LOGOUT,
+  USER_LOCATION_CHANGE,
 } from '../constants/actionTypes';
 import {
   ACCESS_TOKEN_STORAGE,
@@ -25,14 +26,12 @@ export default (state = initialState, action) => {
         ...state,
         accessToken: action.payload.data.accessToken,
         role: action.payload.data.role,
-        position: getUserPosition()
       };
     case `${USER_AUTHENTICATION_TOKEN}_FULFILLED`:
       return {
         ...state,
         accessToken: action.meta.accessToken,
         role: action.payload.data.role,
-        poisition: getUserPosition()
       };
 
     case USER_LOGOUT:
@@ -42,24 +41,10 @@ export default (state = initialState, action) => {
         ...state,
         accessToken: null
       };
+
+    case USER_LOCATION_CHANGE:
+      return { ...state, position: action.payload };
     default:
       return state;
   }
 };
-
-function getUserPosition(){
-
-  let options= {
-    enableHighAccuracy: true,
-    timeout: 5000,
-    maximumAge: Infinity
-  }
-
-  navigator.geolocation.watchPosition((success) => {
-    
-    // Returning position as wkt.
-    return "POINT (" + success.coords.longitude + " " + success.coords.latitude + ")";
-  }, error => {
-      return null;
-  }, options);
-}
