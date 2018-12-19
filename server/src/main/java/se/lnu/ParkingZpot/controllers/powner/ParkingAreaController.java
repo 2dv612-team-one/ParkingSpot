@@ -131,6 +131,7 @@ public class ParkingAreaController {
 
     for (int i = 0; i < rates.length; i++) {
       parkingArea.get().getRates().add(rates[i]);
+      System.out.println(rates[i]);
     }
 
     parkingAreaService.updateParkingArea(parkingArea.get());
