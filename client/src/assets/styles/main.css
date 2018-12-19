@@ -41,6 +41,10 @@ code {
 
 .has-white-text {color: #fff !important}
 .is-danger { background-color: #d32f2f !important; }
+.is-info { background-color: #427DF2 !important; }
+.is-success { background-color: #43a047 !important; }
+
+.snackbar { border-radius: 4px; }
 
 .modal-submit-btn { margin-top: 25px !important; }
 
@@ -82,4 +86,3 @@ code {
 .ol-rotate-reset {
     display: none;
 }
-

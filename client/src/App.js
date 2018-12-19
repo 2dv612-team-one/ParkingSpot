@@ -4,19 +4,21 @@ import { connect } from 'react-redux';
 import { Grid, Typography } from '@material-ui/core';
 import SockJS from 'sockjs-client';
 import Stomp from 'stomp-websocket';
+import { ToastContainer, Bounce } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import AddMessage from './components/AddMessage/AddMessage';
+import AdminUserControl from './components/AdminUserControl/AdminUserControl';
+import HourlyRate from "./components/HourlyRate/HourlyRate";
 import LoginModal from './components/LoginModal/LoginModal';
 import MenuBar from './components/MenuBar/MenuBar';
+import ParkingAreaList from './components/ParkingAreaList/ParkingAreaList';
 import RegisterModal from './components/RegisterModal/RegisterModal';
 import SnackbarHandling from './components/SnackbarHandling/SnackbarHandling';
 import VehicleList from './components/VehicleList/VehicleList';
-import ParkingAreaList from './components/ParkingAreaList/ParkingAreaList';
-import AdminUserControl from './components/AdminUserControl/AdminUserControl';
-import HourlyRate from "./components/HourlyRate/HourlyRate";
 
-import { fetchAccessTokenFromLocalStorage } from './actions/authenticate';
 import { emailVerificationError, showMessage } from './actions/snackbar';
+import { fetchAccessTokenFromLocalStorage } from './actions/authenticate';
 import { getUnseenMessages } from './actions/userControl';
 
 const mapStateToProps = state => ({
@@ -63,14 +65,13 @@ class App extends Component {
 
   render() {
     const { accessToken } = this.props;
-    
+
     return (
       <div className="App">
         <MenuBar />
         <LoginModal />
         <RegisterModal />
         <Typography className="app-header-message" variant="h6" align="center">Välkommen till ParkingZpot</Typography>
-        <SnackbarHandling />
 
         {accessToken && (
           <div>
@@ -86,6 +87,16 @@ class App extends Component {
               <Grid item><AdminUserControl /></Grid>
               <Grid item><AddMessage /></Grid>
             </Grid>
+
+            <SnackbarHandling />
+            <ToastContainer
+              autoClose={false}
+              closeOnClick={false}
+              draggable={false}
+              newestOnTop
+              position="bottom-left"
+              transition={Bounce}
+            />
           </div>
         )}
       </div>

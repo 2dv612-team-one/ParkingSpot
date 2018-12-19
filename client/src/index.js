@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { SnackbarProvider } from 'notistack';
 
 import configureStore from './store';
 import App from './App';
@@ -14,9 +13,7 @@ const store = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
-    <SnackbarProvider maxSnack={3}>
-      <App />
-    </SnackbarProvider>
+    <App />
   </Provider>,
   rootEl
 );
@@ -27,10 +24,8 @@ if (module.hot) {
     const NextApp = require('./App').default;
     ReactDOM.render(
       <Provider store={store}>
-        <SnackbarProvider maxSnack={3}>
-          <NextApp />
-        </SnackbarProvider>
-      </Provider >,
+        <NextApp />
+      </Provider>,
       rootEl
     );
   });
