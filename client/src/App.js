@@ -73,6 +73,16 @@ class App extends Component {
         <RegisterModal />
         <Typography className="app-header-message" variant="h6" align="center">Välkommen till ParkingZpot</Typography>
 
+        <SnackbarHandling />
+        <ToastContainer
+          autoClose={false}
+          closeOnClick={false}
+          draggable={false}
+          newestOnTop
+          position="bottom-left"
+          transition={Bounce}
+        />
+
         {accessToken && (
           <div>
             <Grid
@@ -87,16 +97,6 @@ class App extends Component {
               <Grid item><AdminUserControl /></Grid>
               <Grid item><AddMessage /></Grid>
             </Grid>
-
-            <SnackbarHandling />
-            <ToastContainer
-              autoClose={false}
-              closeOnClick={false}
-              draggable={false}
-              newestOnTop
-              position="bottom-left"
-              transition={Bounce}
-            />
           </div>
         )}
       </div>
