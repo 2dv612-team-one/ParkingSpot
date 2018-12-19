@@ -8,6 +8,7 @@ import { TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import InputLabel from '@material-ui/core/InputLabel';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import Input from '@material-ui/core/Input';
+import FormHelperText from '@material-ui/core/FormHelperText';
 
 import { getAreas, saveRates } from '../../actions/parkingArea';
 //import styles from '../../assets/styles/hourly-rate';
@@ -30,7 +31,7 @@ const styles = theme => ({
   },
   formControl: {
     margin: theme.spacing.unit,
-    minWidth: 160,
+    minWidth: 120,
   },
   selectEmpty: {
     marginTop: theme.spacing.unit * 2,
@@ -301,16 +302,14 @@ class HourlyRate extends Component {
               <Typography variant="subtitle1">Skapa timtaxa för {area.name}</Typography>
 
               <FormControl className={classes.formControl}>
-                <InputLabel
-                  htmlFor="age-native-simple"
-                >
+                <InputLabel>
                   Från timmar (hh)
                 </InputLabel>
                 <NativeSelect
                   value={rate_from}
                   onChange={this.handleRateFrom}
-                  input={<Input name="age" id="age-native-label-placeholder" />}
                 >
+                  <option value="" disabled></option>
                   <option value={1}>1</option>
                   <option value={2}>2</option>
                   <option value={3}>3</option>
@@ -338,17 +337,15 @@ class HourlyRate extends Component {
                 </NativeSelect>
               </FormControl>
 
-
               <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="age-native-simple"
-                >
+                <InputLabel>
                   Till timmar (hh)
                 </InputLabel>
                 <NativeSelect
                   value={rate_to}
                   onChange={this.handleRateTo}
-                  input={<Input name="age" id="age-native-label-placeholder" />}
                 >
+                  <option value="" disabled></option>
                   <option value={1}>1</option>
                   <option value={2}>2</option>
                   <option value={3}>3</option>
