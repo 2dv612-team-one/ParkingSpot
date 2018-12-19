@@ -6,7 +6,8 @@ import { Button , withStyles} from '@material-ui/core';
 import { FormControl, TextField, Paper, Typography } from '@material-ui/core';
 import { TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import InputLabel from '@material-ui/core/InputLabel';
-import NativeSelect from '@material-ui/core/NativeSelect';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 import Input from '@material-ui/core/Input';
 import FormHelperText from '@material-ui/core/FormHelperText';
 
@@ -302,75 +303,89 @@ class HourlyRate extends Component {
               <Typography variant="subtitle1">Skapa timtaxa för {area.name}</Typography>
 
               <FormControl className={classes.formControl}>
-                <InputLabel>
+                <InputLabel htmlFor="demo-controlled-open-select">
                   Från timmar (hh)
                 </InputLabel>
-                <NativeSelect
+                <Select
+                  open={this.state.open}
+                  onClose={this.handleClose}
+                  onOpen={this.handleOpen}
                   value={rate_from}
-                  onChange={this.handleRateFrom}
+                  onChange={this.handleRateTo}
+                  inputProps={{
+                    name: 'rate_from',
+                    id: 'demo-controlled-open-select',
+                  }}
                 >
-                  <option value="" disabled></option>
-                  <option value={1}>1</option>
-                  <option value={2}>2</option>
-                  <option value={3}>3</option>
-                  <option value={4}>4</option>
-                  <option value={5}>5</option>
-                  <option value={6}>6</option>
-                  <option value={7}>7</option>
-                  <option value={8}>8</option>
-                  <option value={9}>9</option>
-                  <option value={10}>10</option>
-                  <option value={11}>11</option>
-                  <option value={12}>12</option>
-                  <option value={13}>13</option>
-                  <option value={14}>14</option>
-                  <option value={15}>15</option>
-                  <option value={16}>16</option>
-                  <option value={17}>17</option>
-                  <option value={18}>18</option>
-                  <option value={19}>19</option>
-                  <option value={20}>20</option>
-                  <option value={21}>21</option>
-                  <option value={22}>22</option>
-                  <option value={23}>23</option>
-                  <option value={24}>24</option>
-                </NativeSelect>
+                 <MenuItem value=""><em>None</em></MenuItem>
+                  <MenuItem value={1}>1</MenuItem>
+                  <MenuItem value={2}>2</MenuItem>
+                  <MenuItem value={3}>3</MenuItem>
+                  <MenuItem value={1}>4</MenuItem>
+                  <MenuItem value={2}>5</MenuItem>
+                  <MenuItem value={3}>6</MenuItem>
+                  <MenuItem value={1}>7</MenuItem>
+                  <MenuItem value={2}>8</MenuItem>
+                  <MenuItem value={3}>9</MenuItem>
+                  <MenuItem value={1}>10</MenuItem>
+                  <MenuItem value={2}>11</MenuItem>
+                  <MenuItem value={3}>12</MenuItem>
+                  <MenuItem value={1}>13</MenuItem>
+                  <MenuItem value={2}>14</MenuItem>
+                  <MenuItem value={3}>15</MenuItem>
+                  <MenuItem value={1}>16</MenuItem>
+                  <MenuItem value={2}>17</MenuItem>
+                  <MenuItem value={3}>18</MenuItem>
+                  <MenuItem value={1}>19</MenuItem>
+                  <MenuItem value={2}>20</MenuItem>
+                  <MenuItem value={3}>21</MenuItem>
+                  <MenuItem value={1}>22</MenuItem>
+                  <MenuItem value={2}>23</MenuItem>
+                  <MenuItem value={3}>24</MenuItem>
+                </Select>
               </FormControl>
 
               <FormControl className={classes.formControl}>
-                <InputLabel>
+                <InputLabel htmlFor="demo-controlled-open-select">
                   Till timmar (hh)
                 </InputLabel>
-                <NativeSelect
+                <Select
+                  open={this.state.open}
+                  onClose={this.handleClose}
+                  onOpen={this.handleOpen}
                   value={rate_to}
                   onChange={this.handleRateTo}
+                  inputProps={{
+                    name: 'rate_to',
+                    id: 'demo-controlled-open-select',
+                  }}
                 >
-                  <option value="" disabled></option>
-                  <option value={1}>1</option>
-                  <option value={2}>2</option>
-                  <option value={3}>3</option>
-                  <option value={4}>4</option>
-                  <option value={5}>5</option>
-                  <option value={6}>6</option>
-                  <option value={7}>7</option>
-                  <option value={8}>8</option>
-                  <option value={9}>9</option>
-                  <option value={10}>10</option>
-                  <option value={11}>11</option>
-                  <option value={12}>12</option>
-                  <option value={13}>13</option>
-                  <option value={14}>14</option>
-                  <option value={15}>15</option>
-                  <option value={16}>16</option>
-                  <option value={17}>17</option>
-                  <option value={18}>18</option>
-                  <option value={19}>19</option>
-                  <option value={20}>20</option>
-                  <option value={21}>21</option>
-                  <option value={22}>22</option>
-                  <option value={23}>23</option>
-                  <option value={24}>24</option>
-                </NativeSelect>
+                 <MenuItem value=""><em>None</em></MenuItem>
+                  <MenuItem value={1}>1</MenuItem>
+                  <MenuItem value={2}>2</MenuItem>
+                  <MenuItem value={3}>3</MenuItem>
+                  <MenuItem value={1}>4</MenuItem>
+                  <MenuItem value={2}>5</MenuItem>
+                  <MenuItem value={3}>6</MenuItem>
+                  <MenuItem value={1}>7</MenuItem>
+                  <MenuItem value={2}>8</MenuItem>
+                  <MenuItem value={3}>9</MenuItem>
+                  <MenuItem value={1}>10</MenuItem>
+                  <MenuItem value={2}>11</MenuItem>
+                  <MenuItem value={3}>12</MenuItem>
+                  <MenuItem value={1}>13</MenuItem>
+                  <MenuItem value={2}>14</MenuItem>
+                  <MenuItem value={3}>15</MenuItem>
+                  <MenuItem value={1}>16</MenuItem>
+                  <MenuItem value={2}>17</MenuItem>
+                  <MenuItem value={3}>18</MenuItem>
+                  <MenuItem value={1}>19</MenuItem>
+                  <MenuItem value={2}>20</MenuItem>
+                  <MenuItem value={3}>21</MenuItem>
+                  <MenuItem value={1}>22</MenuItem>
+                  <MenuItem value={2}>23</MenuItem>
+                  <MenuItem value={3}>24</MenuItem>
+                </Select>
               </FormControl>
 
 
