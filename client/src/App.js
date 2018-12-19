@@ -69,6 +69,8 @@ class App extends Component {
   // TODO: Make this more readable
   trackUserPosition() {
     let { setUserPosition } = this.props;
+    let id;
+    setUserPosition = setUserPosition.bind(this);
     this.options = {
       enableHighAccuracy: false,
       timeout: 10000,
@@ -85,9 +87,9 @@ class App extends Component {
       navigator.geolocation.clearWatch(id);
     }
 
-
-    setUserPosition = setUserPosition.bind(this);
-    const id = navigator.geolocation.watchPosition(success, error, this.options);
+    if (typeof navigator.geolocation === 'object' && typeof navigator.geolocation.watchPosition === 'function') {
+      id = navigator.geolocation.watchPosition(success, error, this.options);
+    }
   }
 
   render() {
