@@ -8,7 +8,6 @@ import {
 
 const initialState = {
   message: { id: null, message: '' },
-  showInfo: null,
   messages: [],
 };
 
@@ -19,7 +18,7 @@ export default (state = initialState, action) => {
     case SHOW_MESSAGE:
       return addMessage(state, action);
     case `${SEND_MESSAGE}_FULFILLED`:
-      return { ...state, message: action.payload.body, showInfo: true };
+      return { ...state, message: action.payload.body };
     case `${SEND_MESSAGE}_REJECTED`:
       return { ...state };
     case `${SEND_MESSAGE}_PENDING`:

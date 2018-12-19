@@ -12,26 +12,26 @@ const mapStateToProps = state => ({
   showParkingAreaModal: state.modal[PARKING_AREA_MODAL].show,
   info: state.modal[PARKING_AREA_MODAL].props,
   update: state.modal[PARKING_AREA_MODAL].update,
-  accessToken: state.authentication.accessToken
+  accessToken: state.authentication.accessToken,
 });
 
 const mapDispatchToProps = dispatch => ({
-  closeModal: () => dispatch(closeModal())
+  closeModal: () => dispatch(closeModal()),
 });
 
 class ParkingAreaModal extends Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
       name: '',
-      coords: ['', '', '', '']
-    }
+      wkt: null,
+    };
 
     this.onKeyPress = this.onKeyPress.bind(this);
-    this.handleAreaName = this.handleAreaName.bind(this)
-    this.handleCoords = this.handleCoords.bind(this)
-    this.submitArea = this.submitArea.bind(this)
+    this.handleAreaName = this.handleAreaName.bind(this);
+    this.onDraw = this.onDraw.bind(this);
+    this.submitArea = this.submitArea.bind(this);
   }
 
   onKeyPress= (e) => {
@@ -40,21 +40,14 @@ class ParkingAreaModal extends Component {
     }
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (!this.props.update && nextProps.update) {
-      this.setState({name: nextProps.info.name, coords: nextProps.info.coords})
+      this.setState({ name: nextProps.info.name, wkt: nextProps.info.wkt });
     }
   }
 
-  hasEmptyInput() {
-    const { name, coords } = this.state;
-    return {
-      name: !name || name.length === 0,
-      coord1: !coords || !coords[0] ||  coords[0].length === 0,
-      coord2: !coords || !coords[1] ||  coords[1].length === 0,
-      coord3: !coords || !coords[2] ||  coords[2].length === 0,
-      coord4: !coords || !coords[3] ||  coords[3].length === 0,
-    }
+  onDraw = (wkt) => {
+    this.setState({ wkt });
   }
 
   handleClose = () => {
@@ -63,21 +56,14 @@ class ParkingAreaModal extends Component {
   }
 
   handleAreaName(e) {
-    this.setState({name: e.target.value});
-  }
-
-  handleCoords(e) {
-    let coord = parseInt(e.target.name -1);
-    let coords = this.state.coords;
-    coords[coord] = e.target.value;
-    this.setState({coords});
+    this.setState({ name: e.target.value });
   }
 
   submitArea() {
-    const { name, coords } = this.state;
+    const { name, wkt } = this.state;
     const { accessToken } = this.props;
     const { onSubmit, id } = this.props.info;
-    onSubmit(accessToken, id, {name: name, coords: coords});
+    onSubmit(accessToken, id, { name, wkt });
     this.handleClose();
   }
 
@@ -87,17 +73,26 @@ class ParkingAreaModal extends Component {
     return !emptyInput;
   }
 
-  render() {
-    const { submitPrompt } = this.props.info
-    const { name } = this.state
-    const emptyInput = this.hasEmptyInput()
-    const canBeSubmitted = this.canBeSubmitted()
-    const { showParkingAreaModal } = this.props
+  hasEmptyInput() {
+    const { name, wkt } = this.state;
+    return {
+      name: !name || name.length === 0,
+      wkt: !wkt || !wkt[0] || wkt[0].length === 0,
+    };
+  }
 
-    const emptyInputError = (field, value) => {
+
+  render() {
+    const { submitPrompt } = this.props.info;
+    const { name } = this.state;
+    const emptyInput = this.hasEmptyInput();
+    const canBeSubmitted = this.canBeSubmitted();
+    const { showParkingAreaModal } = this.props;
+
+    const emptyInputError = (field) => {
       const hasEmptyInput = emptyInput[field];
       return hasEmptyInput || false;
-    }
+    };
 
     return (
       <Modal
@@ -121,15 +116,15 @@ class ParkingAreaModal extends Component {
               >
                 <Grid item>
                   <TextField
-                    label = "Namn"
-                    name = "name"
-                    value = { name }
-                    onChange = { this.handleAreaName }
+                    label="Namn"
+                    name="name"
+                    value={name}
+                    onChange={this.handleAreaName}
                     error={!!emptyInputError('name')}
                     helperText={emptyInputError('name') ? 'Ange ett namn.' : ' '}
                   />
                 </Grid>
-                <ParkingMap />
+                <ParkingMap onDraw={this.onDraw} />
                 <Grid item>
                   <Button
                     type="button"

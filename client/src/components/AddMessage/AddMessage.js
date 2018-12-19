@@ -91,10 +91,10 @@ class AddMessage extends Component {
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={this.handleClose} color="primary">
-                      Cancel
+                      Avbryt
                 </Button>
                     <Button onClick={this.sendMessage} color="primary">
-                      Send
+                      Skicka
                 </Button>
                   </DialogActions>
                 </Dialog>

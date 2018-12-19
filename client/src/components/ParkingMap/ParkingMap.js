@@ -2,55 +2,58 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ol from 'openlayers';
 
-const mapStateToProps = state => ({
-  accessToken: state.authentication.accessToken,
-});
-
-const mapDispatchToProps = dispatch => ({
-
-});
-
 class ParkingMap extends Component {
+  // TODO: make this more react-friendly
   componentDidMount() {
-      this.raster = new ol.layer.Tile({
-        source: new ol.source.OSM()
-      });
+    const { onDraw } = this.props;
+    // Create the vector source
+    this.raster = new ol.layer.Tile({
+      source: new ol.source.OSM(),
+    });
+    this.source = new ol.source.Vector({ wrapX: false });
+    this.vector = new ol.layer.Vector({
+      source: this.source,
+    });
 
-      this.source = new ol.source.Vector({wrapX: false});
+    // Init the map
+    this.map = new ol.Map({
+      layers: [this.raster, this.vector],
+      target: 'parking_map',
+      view: new ol.View({
+        center: [16.17, 56.72],
+        zoom: 4,
+      }),
+    });
 
-      this.vector = new ol.layer.Vector({
-        source: this.source
-      });
+    // Set map center & add interaction el
+    this.map.getView().setCenter(ol.proj.transform([16.17, 56.72], 'EPSG:4326', 'EPSG:3857'));
+    this.addInteraction();
 
-      this.map = new ol.Map({
-        layers: [this.raster, this.vector],
-        target: 'parking_map',
-        view: new ol.View({
-          center: [16.17, 56.72],
-          zoom: 4
-        })
-      });
+    // Draw events
+    this.draw.on('drawstart', () => {
+      this.source.clear();
+    });
+    this.draw.on('drawend', (e) => {
+      const format = new ol.format.WKT();
+      const featureGeo = e.feature.getGeometry();
 
-      this.map.getView().setCenter(ol.proj.transform([16.17, 56.72], 'EPSG:4326', 'EPSG:3857'));
-
-      this.addInteraction();
+      onDraw(format.writeGeometry(featureGeo));
+    });
   }
 
   addInteraction() {
-      this.geometryFunction = ol.interaction.Draw.createRegularPolygon(4);
-      this.draw = new ol.interaction.Draw({
-        source: this.source,
-        type: 'Circle',
-        geometryFunction: this.geometryFunction
-      });
-      this.map.addInteraction(this.draw);
+    this.geometryFunction = ol.interaction.Draw.createRegularPolygon(4);
+    this.draw = new ol.interaction.Draw({
+      source: this.source,
+      type: 'Circle',
+      geometryFunction: this.geometryFunction,
+    });
+    this.map.addInteraction(this.draw);
   }
 
   render() {
-    const { accessToken } = this.props;
-    
     return (
-      <div id="parking_map" className="parking_map"></div>
+      <div id="parking_map" className="parking_map" />
     );
   }
 }
