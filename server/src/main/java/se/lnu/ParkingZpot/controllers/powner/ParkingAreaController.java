@@ -52,11 +52,11 @@ public class ParkingAreaController {
   @PreAuthorize("hasAnyRole('PARKING_OWNER', 'ADMIN')")
   public ResponseEntity<ApiResponse> addParkingArea(@CurrentUser UserDetailsImpl principal, @Valid @RequestBody AddParkingAreaRequest addParkingAreaRequest) {
     Long id = ( addParkingAreaRequest.getId() != null && addParkingAreaRequest.getId().isPresent()) ? Long.parseLong(addParkingAreaRequest.getId().get()) : principal.getId();
-    double[] coords = addParkingAreaRequest.getCoords();
+    String wkt = addParkingAreaRequest.getWkt();
     String name = addParkingAreaRequest.getName();
 
     try {
-      parkingAreaService.addParkingArea(id, name, coords);
+      parkingAreaService.addParkingArea(id, name, wkt);
     } catch (EntityExistsException e) {
       return new ResponseEntity<ApiResponse>(new ApiResponse(false, e.getMessage()), HttpStatus.BAD_REQUEST);
     }
@@ -107,7 +107,7 @@ public class ParkingAreaController {
     }
 
     parkingArea.get().setName(updateParkingAreaRequest.getName());
-    parkingArea.get().setCoords(updateParkingAreaRequest.getCoords());
+    parkingArea.get().setWkt(updateParkingAreaRequest.getWkt());
     parkingAreaService.updateParkingArea(parkingArea.get());
 
     return new ResponseEntity<>(new ApiResponse(true, Messages.updateSuccess(updateParkingAreaRequest.getName())), HttpStatus.OK);

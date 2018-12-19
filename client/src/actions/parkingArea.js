@@ -1,18 +1,18 @@
 import axios from 'axios';
 
-import {PARKING_AREA_URI, PARKING_AREA_RATES_URI} from '../constants/environment';
+import { PARKING_AREA_URI, PARKING_AREA_RATES_URI } from '../constants/environment';
 import {
   ADD_PARKING_AREA,
   GET_PARKING_AREAS,
   DELETE_PARKING_AREA,
   EDIT_PARKING_AREA,
-  ADD_PARKING_AREA_RATES
+  ADD_PARKING_AREA_RATES,
 } from '../constants/actionTypes';
 
 export function addArea(accessToken, props) {
-    let config = {
-        headers: {'Authorization': "Bearer " + accessToken}
-    };
+  const config = {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  };
 
   return {
     type: ADD_PARKING_AREA,
@@ -28,37 +28,34 @@ export function getAreas() {
 }
 
 export function deleteArea(accessToken, id) {
-
-  let config = {
-    headers: {'Authorization': "Bearer " + accessToken}
+  const config = {
+    headers: { Authorization: `Bearer ${  accessToken}` },
   };
 
   return {
     type: DELETE_PARKING_AREA,
-    payload: axios.delete(PARKING_AREA_URI + "/" + id, config),
-  }
+    payload: axios.delete(`${PARKING_AREA_URI}/${id}`, config),
+  };
 }
 
 export function editArea(accessToken, id, newProps) {
-
-  let config = {
-    headers: {'Authorization': "Bearer " + accessToken}
+  const config = {
+    headers: { Authorization: `Bearer ${  accessToken}` },
   };
 
   return {
     type: EDIT_PARKING_AREA,
-    payload: axios.put(PARKING_AREA_URI + "/" + id, newProps, config)
-  }
+    payload: axios.put(`${PARKING_AREA_URI }/${id}`, newProps, config),
+  };
 }
 
 export function saveRates(accessToken, id, rates) {
-
-  let config = {
-    headers: {'Authorization': "Bearer " + accessToken}
+  const config = {
+    headers: { Authorization: `Bearer ${  accessToken}` },
   };
 
   return {
     type: ADD_PARKING_AREA_RATES,
-    payload: axios.put(PARKING_AREA_RATES_URI + "/" + id, rates, config)
-  }
+    payload: axios.put(`${PARKING_AREA_RATES_URI}/${id}`, rates, config),
+  };
 }

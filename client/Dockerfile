@@ -8,6 +8,7 @@ RUN mkdir $PATH_APP
 COPY package*.json $PATH_APP
 WORKDIR $PATH_APP
 RUN npm install && npm install --only=dev
+RUN npm audit fix
 
 # Copy all files
 COPY . $PATH_APP/

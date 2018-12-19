@@ -15,7 +15,7 @@ import java.util.List;
 public class ParkingAreaService implements IParkingAreaService {
 
   private final ParkingAreaRepository parkingAreaRepository;
-
+  
   @Autowired
   public ParkingAreaService(ParkingAreaRepository parkingAreaRepository) {
     this.parkingAreaRepository = parkingAreaRepository;
@@ -42,11 +42,11 @@ public class ParkingAreaService implements IParkingAreaService {
   }
 
   @Override
-  public ParkingArea addParkingArea(long userId, String name, double[] coords) throws EntityExistsException {
+  public ParkingArea addParkingArea(long userId, String name, String wkt) throws EntityExistsException {
     if (parkingAreaRepository.existsByName(name)) {
       throw new EntityExistsException(Messages.entityExists(Messages.PArea));
     }
-    ParkingArea parkingArea = new ParkingArea(userId, name, coords);
+    ParkingArea parkingArea = new ParkingArea(userId, name, wkt);
     return parkingAreaRepository.save(parkingArea);
   }
 
