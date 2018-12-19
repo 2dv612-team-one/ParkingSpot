@@ -1,10 +1,12 @@
 /* eslint import/no-webpack-loader-syntax: off */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { IconButton } from '@material-ui/core';
 import { toast } from "react-toastify";
 import { removeSnackbar, markMessageViewed } from '../../actions/snackbar';
 import { getUnseenMessages } from '../../actions/userControl';
+import IconButton from '@material-ui/core/IconButton';
+import CheckIcon from '@material-ui/icons/Check';
+import CloseIcon from '@material-ui/icons/Close';
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
@@ -91,20 +93,31 @@ class SnackbarHandling extends Component {
   render() { return null; }
 }
 
+// const CheckBtn = ({ closeToast, id, _this }) => (
+//   <div>
+//     <IconButton
+//       onClick={() => { _this.handleViewed(id); closeToast(); }}
+//       className="has-white-text">✓
+//     </IconButton>
+//   </div>
+// );
+
 const CheckBtn = ({ closeToast, id, _this }) => (
   <div>
-    <IconButton
+    <IconButton aria-label="Check"
       onClick={() => { _this.handleViewed(id); closeToast(); }}
-      className="has-white-text">✓
+      className="has-white-text">
+      <CheckIcon />
     </IconButton>
   </div>
 );
 
 const CloseBtn = ({ closeToast, id, _this }) => (
   <div>
-    <IconButton
+    <IconButton aria-label="Check"
       onClick={() => { _this.handleClose(id); closeToast(); }}
-      className="has-white-text">✘
+      className="has-white-text">
+      <CloseIcon />
     </IconButton>
   </div>
 );
