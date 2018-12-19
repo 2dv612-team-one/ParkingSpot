@@ -4,7 +4,6 @@ import {
   REMOVE_SNACKBAR,
   MARK_MESSAGE_VIEWED,
   SHOW_MESSAGE,
-  VERIFICATION_ERROR,
 } from '../constants/actionTypes';
 import { CONFIRM_MESSAGE_URL } from '../constants/environment';
 
@@ -37,10 +36,4 @@ export function showMessage(message) {
     };
   } catch {
   }
-}
-
-export function emailVerificationError() {
-  return {
-    type: VERIFICATION_ERROR,
-  };
 }

@@ -17,9 +17,9 @@ import RegisterModal from './components/RegisterModal/RegisterModal';
 import SnackbarHandling from './components/SnackbarHandling/SnackbarHandling';
 import VehicleList from './components/VehicleList/VehicleList';
 
-import { emailVerificationError, showMessage } from './actions/snackbar';
 import { fetchAccessTokenFromLocalStorage } from './actions/authenticate';
-import { getUnseenMessages } from './actions/userControl';
+import { getUnseenMessages, emailVerificationError } from './actions/userControl';
+import { showMessage } from './actions/snackbar';
 import setUserPosition from './actions/location';
 
 const mapStateToProps = state => ({

@@ -7,6 +7,7 @@ import {
   REGISTER_USER,
   SEND_MESSAGE,
   USER_DELETE,
+  VERIFICATION_ERROR,
 } from '../constants/actionTypes';
 
 
@@ -17,7 +18,7 @@ export function getRoles() {
   };
 }
 
-export function getUnseenMessages(accessToken) {  
+export function getUnseenMessages(accessToken) {
   let config = {
     headers: { 'Authorization': "Bearer " + accessToken }
   };
@@ -58,5 +59,11 @@ export function deleteUser(accessToken) {
   return {
     type: USER_DELETE,
     payload: axios.delete(DELETE_USER_URI, config),
+  };
+}
+
+export function emailVerificationError() {
+  return {
+    type: VERIFICATION_ERROR,
   };
 }

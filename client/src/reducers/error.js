@@ -14,8 +14,6 @@ import {
 } from '../constants/actionTypes';
 
 const initialState = {
-  message: null,
-  showError: null,
   messages: [],
 };
 
