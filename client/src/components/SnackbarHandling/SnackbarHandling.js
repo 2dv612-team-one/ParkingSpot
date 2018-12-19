@@ -42,9 +42,6 @@ class SnackbarHandling extends Component {
   componentDidUpdate(prevProps) {
     const { infoMessages, successMessages, errorMessages } = this.props;
 
-    console.log("__ ALL MESSAGES HERE__");
-    console.log(infoMessages);
-
     if (infoMessages !== prevProps.infoMessages) {
       const snackbarsVisibleLimit = 3;
 
