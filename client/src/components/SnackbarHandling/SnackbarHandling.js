@@ -93,15 +93,6 @@ class SnackbarHandling extends Component {
   render() { return null; }
 }
 
-// const CheckBtn = ({ closeToast, id, _this }) => (
-//   <div>
-//     <IconButton
-//       onClick={() => { _this.handleViewed(id); closeToast(); }}
-//       className="has-white-text">✓
-//     </IconButton>
-//   </div>
-// );
-
 const CheckBtn = ({ closeToast, id, _this }) => (
   <div>
     <IconButton aria-label="Check"
