@@ -5,18 +5,17 @@ import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import { changePassword } from '../../actions/updateInformation';
 
 const mapStateToProps = state => ({
-    accessToken: state.authentication.accessToken,  
-  });
-  
-  const mapDispatchToProps = dispatch => ({
-    changePassword: (accessToken, password) => dispatch(changePassword(accessToken, password)),
-  });
+  accessToken: state.authentication.accessToken,
+});
+
+const mapDispatchToProps = dispatch => ({
+  changePassword: (accessToken, password) => dispatch(changePassword(accessToken, password)),
+});
 
 class ChangePassword extends Component {
   constructor(props) {
@@ -26,9 +25,9 @@ class ChangePassword extends Component {
       password: ''
     };
 
-    this.handlePasswordInput = this.handlePasswordInput.bind(this);   
+    this.handlePasswordInput = this.handlePasswordInput.bind(this);
   }
- 
+
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -43,9 +42,9 @@ class ChangePassword extends Component {
   };
 
   changePassword = () => {
-    const {password} = this.state;
-    const { accessToken, changePassword} = this.props;
-    if(password.length === 0){
+    const { password } = this.state;
+    const { accessToken, changePassword } = this.props;
+    if (password.length === 0) {
       return;
     }
     changePassword(accessToken, password);
@@ -53,40 +52,37 @@ class ChangePassword extends Component {
   }
 
   render() {
-    const {password} = this.state;
+    const { password } = this.state;
     return (
-      <div>               
-            <Button onClick={this.handleClickOpen} color="inherit" >Byt lösenord</Button>
-            <Dialog
-              open={this.state.open}
-              onClose={this.handleClose}
-              aria-labelledby="form-dialog-title"
-            >
-              <DialogTitle id="form-dialog-title">Nytt lösenord</DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  Fyll i nytt lösenord
-                </DialogContentText>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  label="Nytt lösenord"
-                  type="text"
-                  fullWidth
-                  value={password}
-                  onChange={this.handlePasswordInput}
-                />
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={this.handleClose} color="primary">
-                  Avbryt
+      <div>
+        <Button onClick={this.handleClickOpen} color="inherit" >Byt lösenord</Button>
+        <Dialog
+          open={this.state.open}
+          onClose={this.handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">Byt lösenord</DialogTitle>
+          <DialogContent>
+            <TextField
+              autoFocus={true}
+              margin="dense"
+              id="name"
+              label="Nytt lösenord"
+              type="text"
+              fullWidth
+              value={password}
+              onChange={this.handlePasswordInput}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={this.handleClose} color="primary">
+              Avbryt
                 </Button>
-                <Button onClick={this.changePassword} color="primary">
-                  Spara
+            <Button onClick={this.changePassword} color="primary">
+              Spara
                 </Button>
-              </DialogActions>
-            </Dialog>  
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }

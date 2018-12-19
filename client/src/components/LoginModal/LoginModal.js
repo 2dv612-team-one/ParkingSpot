@@ -126,6 +126,7 @@ class LoginModal extends Component {
                     onChange={this.handleUserInput}
                     value={usernameOrEmail}
                     onBlur={this.handleBlur('usernameOrEmail')}
+                    autoFocus={true}
                     error={!!emptyInputError('usernameOrEmail')}
                     helperText={emptyInputError('usernameOrEmail') ? 'Ange ett användarnamn.' : ' '}
                   />

@@ -35,6 +35,7 @@ public class Messages {
   private static String exists = " finns redan i databasen.";
   private static String deleted = " har tagits bort ur databasen.";
   private static String doesNotExist = " existerar inte i databasen.";
+  private static String badRates = " taxa kan inte läggas till p.g.a. otillräckliga timmar";
 
   public static String addSuccess(String entity) {
     return entity + Messages.added;
@@ -54,5 +55,9 @@ public class Messages {
 
   public static String entityNotFound(String entity) {
     return entity + Messages.doesNotExist;
+  }
+
+  public static String deficientRates(String entity) {
+    return entity + Messages.badRates;
   }
 }

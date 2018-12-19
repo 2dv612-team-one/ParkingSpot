@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class UpdateParkingAreaRequest {
   private String name;
-  private double[] coords;
+  private String wkt;
 }
