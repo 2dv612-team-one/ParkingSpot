@@ -129,6 +129,41 @@ public class ParkingAreaController {
       return new ResponseEntity<>(new ApiResponse(false, Messages.ACCESS_DENIED), HttpStatus.FORBIDDEN);
     }
 
+    // calculate hours covered
+    int hoursCovered = 0;
+
+    for (Rate rate : rates) {
+
+      if (Integer.parseInt(rate.getRate_from()) == Integer.parseInt(rate.getRate_to())) {
+
+        hoursCovered = 24;
+      } else if (Integer.parseInt(rate.getRate_from()) < Integer.parseInt(rate.getRate_to())) {
+
+        for (int i = Integer.parseInt(rate.getRate_from()); i < Integer.parseInt(rate.getRate_to()); i++) {
+
+          hoursCovered++;
+        }
+      } else if (Integer.parseInt(rate.getRate_from()) > Integer.parseInt(rate.getRate_to())) {
+
+        for (int i = Integer.parseInt(rate.getRate_from()); i <= 24; i++) {
+
+          hoursCovered++;
+        }
+
+        for (int i = 1; i < Integer.parseInt(rate.getRate_to()); i++) {
+
+          hoursCovered++;
+        }
+      }
+
+    }
+
+    // check that the hourly rates cover 24 hours
+    if (!(hoursCovered == 24)) {
+      return new ResponseEntity<>(new ApiResponse(false, Messages.deficientRates(Messages.PArea)), HttpStatus.BAD_REQUEST);
+    }
+
+    // add rates to parkingarea
     for (int i = 0; i < rates.length; i++) {
       parkingArea.get().getRates().add(rates[i]);
     }
