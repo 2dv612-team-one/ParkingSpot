@@ -81,7 +81,7 @@ public class ParkingAreaController {
       return new ResponseEntity<>(new ApiResponse(false, Messages.ACCESS_DENIED), HttpStatus.FORBIDDEN);
     }
 
-    if (parkingArea.get().getParked_at() != null) {
+    if (parkingArea.get().getInvolved_in() != null && parkingArea.get().getInvolved_in().size() > 0) {
       return new ResponseEntity<>(new ApiResponse(false, Messages.CANNOT_MODIFY), HttpStatus.I_AM_A_TEAPOT);
     }
 

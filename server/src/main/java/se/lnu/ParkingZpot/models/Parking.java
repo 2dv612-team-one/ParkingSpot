@@ -25,7 +25,7 @@ public class Parking {
   @JsonBackReference
   private Vehicle vehicle;
 
-  @OneToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "area_id", nullable = true)
   @JsonBackReference
   private ParkingArea area;

@@ -31,9 +31,9 @@ public class ParkingArea {
   @JoinColumn(name="id", nullable=true)
   public List<Rate> rates;
 
-  @OneToOne(fetch = FetchType.LAZY, mappedBy="area", cascade = CascadeType.ALL)
+  @OneToMany(fetch = FetchType.LAZY, mappedBy="area", cascade = CascadeType.ALL)
   @JsonManagedReference
-  private Parking parked_at;
+  private List<Parking> involved_in;
 
   public ParkingArea(long user_Id, String name, String wkt) {
     super();

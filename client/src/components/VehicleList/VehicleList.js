@@ -11,7 +11,8 @@ import LocalParking from '@material-ui/icons/LocalParking';
 
 import ConfirmationDialog from '../ConfirmationDialog/ConfirmationDialog';
 
-import { getCars, deleteCar, addCar, parkCar, unparkCar } from '../../actions/vehicle';
+import { getCars, deleteCar, addCar } from '../../actions/vehicle';
+import { getParkings, parkCar, unparkCar } from '../../actions/parking';
 import { getAreas } from '../../actions/parkingArea';
 import VehicleModal from '../VehicleModal/VehicleModal';
 import { openModal } from '../../actions/modal';
@@ -24,6 +25,7 @@ const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
   vehicles: state.vehicle.data,
   areas: state.parkingArea.data,
+  parkings: state.parking.data,
   shouldUpdate: state.vehicle.update,
   shouldFetch: state.vehicle.fetch,
   role: state.authentication.role,
@@ -34,6 +36,7 @@ const mapDispatchToProps = dispatch => ({
   // TODO: only load vehicles accessible to the user
   loadCars: () => dispatch(getCars()),
   loadAreas: () => dispatch(getAreas()),
+  loadParkings: () => dispatch(getParkings()),
   openVehicleModal: props => dispatch(openModal(VEHICLE_MODAL, props)),
   deleteCar: (accessToken, registrationNumber) => dispatch(deleteCar(accessToken, registrationNumber)),
   addCar: (accessToken, registrationNumber) => dispatch(addCar(accessToken, registrationNumber)),
@@ -57,9 +60,10 @@ class VehicleList extends Component {
   }
 
   componentWillMount() {
-    const { loadCars, loadAreas } = this.props;
+    const { loadCars, loadAreas, loadParkings } = this.props;
     loadCars();
     loadAreas();
+    loadParkings();
   }
   
   componentDidMount() {
@@ -76,8 +80,10 @@ class VehicleList extends Component {
       role,
       areas,
       vehicles,
+      parkings,
       loadCars,
       loadAreas,
+      loadParkings,
       shouldUpdate,
       shouldFetch,
       notifyOutsideArea,
@@ -86,28 +92,30 @@ class VehicleList extends Component {
     if ((!shouldUpdate && nextProps.shouldUpdate) || (!shouldFetch && nextProps.shouldFetch)) {
       loadCars();
       loadAreas();
+      loadParkings();
     }
 
-    if ((position !== null || position !== nextProps.position) && (areas.length > 0 || nextProps.areas.length > 0) && role === 'ROLE_USER') {
-      areas.forEach((a) => {
-        vehicles.forEach((v) => {
-          if (a.parked_at !== null && v.parked_at !== null) {
-            if (a.parked_at.id === v.parked_at.id) {
-              const area = new ol.format.WKT().readFeature(a.wkt);
-              const userPos = new ol.format.WKT().readFeature(nextProps.position);
-  
-              const polygonGeometry = area.getGeometry();
-              const coords = userPos.getGeometry().getCoordinates();
-              const coordinate = ol.proj.fromLonLat([coords[0], coords[1]]);
+    if ((position !== null || position !== nextProps.position) && (parkings.length > 0 || nextProps.parkings.length > 0) && role === 'ROLE_USER') {
+      vehicles.forEach((v) => {
+        if (v.parked_at !== null) {
+          const parking = parkings.find((p) => p.id === v.parked_at.id)
+          const a = parking ? areas.find((area) => area.involved_in.some(p => p.id === parking.id)) : undefined
 
-              const isWhitinArea = ol.extent.containsXY(polygonGeometry.getExtent(), coordinate[0], coordinate[1]);
+          if (a) {
+            const area = new ol.format.WKT().readFeature(a.wkt);
+            const userPos = new ol.format.WKT().readFeature(nextProps.position);
 
-              if (!isWhitinArea) {
-                notifyOutsideArea();
-              }
+            const polygonGeometry = area.getGeometry();
+            const coords = userPos.getGeometry().getCoordinates();
+            const coordinate = ol.proj.fromLonLat([coords[0], coords[1]]);
+
+            const isWhitinArea = ol.extent.containsXY(polygonGeometry.getExtent(), coordinate[0], coordinate[1]);
+
+            if (!isWhitinArea) {
+              notifyOutsideArea();
             }
           }
-        });
+        }
       });
     }
   }
@@ -172,7 +180,7 @@ class VehicleList extends Component {
   }
 
   render() {
-    const { classes, vehicles, areas, role } = this.props;
+    const { classes, vehicles, areas, role, parkings } = this.props;
 
     return (
       <div>
@@ -180,7 +188,7 @@ class VehicleList extends Component {
           ? (
             <Grid item xs={12} md={6}>
               <Typography variant="h6" className={classes.title}>
-              Bilar
+                Bilar
                 <IconButton aria-label="Add" onClick={() => this.handleAdd()}>
                   <AddIcon />
                 </IconButton>
@@ -206,8 +214,7 @@ class VehicleList extends Component {
                         )}
                         <ListItemText
                           key={vehicle.id}
-                          primary={vehicle.registrationNumber}
-                          secondary={vehicle.parked_at ? (areas.filter(area => (area.parked_at && area.parked_at.id === vehicle.parked_at.id)).map(area => `${area.name} : ${area.rates.map(rate  => `${rate.rate_from}:00 - ${rate.rate_to}:00 ${rate.rate} kr/h\n`)}`)) : 'Inte Parkerad'}
+                          secondary={vehicle.parked_at ? (areas.filter(area => (area.involved_in.some(p => p.id === vehicle.parked_at.id))).map(area => `${area.name} : ${area.rates.map(rate  => `${rate.rate_from}:00 - ${rate.rate_to}:00 ${rate.rate} kr/h\n`)}`)) : 'Inte Parkerad'}
                         />
                         <ListItemSecondaryAction>
                           <IconButton aria-label="Delete" onClick={() => this.handleDelete(vehicle.registrationNumber)}>
@@ -224,7 +231,6 @@ class VehicleList extends Component {
                         onConfirm={value => this.handlePark(vehicle, value)}
                         onClose={() => this.handleDialogClose(vehicle)}
                         options={areas.length > 0 ? areas.map(area => ({ value: area.id.toString(),
-                          disabled: (!!area.parked_at && (!vehicle.parked_at || (area.parked_at.id !== vehicle.parked_at.id))),
                           label: `${area.name} : `
                             + `${area.rates.map(rate => `${rate.rate_from
                             }:00 - ${
@@ -232,8 +238,8 @@ class VehicleList extends Component {
                             }:00 ${
                               rate.rate} kr/h`)}`,
                         })).concat([{ value: '', label: 'Ingen parkering' }]) : [{ value: '', label: 'Ingen parkering' }]
-                }
-                        value={(areas.filter(area => (area.parked_at && vehicle.parked_at) && (area.parked_at.id === vehicle.parked_at.id)))[0] ? (areas.filter(area => (area.parked_at && vehicle.parked_at) && (area.parked_at.id === vehicle.parked_at.id)))[0].id : ''}
+                        }
+                        value={areas.filter(area => (area.involved_in.some(p => vehicle.parked_at && p.id === vehicle.parked_at.id))).map(area => area.id).toString()}
                       />
                     </div>
                   ))}
