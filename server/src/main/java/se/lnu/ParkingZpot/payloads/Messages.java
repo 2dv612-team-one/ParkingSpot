@@ -28,6 +28,7 @@ public class Messages {
   public static final String USER_EMAIL_UPDATE_FAIL = "Ny email kan inte vara samma som det gamla";
   public static final String ACCESS_DENIED = "Du har inte tillgång till detta objekt";
   public static final String CANNOT_MODIFY = "Objekten du försöker modifiera används redan.";
+  public static final String INVALID_DATA = "Ogiltig inmatning";
 
 
   private static String added = " har lagts till i databasen.";

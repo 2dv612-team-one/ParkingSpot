@@ -120,7 +120,7 @@ public class ParkingAreaController {
   public ResponseEntity<ApiResponse> updateParkingAreaRates(@CurrentUser UserDetailsImpl principal,
                                                        @Valid @RequestBody Rate[] rates,
                                                        @PathVariable("area_id") String areaID) {
-    
+
     Optional<ParkingArea> parkingArea = parkingAreaService.getParkingArea(Long.parseLong(areaID));
 
     if (!parkingArea.isPresent()) {
@@ -135,6 +135,10 @@ public class ParkingAreaController {
     int hoursCovered = 0;
 
     for (Rate rate : rates) {
+
+      if (Integer.parseInt(rate.getRate_from()) > Integer.parseInt(rate.getRate_to())) {
+        return new ResponseEntity<>(new ApiResponse(false, Messages.INVALID_DATA), HttpStatus.BAD_REQUEST);
+      }
 
       if (Integer.parseInt(rate.getRate_from()) == Integer.parseInt(rate.getRate_to())) {
 
