@@ -56,6 +56,7 @@ class HourlyRate extends Component {
         24: -1,
       },
       rates: [],
+      deficientInput: 'Mata in data i varje formulär',
     };
 
     this.handleRateFrom = this.handleRateFrom.bind(this);
@@ -91,8 +92,14 @@ class HourlyRate extends Component {
   }
 
   canBeSubmitted() {
-    const { rate_from, rate_to, hours, rate } = this.state;
+    const { rate_from, rate_to, hours, rate, deficientInput } = this.state;
     const emptyInputErrors = this.hasEmptyInput();
+
+    const missingInputs = 'Mata in data i varje formulär';
+    const invalidRateFrom = 'ogiltiga "från timmar"';
+    const invalidRateTo = 'ogiltiga "till timmar"';
+    const invalidRate = 'ogiltig taxa';
+    const validInput = 'lägg till';
 
     if (!Object.keys(emptyInputErrors).some(x => emptyInputErrors[x])) {
 
@@ -104,6 +111,9 @@ class HourlyRate extends Component {
 
           if (hours[i] !== -1) {
 
+            if (deficientInput !== invalidRateTo) {
+              this.setState({ deficientInput: invalidRateTo });
+            }
             return false;
           }
         }
@@ -113,15 +123,23 @@ class HourlyRate extends Component {
 
           if (hours[i] !== -1) {
 
+            if (deficientInput !== invalidRateFrom) {
+              this.setState({ deficientInput: invalidRateFrom });
+            }
             return false;
           }
         }
+
+
       } else if (parseInt(rate_from) > parseInt(rate_to)) {
 
         for (let i = parseInt(rate_from); i <= 24; i++) {
 
           if (hours[i] !== -1) {
 
+            if (deficientInput !== invalidRateTo) {
+              this.setState({ deficientInput: invalidRateTo });
+            }
             return false;
           }
         }
@@ -130,14 +148,32 @@ class HourlyRate extends Component {
 
           if (hours[i] !== -1) {
 
+            if (deficientInput !== invalidRateTo) {
+              this.setState({ deficientInput: invalidRateTo });
+            }
             return false;
           }
         }
       }
 
       // Checks for valid rate
+      if (!(rate >>> 0 === parseFloat(rate))) {
+        if (deficientInput !== invalidRate) {
+          this.setState({ deficientInput: invalidRate });
+        }
+      } else {
+        if (deficientInput !== validInput) {
+          this.setState({ deficientInput: validInput });
+        }
+      }
+
       return rate >>> 0 === parseFloat(rate);
     } else {
+
+      if (deficientInput !== missingInputs) {
+        this.setState({ deficientInput: missingInputs });
+      }
+
       return false;
     }
   }
@@ -180,7 +216,7 @@ class HourlyRate extends Component {
       this.setState({hours});
     } else {
 
-      throw("Something went wrong...");
+      console.log("Something went very wrong...");
     }
 
     this.setState(prevState => ({
@@ -240,7 +276,7 @@ class HourlyRate extends Component {
           this.setState({rates});
         } else {
 
-          throw("Something went wrong...");
+          console.log("Something went very wrong...");
         }
       }
     }
@@ -270,7 +306,7 @@ class HourlyRate extends Component {
   render() {
     const { areas, role, classes } = this.props;
 
-    const { rate_from, rate_to, rate , rates} = this.state;
+    const { rate_from, rate_to, rate , rates, deficientInput} = this.state;
 
     const canBeSubmitted = this.canBeSubmitted();
     const allHoursCovered = this.allHoursCovered();
@@ -321,6 +357,7 @@ class HourlyRate extends Component {
                 </Select>
               </FormControl>
 
+
               <FormControl className={classes.formControl}>
                 <InputLabel htmlFor="demo-controlled-open-select">
                   Till timmar (hh)
@@ -370,7 +407,8 @@ class HourlyRate extends Component {
               <Button
                 onClick={this.handleSubmit}
                 disabled={!canBeSubmitted}
-              >LÄGG TILL
+              >
+                {deficientInput}
               </Button>
 
             </div>
