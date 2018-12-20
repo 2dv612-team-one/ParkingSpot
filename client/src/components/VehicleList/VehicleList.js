@@ -125,6 +125,8 @@ class VehicleList extends Component {
             if (!isWhitinArea) {
               // Calc distance using sphere
               // Using the haversine distance method https://en.wikipedia.org/wiki/Haversine_formula
+              // WARN: Closest point from polygon could be wrong a use the center
+              // Check out this example instead if problems occur: https://gis.stackexchange.com/a/170225/128534
               const closestPoint = area.getGeometry().getClosestPoint(userPos.getGeometry().getFirstCoordinate());
               const d = ol.proj.transform(closestPoint, 'EPSG:3857', 'EPSG:4326');
 
