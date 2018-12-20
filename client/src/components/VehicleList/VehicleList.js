@@ -120,9 +120,8 @@ class VehicleList extends Component {
             const coords = userPos.getGeometry().getCoordinates();
             const coordinate = ol.proj.fromLonLat([coords[0], coords[1]]);
 
-            const isWhitinArea = ol.extent.containsXY(polygonGeometry.getExtent(), coordinate[0], coordinate[1]);
-
-            if (!isWhitinArea) {
+            const isWithinArea = ol.extent.containsXY(polygonGeometry.getExtent(), coordinate[0], coordinate[1]);
+            if (!isWithinArea) {
               // Calc distance using sphere
               // Using the haversine distance method https://en.wikipedia.org/wiki/Haversine_formula
               // WARN: Closest point from polygon could be wrong a use the center
@@ -134,8 +133,9 @@ class VehicleList extends Component {
               // Distance seems to be a bit high
               // Could have something to do with the projection
               const distanceKm = SphericalCosinus(d[0], d[1], coords[0], coords[1]);
+              const distanceLimitKm = 200;
 
-              if (distanceKm > 200) {
+              if (distanceKm > distanceLimitKm) {
                 notifyOutsideArea(parking.id);
               }
             }
