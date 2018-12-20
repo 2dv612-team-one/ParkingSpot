@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-/* eslint import/no-webpack-loader-syntax: off */
 import { Button , withStyles} from '@material-ui/core';
 import { FormControl, TextField, Paper, Typography } from '@material-ui/core';
 import { TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import Input from '@material-ui/core/Input';
-import FormHelperText from '@material-ui/core/FormHelperText';
 
 import { getAreas, saveRates } from '../../actions/parkingArea';
-//import styles from '../../assets/styles/hourly-rate';
+import styles from '../../assets/styles/hourly-rate';
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
@@ -23,20 +20,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   onLoad: () => dispatch(getAreas()),
   saveRates: (accessToken, id, rates) => dispatch(saveRates(accessToken, id, rates)),
-});
-
-const styles = theme => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing.unit * 2,
-  },
 });
 
 class HourlyRate extends Component {

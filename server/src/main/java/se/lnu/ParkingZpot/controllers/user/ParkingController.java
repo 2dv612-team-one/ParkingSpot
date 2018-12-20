@@ -81,6 +81,12 @@ public class ParkingController {
     }
 
     try {
+      Parking current = vehicle.get().getParked_at();
+      
+      if (current != null) {
+        parkingService.deleteParking(current.getId());
+      }
+
       Parking parking = parkingService.addParking(parkingArea.get(), vehicle.get(), user_id);
       long parking_id = parking.getId();
 

@@ -83,7 +83,7 @@ class VehicleList extends Component {
       notifyOutsideArea,
     } = this.props;
 
-    if (!shouldUpdate && nextProps.shouldUpdate || !shouldFetch && nextProps.shouldFetch) {
+    if ((!shouldUpdate && nextProps.shouldUpdate) || (!shouldFetch && nextProps.shouldFetch)) {
       loadCars();
       loadAreas();
     }
@@ -207,11 +207,7 @@ class VehicleList extends Component {
                         <ListItemText
                           key={vehicle.id}
                           primary={vehicle.registrationNumber}
-                          secondary={vehicle.parked_at ? areas.filter(area => area.parked_at && (area.parked_at.id === vehicle.parked_at.id)).map(area => `${`${area.name} : `}` + `${area.rates.map(rate => `${rate.rate_from
-                          }:00 - ${
-                            rate.rate_to
-                          }:00 ${
-                            rate.rate} kr/h\n`)}`) : 'Inte parkerad'}
+                          secondary={vehicle.parked_at ? (areas.filter(area => (area.parked_at && area.parked_at.id === vehicle.parked_at.id)).map(area => `${area.name} : ${area.rates.map(rate  => `${rate.rate_from}:00 - ${rate.rate_to}:00 ${rate.rate} kr/h\n`)}`)) : 'Inte Parkerad'}
                         />
                         <ListItemSecondaryAction>
                           <IconButton aria-label="Delete" onClick={() => this.handleDelete(vehicle.registrationNumber)}>

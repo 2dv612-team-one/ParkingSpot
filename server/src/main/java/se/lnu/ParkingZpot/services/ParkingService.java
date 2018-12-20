@@ -35,15 +35,6 @@ public class ParkingService implements IParkingService {
 
   @Override
   public Parking addParking(ParkingArea area, Vehicle vehicle, long user_id) throws BadRequestException {
-
-    if (vehicle.getParked_at() != null) {
-      throw new BadRequestException(InternalMessages.ERROR_VEHICLE_PARKED);
-    }
-
-    if (area.getParked_at() != null) {
-      throw new BadRequestException(InternalMessages.ERROR_AREA_IN_USE);
-    }
-
     Parking parking = new Parking(user_id, vehicle, area);
     return parkingRepository.save(parking);
   }
