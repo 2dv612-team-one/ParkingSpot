@@ -20,6 +20,17 @@ import { setUserPosition, notifyOutsideArea } from '../../actions/location';
 import { VEHICLE_MODAL } from '../../constants/environment';
 import styles from '../../assets/styles/vehicle-list';
 
+function toRad(x) { return x * Math.PI / 180; }
+
+function SphericalCosinus(lat1, lon1, lat2, lon2) {
+  const R = 6371; // km
+  const dLon = toRad(lon2 - lon1);
+  lat1 = toRad(lat1);
+  lat2 = toRad(lat2);
+  const d = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(dLon)) * R;
+
+  return d;
+}
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
@@ -65,7 +76,7 @@ class VehicleList extends Component {
     loadAreas();
     loadParkings();
   }
-  
+
   componentDidMount() {
     const { role } = this.props;
     if (role === 'ROLE_USER') {
@@ -98,12 +109,12 @@ class VehicleList extends Component {
     if ((position !== null || position !== nextProps.position) && (parkings.length > 0 || nextProps.parkings.length > 0) && role === 'ROLE_USER') {
       vehicles.forEach((v) => {
         if (v.parked_at !== null) {
-          const parking = parkings.find((p) => p.id === v.parked_at.id)
-          const a = parking ? areas.find((area) => area.involved_in.some(p => p.id === parking.id)) : undefined
+          const parking = parkings.find(p => p.id === v.parked_at.id);
+          const a = parking ? areas.find(area => area.involved_in.some(p => p.id === parking.id)) : undefined;
 
           if (a) {
-            const area = new ol.format.WKT().readFeature(a.wkt);
-            const userPos = new ol.format.WKT().readFeature(nextProps.position);
+            const area = new ol.format.WKT().readFeature(a.wkt, { featureProjection: 'EPSG:4326' });
+            const userPos = new ol.format.WKT().readFeature(nextProps.position, { featureProjection: 'EPSG:4326' });
 
             const polygonGeometry = area.getGeometry();
             const coords = userPos.getGeometry().getCoordinates();
@@ -112,12 +123,28 @@ class VehicleList extends Component {
             const isWhitinArea = ol.extent.containsXY(polygonGeometry.getExtent(), coordinate[0], coordinate[1]);
 
             if (!isWhitinArea) {
-              notifyOutsideArea();
+              // Calc distance using sphere
+              // Using the haversine distance method https://en.wikipedia.org/wiki/Haversine_formula
+              const closestPoint = area.getGeometry().getClosestPoint(userPos.getGeometry().getFirstCoordinate());
+              const d = ol.proj.transform(closestPoint, 'EPSG:3857', 'EPSG:4326');
+
+              // TODO: Not sure this works correctly
+              // Distance seems to be a bit high
+              // Could have something to do with the projection
+              const distanceKm = SphericalCosinus(d[0], d[1], coords[0], coords[1]);
+
+              if (distanceKm > 200) {
+                notifyOutsideArea();
+              }
             }
           }
         }
       });
     }
+  }
+
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.id);
   }
 
   handleDelete = (registrationNumber) => {
@@ -149,10 +176,6 @@ class VehicleList extends Component {
   handleDialogClose = (vehicle) => {
     this.setState({ [vehicle.registrationNumber]: { open: false } });
   };
-
-  componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.id);
-  }
 
   // TODO: Make this more readable
   trackUserPosition() {
@@ -214,7 +237,7 @@ class VehicleList extends Component {
                         )}
                         <ListItemText
                           key={vehicle.id}
-                          secondary={vehicle.parked_at ? (areas.filter(area => (area.involved_in.some(p => p.id === vehicle.parked_at.id))).map(area => `${area.name} : ${area.rates.map(rate  => `${rate.rate_from}:00 - ${rate.rate_to}:00 ${rate.rate} kr/h\n`)}`)) : 'Inte Parkerad'}
+                          secondary={vehicle.parked_at ? (areas.filter(area => (area.involved_in.some(p => p.id === vehicle.parked_at.id))).map(area => `${area.name} : ${area.rates.map(rate => `${rate.rate_from}:00 - ${rate.rate_to}:00 ${rate.rate} kr/h\n`)}`)) : 'Inte Parkerad'}
                         />
                         <ListItemSecondaryAction>
                           <IconButton aria-label="Delete" onClick={() => this.handleDelete(vehicle.registrationNumber)}>
