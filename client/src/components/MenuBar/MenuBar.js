@@ -13,6 +13,7 @@ import { openModal } from '../../actions/modal';
 import { LOGIN_MODAL, REGISTER_MODAL } from '../../constants/environment';
 import { deleteUser } from "../../actions/userControl";
 import ChangePassword from '../../components/ChangePassword/ChangePassword';
+import ChangeEmail from '../../components/ChangeEmail/ChangeEmail';
 
 const mapStateToProps = state => ({
   accessToken: state.authentication.accessToken,
@@ -74,6 +75,7 @@ class MenuBar extends Component {
               )
               : (
                 <div style={displayFlex}>
+                   <ChangeEmail/>
                    <ChangePassword/>
                   <Button
                     color="inherit"

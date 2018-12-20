@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import { Button, TextField, FormHelperText } from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -22,7 +21,10 @@ class ChangeEmail extends Component {
         super(props);
         this.state = {
             open: false,
-            email: ''
+            email: '',
+            clicked: {
+                email: false,
+            },
         };
 
         this.handleEmailInput = this.handleEmailInput.bind(this);
@@ -41,6 +43,13 @@ class ChangeEmail extends Component {
             email: email.length === 0,
         };
     }
+
+    handleBlur = field => () => {
+        const { clicked } = this.state;
+        this.setState({
+          clicked: { ...clicked, [field]: true },
+        });
+      }
 
     canBeSubmitted() {
         const emptyInputErrors = this.hasEmptyInput();
@@ -73,20 +82,28 @@ class ChangeEmail extends Component {
     changeEmail = () => {
         const { email } = this.state;
         const { accessToken, changeEmail } = this.props;
-        if (!this.canBeSubmitted) {
+        if (!this.canBeSubmitted()) {
             return;
         }
+
         changeEmail(accessToken, email);
         this.setState({ open: false });
     }
 
     render() {
-        const { email } = this.state;
+        const { clicked, email } = this.state;
+        const emptyInput = this.hasEmptyInput();
+        const isValidInput = this.isValidInput();
         const canBeSubmitted = this.canBeSubmitted();
         const invalidInputError = (field) => {
             const hasValidInput = isValidInput[field];
             const shouldShow = clicked[field];
             return hasValidInput ? false : shouldShow;
+        };
+        const emptyInputError = (field) => {
+            const hasEmptyInput = emptyInput[field];
+            const shouldShow = clicked[field];
+            return hasEmptyInput ? shouldShow : false;
         };
 
         return (
@@ -97,22 +114,21 @@ class ChangeEmail extends Component {
                     onClose={this.handleClose}
                     aria-labelledby="form-dialog-title"
                 >
-                    <DialogTitle id="form-dialog-title">Ny e-postadress</DialogTitle>
+                    <DialogTitle id="form-dialog-title">Byt e-postadress</DialogTitle>
                     <DialogContent>
-                        <DialogContentText>
-                            Fyll i ny e-postadress
-                </DialogContentText>
                         <TextField
                             autoFocus
                             margin="dense"
                             id="name"
                             label="Ny e-postadress"
-                            type="email"
                             fullWidth
                             value={email}
+                            type="email"
+                            onBlur={this.handleBlur('email')}
                             onChange={this.handleEmailInput}
                             error={invalidInputError('email')}
                         />
+                        <FormHelperText>{emptyInputError('email') ? 'Ange en tidigare oanvänd e-postadress.' : ' '}</FormHelperText>
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">
