@@ -71,8 +71,6 @@ public class ParkingAreaController {
   @DeleteMapping("/{area_id}")
   @PreAuthorize("hasAnyRole('PARKING_OWNER', 'ADMIN')")
   public ResponseEntity<ApiResponse> deleteParkingArea(@CurrentUser UserDetailsImpl principal, @PathVariable("area_id") String areaId) {
-    //TODO: Check that no cars are parked in the area
-
     Optional<ParkingArea> parkingArea = parkingAreaService.getParkingArea(Long.parseLong(areaId));
 
     if (!parkingArea.isPresent()) {
@@ -81,6 +79,10 @@ public class ParkingAreaController {
 
     if (parkingArea.get().getUserId() != principal.getId()) {
       return new ResponseEntity<>(new ApiResponse(false, Messages.ACCESS_DENIED), HttpStatus.FORBIDDEN);
+    }
+
+    if (parkingArea.get().getParked_at() != null) {
+      return new ResponseEntity<>(new ApiResponse(false, Messages.CANNOT_MODIFY), HttpStatus.I_AM_A_TEAPOT);
     }
 
     if (parkingAreaService.deleteParkingArea(parkingArea.get().getName())) {

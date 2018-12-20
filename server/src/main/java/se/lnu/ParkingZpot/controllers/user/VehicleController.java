@@ -84,6 +84,10 @@ public class VehicleController {
       return new ResponseEntity<>(new ApiResponse(false, Messages.ACCESS_DENIED), HttpStatus.FORBIDDEN);
     }
 
+    if (vehicle.get().getParked_at() != null) {
+      return new ResponseEntity<>(new ApiResponse(false, Messages.CANNOT_MODIFY), HttpStatus.I_AM_A_TEAPOT);
+    }
+
     if (vehicleService.deleteVehicle(vehicle.get().getRegistrationNumber())) {
       return new ResponseEntity<ApiResponse>(new ApiResponse(true, Messages.entityDeleted(Messages.VEHICLE)), HttpStatus.OK);
     }
