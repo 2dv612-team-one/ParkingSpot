@@ -30,15 +30,15 @@ class VehicleModal extends Component {
     this.submitVehicle = this.submitVehicle.bind(this);
   }
 
-  onKeyPress= (e) => {
+  onKeyPress = (e) => {
     if (e.key === 'Enter') {
       this.submitVehicle();
     }
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (!this.props.update && nextProps.update) {
-      this.setState({registrationNumber: nextProps.info.registrationNumber})
+      this.setState({ registrationNumber: nextProps.info.registrationNumber })
     }
   }
 
@@ -55,7 +55,7 @@ class VehicleModal extends Component {
   }
 
   handleRegistrationNumber(e) {
-    this.setState({registrationNumber: e.target.value});
+    this.setState({ registrationNumber: e.target.value });
   }
 
   submitVehicle() {
@@ -97,35 +97,36 @@ class VehicleModal extends Component {
             justify="flex-start"
             alignItems="center"
           >
-          <div className="modal-box">
-            <Grid
-              container
-              direction="column"
-              justify="flex-start"
-              alignItems="center"
-            >
-              <Grid item>
-                <TextField
-                  label = "Registreringsnummer"
-                  name = "registrationNumber"
-                  onChange = { this.handleRegistrationNumber }
-                  value = { registrationNumber }
-                  error={!!emptyInputError('registrationNumber')}
-                  helperText={emptyInputError('registrationNumber') ? 'Ange ett registreringsnummer.' : ' '}
-                />
-              </Grid>
-              <Grid item>
-                <Button
-                  type="button"
-                  color="primary"
-                  variant="outlined"
-                  className="modal-submit-btn"
-                  onClick={this.submitVehicle}
-                  disabled={!canBeSubmitted}
-                >
-                  <span>{ submitPrompt }</span>
-                </Button>
-              </Grid>
+            <div className="modal-box">
+              <Grid
+                container
+                direction="column"
+                justify="flex-start"
+                alignItems="center"
+              >
+                <Grid item>
+                  <TextField
+                    label="Registreringsnummer"
+                    name="registrationNumber"
+                    onChange={this.handleRegistrationNumber}
+                    value={registrationNumber}
+                    autoFocus={true}
+                    error={!!emptyInputError('registrationNumber')}
+                    helperText={emptyInputError('registrationNumber') ? 'Ange ett registreringsnummer.' : ' '}
+                  />
+                </Grid>
+                <Grid item>
+                  <Button
+                    type="button"
+                    color="primary"
+                    variant="outlined"
+                    className="modal-submit-btn"
+                    onClick={this.submitVehicle}
+                    disabled={!canBeSubmitted}
+                  >
+                    <span>{submitPrompt}</span>
+                  </Button>
+                </Grid>
               </Grid>
             </div>
           </Grid>

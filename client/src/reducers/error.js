@@ -12,7 +12,6 @@ import {
   USER_AUTHENTICATION,
   USER_REGISTRATION,
   VERIFICATION_ERROR,
-  USER_NOT_CLOSE_TO_AREA,
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -118,11 +117,6 @@ export default (state = initialState, action) => {
         return addMessage(state, errorMessage, id);
       }
       return initialState;
-
-    case USER_NOT_CLOSE_TO_AREA:
-      errorMessage = 'Du är utanför parkeringsområdet. Avsluta parkering?';
-      id = new Date().getTime() + Math.random();
-      return addMessage(state, errorMessage, id);
     case REMOVE_SNACKBAR:
       return {
         ...state,

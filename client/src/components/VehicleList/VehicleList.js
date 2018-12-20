@@ -54,7 +54,7 @@ const mapDispatchToProps = dispatch => ({
   parkCar: (accessToken, registrationNumber, areaID) => dispatch(parkCar(accessToken, registrationNumber, areaID)),
   unparkCar: (accessToken, areaID) => dispatch(unparkCar(accessToken, areaID)),
   setUserPosition: location => dispatch(setUserPosition(location)),
-  notifyOutsideArea: () => dispatch(notifyOutsideArea()),
+  notifyOutsideArea: (areaID) => dispatch(notifyOutsideArea(areaID)),
 });
 
 class VehicleList extends Component {
@@ -136,7 +136,7 @@ class VehicleList extends Component {
               const distanceKm = SphericalCosinus(d[0], d[1], coords[0], coords[1]);
 
               if (distanceKm > 200) {
-                notifyOutsideArea();
+                notifyOutsideArea(parking.id);
               }
             }
           }
@@ -209,7 +209,7 @@ class VehicleList extends Component {
 
     return (
       <div>
-        { role === 'ROLE_USER'
+        {role === 'ROLE_USER'
           ? (
             <Grid item xs={12} md={6}>
               <Typography variant="h6" className={classes.title}>
@@ -231,11 +231,11 @@ class VehicleList extends Component {
                           </Avatar>
                         </ListItemAvatar>
                         {vehicle.parked_at && (
-                        <ListItemAvatar>
-                          <Avatar>
-                            <LocalParking />
-                          </Avatar>
-                        </ListItemAvatar>
+                          <ListItemAvatar>
+                            <Avatar>
+                              <LocalParking />
+                            </Avatar>
+                          </ListItemAvatar>
                         )}
                         <ListItemText
                           key={vehicle.id}
@@ -255,12 +255,13 @@ class VehicleList extends Component {
                         title="Välj parkeringsplats"
                         onConfirm={value => this.handlePark(vehicle, value)}
                         onClose={() => this.handleDialogClose(vehicle)}
-                        options={areas.length > 0 ? areas.map(area => ({ value: area.id.toString(),
+                        options={areas.length > 0 ? areas.map(area => ({
+                          value: area.id.toString(),
                           label: `${area.name} : `
                             + `${area.rates.map(rate => `${rate.rate_from
-                            }:00 - ${
+                              }:00 - ${
                               rate.rate_to
-                            }:00 ${
+                              }:00 ${
                               rate.rate} kr/h`)}`,
                         })).concat([{ value: '', label: 'Ingen parkering' }]) : [{ value: '', label: 'Ingen parkering' }]
                         }
@@ -271,7 +272,7 @@ class VehicleList extends Component {
                 </List>
               </div>
             </Grid>
-          ) : null }
+          ) : null}
       </div>
     );
   }

@@ -14,7 +14,7 @@ export function removeSnackbar(id) {
   };
 }
 
-export function markMessageViewed(id, accessToken) {
+export function markMessageViewed(accessToken, id) {
   let config = {
     headers: { 'Authorization': "Bearer " + accessToken }
   };

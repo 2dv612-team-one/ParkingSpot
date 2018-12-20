@@ -43,6 +43,7 @@ code {
 .is-danger { background-color: #d32f2f !important; }
 .is-info { background-color: #427DF2 !important; }
 .is-success { background-color: #43a047 !important; }
+.is-warning { background-color: #FA6900 !important; }
 
 .snackbar { border-radius: 4px; }
 

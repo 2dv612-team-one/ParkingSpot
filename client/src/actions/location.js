@@ -10,8 +10,9 @@ export function setUserPosition(location) {
   };
 }
 
-export function notifyOutsideArea() {
+export function notifyOutsideArea(areaID) {
   return {
     type: USER_NOT_CLOSE_TO_AREA,
+    payload: areaID,
   };
 }
