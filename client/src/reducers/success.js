@@ -48,7 +48,7 @@ export default (state = initialState, action) => {
       return initialState;
     case `${UPDATE_USER_EMAIL}_FULFILLED`:
       if (isSuccess(action.payload)) {
-        const successMessage = 'E-postadressen har ändrats.';
+        const successMessage = 'E-postadressen har ändrats. Du måste nu bekräfta din nya e-postadress.';
         const id = new Date().getTime() + Math.random();
         return addMessage(state, successMessage, id);
       }

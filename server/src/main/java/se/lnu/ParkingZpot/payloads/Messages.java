@@ -9,7 +9,7 @@ public class Messages {
   public static final String REG_WELCOME_MAIL_BODY = "En administratör har registrerat dig för tjänsten.";
   public static final String REG_SUCCESS = "Användaren har registrerats.";
   public static final String REG_MAILFAIL = "Användaren har registrerats.";
-  public static final String LOGIN_UNVERIFIED = "Användaren har inte verifierat kontot.";
+  public static final String LOGIN_UNVERIFIED = "Användaren har inte verifierat e-postadressen.";
   public static final String REG_VERIFICATION_REDIRECT_ERROR = "Användaren kunde inte omdirigeras efter verifikationen.";
   public static final String VERIFY_FAIL = "<p>Din verifieringstoken kan inte hittas, eller har gått ut. Försök gärna att registrera dig igen, och kom ihåg att verifiera din mailaddress inom 24 timmar.</p>";
   public static final String VEHICLE = "Fordonet";

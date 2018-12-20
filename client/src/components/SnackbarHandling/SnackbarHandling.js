@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { toast } from "react-toastify";
 import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
-import CancelIcon from '@material-ui/icons/Cancel';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 import { getUnseenMessages } from '../../actions/userControl';
@@ -87,12 +85,21 @@ class SnackbarHandling extends Component {
       let snackbarAlreadyExists = snackbars.includes(message.areaID);
       if (snackbarAlreadyExists) return;
 
+      let closeBtn;
+
+      if (message.areaID !== undefined) {
+        closeBtn = <CancelBtn messageID={message.messageID}
+          areaID={message.areaID} _this={this} />;
+      } else {
+        closeBtn = <CloseBtn messageID={message.messageID}
+          _this={this} />;
+      }
+
       const timeInSeconds = 30;
       const options = {
         type: "warning",
         toastId: message.messageID,
-        closeButton: <CancelBtn messageID={message.messageID}
-          areaID={message.areaID} _this={this} />,
+        closeButton: closeBtn,
         className: 'snackbar is-warning',
         autoClose: timeInSeconds * 1000,
       };
