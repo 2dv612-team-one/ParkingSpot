@@ -1,4 +1,3 @@
-/* eslint import/no-webpack-loader-syntax: off */
 // TODO: There are duplicate reducers, is that really necessary?
 import { combineReducers } from 'redux';
 
@@ -12,6 +11,7 @@ import success from './reducers/success';
 import updateInformation from './reducers/updateInformation';
 import userController from './reducers/userController';
 import vehicle from './reducers/vehicle';
+import parking from './reducers/parking';
 
 export default combineReducers({
   authentication,
@@ -24,4 +24,5 @@ export default combineReducers({
   updateInformation,
   userController,
   vehicle,
+  parking
 });

@@ -1,12 +1,10 @@
 import axios from 'axios';
 
-import { VEHICLE_URI, PARKING_URI } from '../constants/environment';
+import { VEHICLE_URI } from '../constants/environment';
 import {
   ADD_CAR,
   GET_CARS,
-  DELETE_CAR,
-  PARK_CAR,
-  UNPARK_CAR
+  DELETE_CAR
 } from '../constants/actionTypes';
 
 export function addCar(accessToken, registrationNumber) {
@@ -36,27 +34,5 @@ export function deleteCar(accessToken, registrationNumber) {
   return {
     type: DELETE_CAR,
     payload: axios.delete(VEHICLE_URI + '/' + registrationNumber, config),
-  }
-}
-
-export function parkCar(accessToken, registrationNumber, areaID) {
-  let config = {
-    headers: {'Authorization': "Bearer " + accessToken}
-  }
-
-  return {
-    type: PARK_CAR,
-    payload: axios.post(PARKING_URI, { registrationNumber, areaID }, config),
-  };
-}
-
-export function unparkCar(accessToken, areaID) {
-  let config = {
-    headers: {'Authorization': "Bearer " + accessToken}
-  };
-
-  return {
-    type: UNPARK_CAR,
-    payload: axios.delete(PARKING_URI +  '/' + areaID, config)
   }
 }

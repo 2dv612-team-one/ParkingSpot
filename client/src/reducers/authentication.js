@@ -1,5 +1,4 @@
 /* eslint-disable consistent-return */
-/* eslint import/no-webpack-loader-syntax: off */
 import {
   USER_AUTHENTICATION,
   USER_AUTHENTICATION_TOKEN,
