@@ -280,7 +280,7 @@ class HourlyRate extends Component {
         { role === "ROLE_PARKING_OWNER" ?
       areas && Array.from(areas).map(area => (
         area.rates.length > 0 ? <div></div> : <div>
-            <hi>Timtaxa</hi>
+            <h1>Timtaxa</h1>
             {!allHoursCovered && (
             <div>
               <Typography variant="subtitle1">Skapa timtaxa för {area.name}</Typography>
@@ -290,41 +290,34 @@ class HourlyRate extends Component {
                   Från timmar (hh)
                 </InputLabel>
                 <Select
-                  open={this.state.open}
-                  onClose={this.handleClose}
-                  onOpen={this.handleOpen}
                   value={rate_from}
-                  onChange={this.handleRateTo}
-                  inputProps={{
-                    name: 'rate_from',
-                    id: 'demo-controlled-open-select',
-                  }}
+                  onChange={this.handleRateFrom}
                 >
-                 <MenuItem value=""><em>None</em></MenuItem>
+                 <MenuItem value="" disabled><em>None</em></MenuItem>
                   <MenuItem value={1}>1</MenuItem>
                   <MenuItem value={2}>2</MenuItem>
                   <MenuItem value={3}>3</MenuItem>
-                  <MenuItem value={1}>4</MenuItem>
-                  <MenuItem value={2}>5</MenuItem>
-                  <MenuItem value={3}>6</MenuItem>
-                  <MenuItem value={1}>7</MenuItem>
-                  <MenuItem value={2}>8</MenuItem>
-                  <MenuItem value={3}>9</MenuItem>
-                  <MenuItem value={1}>10</MenuItem>
-                  <MenuItem value={2}>11</MenuItem>
-                  <MenuItem value={3}>12</MenuItem>
-                  <MenuItem value={1}>13</MenuItem>
-                  <MenuItem value={2}>14</MenuItem>
-                  <MenuItem value={3}>15</MenuItem>
-                  <MenuItem value={1}>16</MenuItem>
-                  <MenuItem value={2}>17</MenuItem>
-                  <MenuItem value={3}>18</MenuItem>
-                  <MenuItem value={1}>19</MenuItem>
-                  <MenuItem value={2}>20</MenuItem>
-                  <MenuItem value={3}>21</MenuItem>
-                  <MenuItem value={1}>22</MenuItem>
-                  <MenuItem value={2}>23</MenuItem>
-                  <MenuItem value={3}>24</MenuItem>
+                  <MenuItem value={4}>4</MenuItem>
+                  <MenuItem value={5}>5</MenuItem>
+                  <MenuItem value={6}>6</MenuItem>
+                  <MenuItem value={7}>7</MenuItem>
+                  <MenuItem value={8}>8</MenuItem>
+                  <MenuItem value={9}>9</MenuItem>
+                  <MenuItem value={10}>10</MenuItem>
+                  <MenuItem value={11}>11</MenuItem>
+                  <MenuItem value={12}>12</MenuItem>
+                  <MenuItem value={13}>13</MenuItem>
+                  <MenuItem value={14}>14</MenuItem>
+                  <MenuItem value={15}>15</MenuItem>
+                  <MenuItem value={16}>16</MenuItem>
+                  <MenuItem value={17}>17</MenuItem>
+                  <MenuItem value={18}>18</MenuItem>
+                  <MenuItem value={19}>19</MenuItem>
+                  <MenuItem value={20}>20</MenuItem>
+                  <MenuItem value={21}>21</MenuItem>
+                  <MenuItem value={22}>22</MenuItem>
+                  <MenuItem value={23}>23</MenuItem>
+                  <MenuItem value={24}>24</MenuItem>
                 </Select>
               </FormControl>
 
@@ -333,41 +326,34 @@ class HourlyRate extends Component {
                   Till timmar (hh)
                 </InputLabel>
                 <Select
-                  open={this.state.open}
-                  onClose={this.handleClose}
-                  onOpen={this.handleOpen}
                   value={rate_to}
                   onChange={this.handleRateTo}
-                  inputProps={{
-                    name: 'rate_to',
-                    id: 'demo-controlled-open-select',
-                  }}
                 >
-                 <MenuItem value=""><em>None</em></MenuItem>
+                  <MenuItem value="" disabled><em>None</em></MenuItem>
                   <MenuItem value={1}>1</MenuItem>
                   <MenuItem value={2}>2</MenuItem>
                   <MenuItem value={3}>3</MenuItem>
-                  <MenuItem value={1}>4</MenuItem>
-                  <MenuItem value={2}>5</MenuItem>
-                  <MenuItem value={3}>6</MenuItem>
-                  <MenuItem value={1}>7</MenuItem>
-                  <MenuItem value={2}>8</MenuItem>
-                  <MenuItem value={3}>9</MenuItem>
-                  <MenuItem value={1}>10</MenuItem>
-                  <MenuItem value={2}>11</MenuItem>
-                  <MenuItem value={3}>12</MenuItem>
-                  <MenuItem value={1}>13</MenuItem>
-                  <MenuItem value={2}>14</MenuItem>
-                  <MenuItem value={3}>15</MenuItem>
-                  <MenuItem value={1}>16</MenuItem>
-                  <MenuItem value={2}>17</MenuItem>
-                  <MenuItem value={3}>18</MenuItem>
-                  <MenuItem value={1}>19</MenuItem>
-                  <MenuItem value={2}>20</MenuItem>
-                  <MenuItem value={3}>21</MenuItem>
-                  <MenuItem value={1}>22</MenuItem>
-                  <MenuItem value={2}>23</MenuItem>
-                  <MenuItem value={3}>24</MenuItem>
+                  <MenuItem value={4}>4</MenuItem>
+                  <MenuItem value={5}>5</MenuItem>
+                  <MenuItem value={6}>6</MenuItem>
+                  <MenuItem value={7}>7</MenuItem>
+                  <MenuItem value={8}>8</MenuItem>
+                  <MenuItem value={9}>9</MenuItem>
+                  <MenuItem value={10}>10</MenuItem>
+                  <MenuItem value={11}>11</MenuItem>
+                  <MenuItem value={12}>12</MenuItem>
+                  <MenuItem value={13}>13</MenuItem>
+                  <MenuItem value={14}>14</MenuItem>
+                  <MenuItem value={15}>15</MenuItem>
+                  <MenuItem value={16}>16</MenuItem>
+                  <MenuItem value={17}>17</MenuItem>
+                  <MenuItem value={18}>18</MenuItem>
+                  <MenuItem value={19}>19</MenuItem>
+                  <MenuItem value={20}>20</MenuItem>
+                  <MenuItem value={21}>21</MenuItem>
+                  <MenuItem value={22}>22</MenuItem>
+                  <MenuItem value={23}>23</MenuItem>
+                  <MenuItem value={24}>24</MenuItem>
                 </Select>
               </FormControl>
 
