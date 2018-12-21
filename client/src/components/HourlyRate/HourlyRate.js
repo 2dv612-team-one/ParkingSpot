@@ -96,8 +96,9 @@ class HourlyRate extends Component {
     const emptyInputErrors = this.hasEmptyInput();
 
     const missingInputs = 'Mata in data i varje formulär';
-    const invalidRateFrom = 'ogiltiga "från timmar"';
-    const invalidRateTo = 'ogiltiga "till timmar"';
+    //const invalidRateFrom = 'ogiltiga "från timmar"';
+    //const invalidRateTo = 'ogiltiga "till timmar"';
+    const invalidHours = 'ogiltiga timmar'
     const invalidRate = 'ogiltig taxa';
     const validInput = 'lägg till';
 
@@ -111,8 +112,8 @@ class HourlyRate extends Component {
 
           if (hours[i] !== -1) {
 
-            if (deficientInput !== invalidRateTo) {
-              this.setState({ deficientInput: invalidRateTo });
+            if (deficientInput !== invalidHours) {
+              this.setState({ deficientInput: invalidHours });
             }
             return false;
           }
@@ -121,10 +122,18 @@ class HourlyRate extends Component {
 
         for (let i = parseInt(rate_from); i < parseInt(rate_to); i++) {
 
+          if (hours[parseInt(rate_from)] !== -1) {
+
+            if (deficientInput !== invalidHours) {
+              this.setState({ deficientInput: invalidHours });
+            }
+            return false;
+          }
+
           if (hours[i] !== -1) {
 
-            if (deficientInput !== invalidRateFrom) {
-              this.setState({ deficientInput: invalidRateFrom });
+            if (deficientInput !== invalidHours) {
+              this.setState({ deficientInput: invalidHours });
             }
             return false;
           }
@@ -137,8 +146,8 @@ class HourlyRate extends Component {
 
           if (hours[i] !== -1) {
 
-            if (deficientInput !== invalidRateTo) {
-              this.setState({ deficientInput: invalidRateTo });
+            if (deficientInput !== invalidHours) {
+              this.setState({ deficientInput: invalidHours });
             }
             return false;
           }
@@ -148,8 +157,8 @@ class HourlyRate extends Component {
 
           if (hours[i] !== -1) {
 
-            if (deficientInput !== invalidRateTo) {
-              this.setState({ deficientInput: invalidRateTo });
+            if (deficientInput !== invalidHours) {
+              this.setState({ deficientInput: invalidHours });
             }
             return false;
           }
