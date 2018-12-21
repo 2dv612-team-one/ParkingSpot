@@ -21,9 +21,6 @@ export default (state = initialState, action) => {
       return { ...state, data: action.payload.data, update: true };
     case `${ADD_PARKING_AREA}_PENDING`:
       return { ...state };
-    case `${ADD_PARKING_AREA}_REJECTED`:
-      return { ...state, message: action.payload };
-
     case `${DELETE_PARKING_AREA}_FULFILLED`:
       return { ...state, message: action.payload, update: true };
     case `${DELETE_PARKING_AREA}_PENDING`:

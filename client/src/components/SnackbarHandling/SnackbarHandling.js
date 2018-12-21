@@ -80,33 +80,40 @@ class SnackbarHandling extends Component {
       }
     }
 
-    warningMessages.forEach(message => {
-      if (message === undefined) return;
-      let snackbarAlreadyExists = snackbars.includes(message.areaID);
-      if (snackbarAlreadyExists) return;
+    if (warningMessages !== prevProps.warningMessages) {
 
-      let closeBtn;
+      warningMessages.forEach(message => {
+        if (message === undefined) return;
 
-      if (message.areaID !== undefined) {
-        closeBtn = <CancelBtn messageID={message.messageID}
+        const isParkingArea = message.areaID !== undefined;
+        const snackbarAlreadyExists = snackbars.includes(message.areaID);
+        if (isParkingArea && snackbarAlreadyExists) return;
+
+        let closeBtn;
+        let timeInSeconds = 6;
+
+        if (isParkingArea) {
+          timeInSeconds = 30;
+          closeBtn = <CancelBtn messageID={message.messageID}
           areaID={message.areaID} _this={this} />;
-      } else {
-        closeBtn = <CloseBtn messageID={message.messageID}
-          _this={this} />;
-      }
+        } else {
+          closeBtn = <CloseBtn messageID={message.messageID}
+            _this={this} />;
+          this.handleClose(message.id);
+        }
 
-      const timeInSeconds = 30;
-      const options = {
-        type: "warning",
-        toastId: message.messageID,
-        closeButton: closeBtn,
-        className: 'snackbar is-warning',
-        autoClose: timeInSeconds * 1000,
-      };
+        const options = {
+          type: "warning",
+          toastId: message.messageID,
+          closeButton: closeBtn,
+          className: 'snackbar is-warning',
+          autoClose: timeInSeconds * 1000,
+        };
 
-      this.notify(message.message, options);
-      this.storeSnackbar(message.areaID);
-    });
+        this.notify(message.message, options);
+        this.storeSnackbar(message.areaID);
+      });
+    }
 
     errorMessages.forEach(message => {
       if (message === undefined) return;

@@ -2,6 +2,7 @@
 /* eslint import/no-webpack-loader-syntax: off */
 import {
   ADD_CAR,
+  ADD_PARKING_AREA,
   DELETE_CAR,
   DELETE_PARKING_AREA,
   GET_CARS,
@@ -36,6 +37,18 @@ export default (state = initialState, action) => {
       }
       if (isInvalidCredentials(action.payload)) {
         const errorMessage = 'Fordonet har redan registrerats.';
+        const id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
+      }
+      return initialState;
+    case `${ADD_PARKING_AREA}_REJECTED`:
+      if (isServerError(action.payload)) {
+        const errorMessage = 'Fel uppstod vid registrering av parkeringsplats. Försök igen.';
+        const id = new Date().getTime() + Math.random();
+        return addMessage(state, errorMessage, id);
+      }
+      if (isInvalidCredentials(action.payload)) {
+        const errorMessage = 'Parkeringsplatsen har redan registrerats.';
         const id = new Date().getTime() + Math.random();
         return addMessage(state, errorMessage, id);
       }
