@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
-import { Button , withStyles} from '@material-ui/core';
+import { Button, withStyles } from '@material-ui/core';
 import { FormControl, TextField, Paper, Typography } from '@material-ui/core';
-import { TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
+import { Table, TableHead, TableBody, TableRow, TableCell } from '@material-ui/core';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 import { getAreas, saveRates } from '../../actions/parkingArea';
 import styles from '../../assets/styles/hourly-rate';
@@ -21,6 +24,36 @@ const mapDispatchToProps = dispatch => ({
   onLoad: () => dispatch(getAreas()),
   saveRates: (accessToken, id, rates) => dispatch(saveRates(accessToken, id, rates)),
 });
+
+
+const CustomTableCell = withStyles(theme => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+
+  root: {
+    maxWidth: 500,
+    marginTop: theme.spacing.unit * 3,
+    overflowX: 'auto',
+  },
+  table: {
+    width: 400,
+  },
+  row: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.background.default,
+    },
+    cell: {
+      maxWidth: 200,
+    }
+  },
+}))(TableCell);
+
+
 
 class HourlyRate extends Component {
   constructor(props) {
@@ -83,7 +116,7 @@ class HourlyRate extends Component {
   }
 
   hasEmptyInput() {
-    const { rate_from, rate_to, rate} = this.state;
+    const { rate_from, rate_to, rate } = this.state;
     return {
       rate_from: rate_from.length === 0,
       rate_to: rate_to.length === 0,
@@ -195,34 +228,34 @@ class HourlyRate extends Component {
       for (let i = 1; i <= 24; i++) {
 
         hours[i] = rate;
-        this.setState({hours});
+        this.setState({ hours });
       }
-      this.setState({hours});
+      this.setState({ hours });
 
     } else if (parseInt(rate_from) < parseInt(rate_to)) {
 
       for (let i = parseInt(rate_from); i < parseInt(rate_to); i++) {
 
         hours[i] = rate;
-        this.setState({hours});
+        this.setState({ hours });
       }
 
-      this.setState({hours});
+      this.setState({ hours });
     } else if (parseInt(rate_from) > parseInt(rate_to)) {
 
       for (let i = parseInt(rate_from); i <= 24; i++) {
 
         hours[i] = rate;
-        this.setState({hours});
+        this.setState({ hours });
       }
 
       for (let i = 1; i < parseInt(rate_to); i++) {
 
         hours[i] = rate;
-        this.setState({hours});
+        this.setState({ hours });
       }
 
-      this.setState({hours});
+      this.setState({ hours });
     } else {
 
       console.log("Something went very wrong...");
@@ -252,37 +285,37 @@ class HourlyRate extends Component {
           for (let i = 1; i <= 24; i++) {
 
             hours[i] = -1;
-            this.setState({hours});
+            this.setState({ hours });
           }
 
-          rates.splice(i,1);
-          this.setState({rates});
+          rates.splice(i, 1);
+          this.setState({ rates });
         } else if (parseInt(value.rate_from) < parseInt(value.rate_to)) {
 
           for (let i = parseInt(value.rate_from); i < parseInt(value.rate_to); i++) {
 
             hours[i] = -1;
-            this.setState({hours});
+            this.setState({ hours });
           }
 
-          rates.splice(i,1);
-          this.setState({rates});
+          rates.splice(i, 1);
+          this.setState({ rates });
         } else if (parseInt(value.rate_from) > parseInt(value.rate_to)) {
 
           for (let i = parseInt(value.rate_from); i <= 24; i++) {
 
             hours[i] = -1;
-            this.setState({hours});
+            this.setState({ hours });
           }
 
           for (let i = 1; i < parseInt(value.rate_to); i++) {
 
             hours[i] = -1;
-            this.setState({hours});
+            this.setState({ hours });
           }
 
-          rates.splice(i,1);
-          this.setState({rates});
+          rates.splice(i, 1);
+          this.setState({ rates });
         } else {
 
           console.log("Something went very wrong...");
@@ -312,143 +345,163 @@ class HourlyRate extends Component {
     return true;
   }
 
+  CustomizedTable(props) {
+    const { classes } = props;
+  }
+
   render() {
     const { areas, role, classes } = this.props;
 
-    const { rate_from, rate_to, rate , rates, deficientInput} = this.state;
+
+    const { rate_from, rate_to, rate, rates, deficientInput } = this.state;
 
     const canBeSubmitted = this.canBeSubmitted();
     const allHoursCovered = this.allHoursCovered();
 
+
+
     return (
       <div>
-        { role === "ROLE_PARKING_OWNER" ?
-      areas && Array.from(areas).map(area => (
-        area.rates.length > 0 ? <div></div> : <div>
-            <h1>Timtaxa</h1>
-            {!allHoursCovered && (
-            <div>
-              <Typography variant="subtitle1">Skapa timtaxa för {area.name}</Typography>
+        {role === "ROLE_PARKING_OWNER" ?
+          areas && Array.from(areas).map(area => (
+            area.rates.length > 0 ? <div></div> : <div>
+              <h3 className={classes.title} >Skapa timtaxa för {area.name}</h3>
+              {!allHoursCovered && (
 
-              <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="demo-controlled-open-select">
-                  Från timmar (hh)
+                <div>
+                  <FormControl className={classes.formControl}>
+                    <InputLabel htmlFor="demo-controlled-open-select">
+                      Från timmar (hh)
                 </InputLabel>
-                <Select
-                  value={rate_from}
-                  onChange={this.handleRateFrom}
-                >
-                 <MenuItem value="" disabled><em>None</em></MenuItem>
-                  <MenuItem value={1}>1</MenuItem>
-                  <MenuItem value={2}>2</MenuItem>
-                  <MenuItem value={3}>3</MenuItem>
-                  <MenuItem value={4}>4</MenuItem>
-                  <MenuItem value={5}>5</MenuItem>
-                  <MenuItem value={6}>6</MenuItem>
-                  <MenuItem value={7}>7</MenuItem>
-                  <MenuItem value={8}>8</MenuItem>
-                  <MenuItem value={9}>9</MenuItem>
-                  <MenuItem value={10}>10</MenuItem>
-                  <MenuItem value={11}>11</MenuItem>
-                  <MenuItem value={12}>12</MenuItem>
-                  <MenuItem value={13}>13</MenuItem>
-                  <MenuItem value={14}>14</MenuItem>
-                  <MenuItem value={15}>15</MenuItem>
-                  <MenuItem value={16}>16</MenuItem>
-                  <MenuItem value={17}>17</MenuItem>
-                  <MenuItem value={18}>18</MenuItem>
-                  <MenuItem value={19}>19</MenuItem>
-                  <MenuItem value={20}>20</MenuItem>
-                  <MenuItem value={21}>21</MenuItem>
-                  <MenuItem value={22}>22</MenuItem>
-                  <MenuItem value={23}>23</MenuItem>
-                  <MenuItem value={24}>24</MenuItem>
-                </Select>
-              </FormControl>
+                    <Select
+                      value={rate_from}
+                      onChange={this.handleRateFrom}
+                    >
+                      <MenuItem value="" disabled><em>None</em></MenuItem>
+                      <MenuItem value={1}>1</MenuItem>
+                      <MenuItem value={2}>2</MenuItem>
+                      <MenuItem value={3}>3</MenuItem>
+                      <MenuItem value={4}>4</MenuItem>
+                      <MenuItem value={5}>5</MenuItem>
+                      <MenuItem value={6}>6</MenuItem>
+                      <MenuItem value={7}>7</MenuItem>
+                      <MenuItem value={8}>8</MenuItem>
+                      <MenuItem value={9}>9</MenuItem>
+                      <MenuItem value={10}>10</MenuItem>
+                      <MenuItem value={11}>11</MenuItem>
+                      <MenuItem value={12}>12</MenuItem>
+                      <MenuItem value={13}>13</MenuItem>
+                      <MenuItem value={14}>14</MenuItem>
+                      <MenuItem value={15}>15</MenuItem>
+                      <MenuItem value={16}>16</MenuItem>
+                      <MenuItem value={17}>17</MenuItem>
+                      <MenuItem value={18}>18</MenuItem>
+                      <MenuItem value={19}>19</MenuItem>
+                      <MenuItem value={20}>20</MenuItem>
+                      <MenuItem value={21}>21</MenuItem>
+                      <MenuItem value={22}>22</MenuItem>
+                      <MenuItem value={23}>23</MenuItem>
+                      <MenuItem value={24}>24</MenuItem>
+                    </Select>
+                  </FormControl>
 
 
-              <FormControl className={classes.formControl}>
-                <InputLabel htmlFor="demo-controlled-open-select">
-                  Till timmar (hh)
+                  <FormControl className={classes.formControl}>
+                    <InputLabel htmlFor="demo-controlled-open-select">
+                      Till timmar (hh)
                 </InputLabel>
-                <Select
-                  value={rate_to}
-                  onChange={this.handleRateTo}
-                >
-                  <MenuItem value="" disabled><em>None</em></MenuItem>
-                  <MenuItem value={1}>1</MenuItem>
-                  <MenuItem value={2}>2</MenuItem>
-                  <MenuItem value={3}>3</MenuItem>
-                  <MenuItem value={4}>4</MenuItem>
-                  <MenuItem value={5}>5</MenuItem>
-                  <MenuItem value={6}>6</MenuItem>
-                  <MenuItem value={7}>7</MenuItem>
-                  <MenuItem value={8}>8</MenuItem>
-                  <MenuItem value={9}>9</MenuItem>
-                  <MenuItem value={10}>10</MenuItem>
-                  <MenuItem value={11}>11</MenuItem>
-                  <MenuItem value={12}>12</MenuItem>
-                  <MenuItem value={13}>13</MenuItem>
-                  <MenuItem value={14}>14</MenuItem>
-                  <MenuItem value={15}>15</MenuItem>
-                  <MenuItem value={16}>16</MenuItem>
-                  <MenuItem value={17}>17</MenuItem>
-                  <MenuItem value={18}>18</MenuItem>
-                  <MenuItem value={19}>19</MenuItem>
-                  <MenuItem value={20}>20</MenuItem>
-                  <MenuItem value={21}>21</MenuItem>
-                  <MenuItem value={22}>22</MenuItem>
-                  <MenuItem value={23}>23</MenuItem>
-                  <MenuItem value={24}>24</MenuItem>
-                </Select>
-              </FormControl>
+                    <Select
+                      value={rate_to}
+                      onChange={this.handleRateTo}
+                    >
+                      <MenuItem value="" disabled><em>None</em></MenuItem>
+                      <MenuItem value={1}>1</MenuItem>
+                      <MenuItem value={2}>2</MenuItem>
+                      <MenuItem value={3}>3</MenuItem>
+                      <MenuItem value={4}>4</MenuItem>
+                      <MenuItem value={5}>5</MenuItem>
+                      <MenuItem value={6}>6</MenuItem>
+                      <MenuItem value={7}>7</MenuItem>
+                      <MenuItem value={8}>8</MenuItem>
+                      <MenuItem value={9}>9</MenuItem>
+                      <MenuItem value={10}>10</MenuItem>
+                      <MenuItem value={11}>11</MenuItem>
+                      <MenuItem value={12}>12</MenuItem>
+                      <MenuItem value={13}>13</MenuItem>
+                      <MenuItem value={14}>14</MenuItem>
+                      <MenuItem value={15}>15</MenuItem>
+                      <MenuItem value={16}>16</MenuItem>
+                      <MenuItem value={17}>17</MenuItem>
+                      <MenuItem value={18}>18</MenuItem>
+                      <MenuItem value={19}>19</MenuItem>
+                      <MenuItem value={20}>20</MenuItem>
+                      <MenuItem value={21}>21</MenuItem>
+                      <MenuItem value={22}>22</MenuItem>
+                      <MenuItem value={23}>23</MenuItem>
+                      <MenuItem value={24}>24</MenuItem>
+                    </Select>
+                  </FormControl>
 
 
-              <FormControl>
-                <TextField
-                  label="Taxa:"
-                  name="rate"
-                  onChange={this.handleRate}
-                  value={rate}
-                />
-              </FormControl>
+                  <FormControl className={classes.formControl}>
+                    <TextField
+                      label="Taxa:"
+                      name="rate"
+                      onChange={this.handleRate}
+                      value={rate}
+                    />
+                  </FormControl>
 
-              <Button
-                onClick={this.handleSubmit}
-                disabled={!canBeSubmitted}
-              >
-                {deficientInput}
+                  <Button
+                    onClick={this.handleSubmit}
+                    disabled={!canBeSubmitted}
+                  >
+                    {deficientInput}
+                  </Button>
+
+                </div>
+              )}
+
+
+
+              <Paper className={classes.root}>
+                <Table className={classes.table}>
+                  <TableHead>
+                    <TableRow className={classes.row}>
+                      <CustomTableCell className={classes.cell}>Från</CustomTableCell>
+                      <CustomTableCell className={classes.cell}>Till</CustomTableCell>
+                      <CustomTableCell className={classes.cell}>Taxa</CustomTableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {rates && rates.map(nrate => (
+                      <TableRow className={classes.row} key={nrate.id}>
+                        <CustomTableCell className={classes.cell}>kl {nrate.rate_from}:00 </CustomTableCell>
+                        <CustomTableCell className={classes.cell}>kl {nrate.rate_to}:00</CustomTableCell>
+                        <CustomTableCell className={classes.cell}>{nrate.rate} kr</CustomTableCell>
+
+                        <IconButton aria-label="Delete" onClick={this.handleDelete} value={JSON.stringify(nrate)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                  <Button
+                    onClick={() => this.handleSave(area.id)}
+                    disabled={!allHoursCovered}
+                  >SPARA
               </Button>
-
+                </Table>
+              </Paper>
             </div>
-            )}
-            <Paper>
-              <TableHead>
-
-              </TableHead>
-              <TableBody>
-                {rates && rates.map(nrate => (
-                  <TableRow key={nrate.id}>
-                    <TableCell>{nrate.rate_from}:00-{nrate.rate_to}:00 = {nrate.rate}kr</TableCell>
-                    <Button
-                      onClick={this.handleDelete}
-                      value={JSON.stringify(nrate)}
-                    >TA BORT
-                    </Button>
-                  </TableRow>
-                ))}
-              </TableBody>
-              <Button
-                onClick={() => this.handleSave(area.id)}
-                disabled={!allHoursCovered}
-              >SPARA
-              </Button>
-            </Paper>
-          </div>
-        )) : null }
-        </div>
+          )) : null}
+      </div>
     );
   }
+
+
+
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(HourlyRate));
