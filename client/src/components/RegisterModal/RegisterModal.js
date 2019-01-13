@@ -211,7 +211,7 @@ class RegisterModal extends Component {
                 justify="flex-start"
                 alignItems="center"
               >
-                <label>User</label>
+                <label>Användare</label>
                 <Radio
                   checked={roles === 'ROLE_USER'}
                   onChange={this.handleRolesInput}
@@ -220,11 +220,11 @@ class RegisterModal extends Component {
                   className="register-input"
                   label="User"
                 />
-                <label>Admin</label>
+                <label>Parkeringsägare</label>
                 <Radio
-                  checked={roles === 'ROLE_ADMIN'}
+                  checked={roles === 'ROLE_PARKING_OWNER'}
                   onChange={this.handleRolesInput}
-                  value={'ROLE_ADMIN'}
+                  value={'ROLE_PARKING_OWNER'}
                   name="roles"
                   className="register-input"
                   label="Admin"
