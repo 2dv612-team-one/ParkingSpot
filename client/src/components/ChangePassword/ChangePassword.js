@@ -22,12 +22,32 @@ class ChangePassword extends Component {
     super(props);
     this.state = {
       open: false,
-      password: ''
+      password: '',
+      matchingPassword: '',
+      clicked: {
+        password: false,
+        matchingPassword: false,
+      },
     };
 
-    this.handlePasswordInput = this.handlePasswordInput.bind(this);
+    this.handlePassInput = this.handlePassInput.bind(this);
+    this.handleMatchingPassInput = this.handleMatchingPassInput.bind(this);
   }
 
+  isValidInput() {
+    const { password, matchingPassword } = this.state;
+    return {
+      matchingPassword: password === matchingPassword,
+    };
+  }
+
+  hasEmptyInput() {
+    const { password, matchingPassword } = this.state;
+    return {
+      password: password.length === 0,
+      matchingPassword: matchingPassword.length === 0,
+    };
+  }
 
   handleClickOpen = () => {
     this.setState({ open: true });
@@ -37,9 +57,13 @@ class ChangePassword extends Component {
     this.setState({ open: false });
   };
 
-  handlePasswordInput = (e) => {
+  handlePassInput(e) {
     this.setState({ password: e.target.value });
-  };
+  }
+
+  handleMatchingPassInput(e) {
+    this.setState({ matchingPassword: e.target.value });
+  }
 
   changePassword = () => {
     const { password } = this.state;
@@ -51,8 +75,46 @@ class ChangePassword extends Component {
     this.setState({ open: false });
   }
 
+  handleBlur = field => () => {
+    const { clicked } = this.state;
+    this.setState({
+      clicked: { ...clicked, [field]: true },
+    });
+  }
+
+  canBeSubmitted() {
+    const emptyInputErrors = this.hasEmptyInput();
+    const invalidInputErrors = this.isValidInput();
+    const emptyInput = Object.keys(emptyInputErrors).some(x => emptyInputErrors[x]);
+    const isMatchingPasswords = invalidInputErrors.matchingPassword;
+
+    if (emptyInput) {
+      return false;
+    }
+    if (isMatchingPasswords) {
+      return true;
+    }
+    return false;
+  }
+
   render() {
-    const { password } = this.state;
+    const emptyInput = this.hasEmptyInput();
+    const isValidInput = this.isValidInput();
+    const canBeSubmitted = this.canBeSubmitted();
+    const { clicked, password, matchingPassword } = this.state;
+
+    const emptyInputError = (field) => {
+      const hasEmptyInput = emptyInput[field];
+      const shouldShow = clicked[field];
+      return hasEmptyInput ? shouldShow : false;
+    };
+
+    const invalidInputError = (field) => {
+      const hasValidInput = isValidInput[field];
+      const shouldShow = clicked[field];
+      return hasValidInput ? false : shouldShow;
+    };
+
     return (
       <div>
         <Button onClick={this.handleClickOpen} color="inherit" >Byt lösenord</Button>
@@ -65,22 +127,44 @@ class ChangePassword extends Component {
           <DialogContent>
             <TextField
               autoFocus={true}
-              margin="dense"
-              id="name"
               label="Nytt lösenord"
-              type="text"
-              fullWidth
+              name="password"
+              onChange={this.handlePassInput}
               value={password}
-              onChange={this.handlePasswordInput}
+              type="password"
+              onBlur={this.handleBlur('password')}
+              error={emptyInputError('password')}
+            />
+          </DialogContent>
+          <DialogContent>
+            <TextField
+              label="Upprepa lösenord"
+              name="matchingPassword"
+              inputProps={{
+                type: 'password',
+              }}
+              onChange={this.handleMatchingPassInput}
+              value={matchingPassword}
+              onBlur={this.handleBlur('matchingPassword')}
+              error={emptyInputError('matchingPassword') ? true : ('' || invalidInputError('matchingPassword'))}
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
-              Avbryt
-                </Button>
-            <Button onClick={this.changePassword} color="primary">
-              Spara
-                </Button>
+            <Button
+              type="button"
+              color="primary"
+              onClick={this.handleClose}
+            >
+              <span>Avbryt</span>
+            </Button>
+            <Button
+              type="button"
+              color="primary"
+              onClick={this.changePassword}
+              disabled={!canBeSubmitted}
+            >
+              <span>Spara</span>
+            </Button>
           </DialogActions>
         </Dialog>
       </div>
