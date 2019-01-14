@@ -1,9 +1,10 @@
 import axios from 'axios';
 
-import { VEHICLE_URI } from '../constants/environment';
+import { VEHICLE_URI, VEHICLE_USER_URI } from '../constants/environment';
 import {
   ADD_CAR,
   GET_CARS,
+  GET_USER_CARS,
   DELETE_CAR
 } from '../constants/actionTypes';
 
@@ -22,6 +23,17 @@ export function getCars() {
   return {
     type: GET_CARS,
     payload: axios.get(VEHICLE_URI),
+  };
+}
+
+export function getUserCars(accessToken) {
+  let config = {
+    headers: {'Authorization': "Bearer " + accessToken}
+  };
+
+  return {
+    type: GET_USER_CARS,
+    payload: axios.get(VEHICLE_USER_URI, config),
   };
 }
 

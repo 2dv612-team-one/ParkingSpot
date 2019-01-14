@@ -30,6 +30,9 @@ public class VehicleService implements IVehicleService {
     return vehicleRepository.getByRegistrationNumber(regNum);
   }
 
+  public List<Vehicle> getAllVehiclesBelongingToUser(long userId) {
+    return vehicleRepository.findAllByUserId(userId);
+  }
 
   @Override
   public Vehicle addVehicle(long userId, String registrationNumber) throws EntityExistsException {

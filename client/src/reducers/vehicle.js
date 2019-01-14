@@ -1,6 +1,7 @@
 import {
   ADD_CAR,
   GET_CARS,
+  GET_USER_CARS,
   DELETE_CAR,
   PARK_CAR,
   UNPARK_CAR
@@ -17,6 +18,10 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case `${GET_CARS}_FULFILLED`:
       return { ...state, data: action.payload.data, fetch: false };
+
+    case `${GET_USER_CARS}_FULFILLED`:
+      return { ...state, data: action.payload.data, fetch: false };
+
 
     case `${ADD_CAR}_PENDING`:
       return { ...state };

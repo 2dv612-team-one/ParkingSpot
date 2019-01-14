@@ -13,6 +13,7 @@ export const CLOSE_MODAL = 'CLOSE_MODAL';
 export const ADD_CAR = 'ADD_CAR';
 export const GET_CARS = 'GET_CARS';
 export const DELETE_CAR = 'DELETE_CAR';
+export const GET_USER_CARS = 'GET_USER_CARS';
 
 // Parking actions
 export const GET_PARKINGS = 'GET_PARKINGS';

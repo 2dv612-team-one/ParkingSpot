@@ -72,7 +72,7 @@ public class ParkingController {
     Optional<ParkingArea> parkingArea = parkingAreaService.getParkingArea(area_id);
     Optional<Vehicle> vehicle = vehicleService.getVehicle(regNum);
 
-    if (vehicle.isPresent() && vehicle.get().getUser_Id() != principal.getId()) {
+    if (vehicle.isPresent() && vehicle.get().getUserId() != principal.getId()) {
       return new ResponseEntity<>(new ApiResponse(false, Messages.ACCESS_DENIED), HttpStatus.FORBIDDEN);
     }
 
