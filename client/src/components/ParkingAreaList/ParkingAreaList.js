@@ -75,7 +75,7 @@ class ParkingAreaList extends Component {
           ? (
             <div>
               <Typography variant="h6" className={classes.title}>
-              Parkeringsplatser
+              Parkeringsområden
                 <div>
                   <IconButton aria-label="Add" onClick={() => this.handleAdd()}>
                     <AddIcon />
