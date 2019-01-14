@@ -71,7 +71,7 @@ class VehicleList extends Component {
   }
 
   componentWillMount() {
-    const { loadCars, loadAreas, loadParkings , accessToken } = this.props;
+    const { loadCars, loadAreas, loadParkings, accessToken } = this.props;
     loadCars(accessToken);
     loadAreas();
     loadParkings();
@@ -240,6 +240,7 @@ class VehicleList extends Component {
                         )}
                         <ListItemText
                           key={vehicle.id}
+                          primary={vehicle.registrationNumber}
                           secondary={vehicle.parked_at ? (areas.filter(area => (area.involved_in.some(p => p.id === vehicle.parked_at.id))).map(area => `${area.name} : ${area.rates.map(rate => `${rate.rate_from}:00 - ${rate.rate_to}:00 ${rate.rate} kr/h\n`)}`)) : 'Inte Parkerad'}
                         />
                         <ListItemSecondaryAction>

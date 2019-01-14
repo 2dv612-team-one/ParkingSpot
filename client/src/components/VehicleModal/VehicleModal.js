@@ -109,7 +109,7 @@ class VehicleModal extends Component {
                     label="Registreringsnummer"
                     name="registrationNumber"
                     onChange={this.handleRegistrationNumber}
-                    value={registrationNumber}
+                    value={registrationNumber.toUpperCase()}
                     autoFocus={true}
                     error={!!emptyInputError('registrationNumber')}
                     helperText={emptyInputError('registrationNumber') ? 'Ange ett registreringsnummer.' : ' '}
