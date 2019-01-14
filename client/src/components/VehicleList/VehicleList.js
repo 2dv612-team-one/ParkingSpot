@@ -214,7 +214,7 @@ class VehicleList extends Component {
           ? (
             <Grid item xs={12} md={6}>
               <Typography variant="h6" className={classes.title}>
-                Bilar
+                Fordon
                 <IconButton aria-label="Add" onClick={() => this.handleAdd()}>
                   <AddIcon />
                 </IconButton>
