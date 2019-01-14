@@ -11,7 +11,7 @@ import LocalParking from '@material-ui/icons/LocalParking';
 
 import ConfirmationDialog from '../ConfirmationDialog/ConfirmationDialog';
 
-import { getCars, deleteCar, addCar } from '../../actions/vehicle';
+import { getUserCars, deleteCar, addCar } from '../../actions/vehicle';
 import { getParkings, parkCar, unparkCar } from '../../actions/parking';
 import { getAreas } from '../../actions/parkingArea';
 import VehicleModal from '../VehicleModal/VehicleModal';
@@ -45,7 +45,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   // TODO: only load vehicles accessible to the user
-  loadCars: () => dispatch(getCars()),
+  loadCars: (accessToken) => dispatch(getUserCars(accessToken)),
   loadAreas: () => dispatch(getAreas()),
   loadParkings: () => dispatch(getParkings()),
   openVehicleModal: props => dispatch(openModal(VEHICLE_MODAL, props)),
@@ -71,8 +71,8 @@ class VehicleList extends Component {
   }
 
   componentWillMount() {
-    const { loadCars, loadAreas, loadParkings } = this.props;
-    loadCars();
+    const { loadCars, loadAreas, loadParkings , accessToken } = this.props;
+    loadCars(accessToken);
     loadAreas();
     loadParkings();
   }
@@ -101,7 +101,8 @@ class VehicleList extends Component {
     } = this.props;
 
     if ((!shouldUpdate && nextProps.shouldUpdate) || (!shouldFetch && nextProps.shouldFetch)) {
-      loadCars();
+      const { accessToken } = this.props;
+      loadCars(accessToken);
       loadAreas();
       loadParkings();
     }

@@ -19,7 +19,9 @@ public class Vehicle {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
 
-  private long user_Id;
+  @Column(name = "user_Id", nullable = false)
+  private long userId;
+
   private String registrationNumber;
 
   @OneToOne(fetch = FetchType.LAZY, mappedBy="vehicle")
@@ -28,7 +30,7 @@ public class Vehicle {
 
   public Vehicle(long user_Id, String registrationNumber) {
     super();
-    this.user_Id = user_Id;
+    this.userId = user_Id;
     this.registrationNumber = registrationNumber;
   }
 }

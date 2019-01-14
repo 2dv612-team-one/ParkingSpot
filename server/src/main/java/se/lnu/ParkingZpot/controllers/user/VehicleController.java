@@ -51,6 +51,13 @@ public class VehicleController {
     return new ResponseEntity<>(vehicleService.getAllVehicles(), HttpStatus.OK);
   }
 
+  @GetMapping("/user")
+  @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+  public ResponseEntity<List<Vehicle>> getUserVehicles(@CurrentUser UserDetailsImpl principal) {
+
+    return new ResponseEntity<>(vehicleService.getAllVehiclesBelongingToUser(principal.getId()), HttpStatus.OK);
+  }
+
   @PostMapping
   @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
   public ResponseEntity<ApiResponse> addVehicle(@CurrentUser UserDetailsImpl principal, @Valid @RequestBody AddVehicleRequest addVehicleRequest) {
@@ -80,7 +87,7 @@ public class VehicleController {
       return new ResponseEntity<ApiResponse>(new ApiResponse(true, Messages.entityDeleted(Messages.VEHICLE)), HttpStatus.OK);
     }
 
-    if (vehicle.get().getUser_Id() != principal.getId()) {
+    if (vehicle.get().getUserId() != principal.getId()) {
       return new ResponseEntity<>(new ApiResponse(false, Messages.ACCESS_DENIED), HttpStatus.FORBIDDEN);
     }
 
